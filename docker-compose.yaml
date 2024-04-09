@@ -1,0 +1,23 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:15.1
+    hostname: db
+    container_name: task-manager-db
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=taskmanagerapp1234
+      - POSTGRES_DB=task-manager
+      - POSTGRES_HOST=localhost
+      - POSTGRES_PORT=5432
+    cap_add:
+      - SYS_NICE
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres", "-d", "tarot-master"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
