@@ -1,6 +1,6 @@
 import { createTask } from "@/actions/task";
-import { getUser } from "@/actions/user";
-import { AuthForm } from "@/components/AuthForm";
+import { getUser, signUp } from "@/actions/user";
+import { AuthForm } from "@/components/auth-form";
 import { Button } from "@ui/button";
 import { Input } from "@ui/input";
 
@@ -32,7 +32,9 @@ export default async function Index({ searchParams }: Props) {
         <Button className="flex-1 py-5">Set task</Button>
       </form>
 
-      {searchParams.requiresAuth && <AuthForm variant="sign-in" open />}
+      {searchParams.requiresAuth && (
+        <AuthForm variant="sign-up" open action={signUp} />
+      )}
     </div>
   );
 }
