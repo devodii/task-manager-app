@@ -6,6 +6,7 @@ import { Input } from "@ui/input";
 import { Label } from "@ui/label";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import * as React from "react";
+import { SubmitButton } from "./submit-button";
 
 interface Props {
   variant: keyof typeof content;
@@ -65,7 +66,9 @@ export const AuthForm = ({
             <Input placeholder="******" name="password" id="password" />
           </div>
 
-          <Button className="text-md w-full">{content[variant].cta}</Button>
+          <SubmitButton className="text-md w-full">
+            {content[variant].cta}
+          </SubmitButton>
         </form>
       </DialogContent>
     </Dialog>
