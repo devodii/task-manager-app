@@ -18,8 +18,9 @@ export const getUser = async () => {
 export const signUp = async (formdata: FormData) => {
   const dto = Object.fromEntries(formdata);
 
+  console.log({ dto });
   try {
-    const response = await fetch("http://localhost:3005/auth/signUp", {
+    const response = await fetch(api + "/auth/signUp", {
       method: "POST",
       body: JSON.stringify({ ...dto }),
     });
