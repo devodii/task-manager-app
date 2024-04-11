@@ -5,13 +5,14 @@ import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 
 import * as bcrypt from 'bcrypt';
+import { ApiResponse } from 'src/types';
 
 @Injectable()
 export class UserService {
   constructor(@InjectRepository(User) private repo: Repository<User>) {}
 
   async whoAmI() {
-    return { name: 'Emmmanll' };
+    return { name: 'Emmmanel' };
   }
 
   async create(email: string, password: string) {
@@ -26,7 +27,7 @@ export class UserService {
     return user;
   }
 
-  async signUp(email: string, password: string) {
+  async signUp(email: string, password: string): Promise<ApiResponse> {
     const user = await this.find(email);
     console.log({ user });
 
@@ -37,6 +38,12 @@ export class UserService {
     const saltOrRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltOrRounds);
 
-    return await this.create(email, hashedPassword);
+    const newUser = await this.create(email, hashedPassword);
+
+    return {
+      status: true,
+      object: 'user.created',
+      data: { id: newUser.id, email: newUser.email },
+    };
   }
 }

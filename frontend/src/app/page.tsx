@@ -12,7 +12,6 @@ interface Props {
 
 export default async function Index({ searchParams }: Props) {
   const user = await getUser();
-
   return (
     <div className="min-h-screen container flex flex-col items-center justify-center gap-4">
       <h2 className="text-4xl md:text-5xl font-semibold">

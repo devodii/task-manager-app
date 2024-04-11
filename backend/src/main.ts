@@ -7,10 +7,15 @@ import { ValidationPipe } from '@nestjs/common';
 async function bootstrap() {
   const configService = new ConfigService();
   const port = configService.get<number>('PORT');
+  const client = configService.get<string>('CLIENT_URL');
 
   const app = await NestFactory.create(AppModule);
 
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
+
+  app.enableCors({
+    origin: client,
+  });
 
   app.use(
     session({
