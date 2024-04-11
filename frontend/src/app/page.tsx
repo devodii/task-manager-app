@@ -1,12 +1,12 @@
 import { createTask } from "@/actions/task";
-import { getUser, signUp } from "@/actions/user";
+import { getUser, signIn, signUp } from "@/actions/user";
 import { AuthForm } from "@/components/auth-form";
 import { Button } from "@ui/button";
 import { Input } from "@ui/input";
 
 interface Props {
   searchParams: {
-    requiresAuth: string;
+    auth: "signIn" | "signUp";
   };
 }
 
@@ -31,7 +31,11 @@ export default async function Index({ searchParams }: Props) {
         <Button className="flex-1 py-5">Set task</Button>
       </form>
 
-      {searchParams.requiresAuth && (
+      {searchParams.auth === "signIn" && (
+        <AuthForm variant="sign-in" open action={signIn} />
+      )}
+
+      {searchParams.auth === "signUp" && (
         <AuthForm variant="sign-up" open action={signUp} />
       )}
     </div>

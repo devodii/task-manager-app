@@ -14,14 +14,24 @@ export class UserController {
   }
 
   @Post('signUp')
-  async signUp(@Body() dto: UserDto) {
+  async signUp(@Body() dto: UserDto, @Session() session: Record<string, any>) {
     console.log('Attempt to sign up', { dto });
     const { email, password } = dto;
-    return await this.userService.signUp(email, password);
+    const user = await this.userService.signUp(email, password);
+
+    session.user = user.data;
+
+    return user;
   }
 
-  // @Post('signIn')
-  // async signIn(@Body() dto: UserDto) {
-  //   return await this.accessService.signIn(dto);
-  // }
+  @Post('signIn')
+  async signIn(@Body() dto: UserDto, @Session() session: Record<string, any>) {
+    const { email, password } = dto;
+
+    const user = await this.userService.signIn(email, password);
+
+    session.user = user?.data;
+
+    return user;
+  }
 }

@@ -7,6 +7,7 @@ import { Label } from "@ui/label";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import * as React from "react";
 import { SubmitButton } from "./submit-button";
+import Link from "next/link";
 
 interface Props {
   variant: keyof typeof content;
@@ -39,7 +40,7 @@ export const AuthForm = ({
 
   const handleCloseModal = () => {
     const params = new URLSearchParams(searchParams);
-    params.delete("requiresAuth");
+    params.delete("auth");
     router.replace(`${pathname}?${params.toString()}`);
   };
 
@@ -70,6 +71,22 @@ export const AuthForm = ({
             {content[variant].cta}
           </SubmitButton>
         </form>
+
+        {variant === "sign-in" ? (
+          <div className="flex items-center justify-center gap-1">
+            <span> Dont have an account yet?</span>{" "}
+            <Link href="?auth=signUp" className="underline underline-offset-2">
+              Sign up
+            </Link>
+          </div>
+        ) : (
+          <div className="flex items-center justify-center gap-1">
+            <span>Already have an accont?</span>{" "}
+            <Link href="?auth=signIn" className="underline underline-offset-2">
+              Sign in
+            </Link>
+          </div>
+        )}
       </DialogContent>
     </Dialog>
   );

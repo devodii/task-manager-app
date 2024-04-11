@@ -9,7 +9,7 @@ export const createTask = async (formdata: FormData) => {
   const user = await getUser();
 
   if (!user?.id) {
-    redirect("?requiresAuth=true");
+    redirect("?auth=signIn");
   }
 
   return { object: "task.created", task };

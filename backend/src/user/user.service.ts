@@ -46,4 +46,24 @@ export class UserService {
       data: { id: newUser.id, email: newUser.email },
     };
   }
+
+  async signIn(email: string, password: string): Promise<ApiResponse> {
+    const user = await this.find(email);
+
+    if (!user?.id) {
+      throw new BadRequestException('USER DOES NOT EXISTS!');
+    }
+
+    const passwordIsMatch = await bcrypt.compare(password, user?.password);
+
+    if (!passwordIsMatch) {
+      throw new BadRequestException('USER DOES NOT EXISTS!');
+    }
+
+    return {
+      object: 'user.loggedIn',
+      status: true,
+      data: { id: user?.id, email: user.email },
+    };
+  }
 }

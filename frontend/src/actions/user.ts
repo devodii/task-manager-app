@@ -34,7 +34,33 @@ export const signUp = async (formdata: FormData) => {
   if (!user?.data?.id) {
     // todo: handle errors
     console.log("an error occured.");
+    return;
   }
+
+  redirect("/?auth=signIn");
+};
+
+export const signIn = async (formdata: FormData) => {
+  const dto = Object.fromEntries(formdata) as any;
+
+  console.log("signing n")
+  const response = await fetch(api + "/auth/signIn", {
+    method: "POST",
+    body: JSON.stringify({ ...dto }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  const user = await response.json();
+
+  if (!user?.data?.id) {
+    // todo: handle errors
+    console.log("an error occured.");
+    return;
+  }
+
+  console.log({ user})
 
   redirect("/dashboard");
 };
