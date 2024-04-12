@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -11,10 +15,15 @@ import { ApiResponse } from 'src/types';
 export class UserService {
   constructor(@InjectRepository(User) private repo: Repository<User>) {}
 
-  async whoAmI() {
-    return { name: 'Emmmanel' };
-  }
+  async findOne(id: string) {
+    const user = await this.repo.findOne({ where: { id } });
 
+    if (!user?.id) {
+      throw new NotFoundException('USER NOT FOUND!');
+    }
+
+    return user;
+  }
   async create(email: string, password: string) {
     const user = this.repo.create({ email, password });
 
@@ -27,6 +36,7 @@ export class UserService {
     return user;
   }
 
+  // auth related stuff.
   async signUp(email: string, password: string): Promise<ApiResponse> {
     const user = await this.find(email);
     console.log({ user });

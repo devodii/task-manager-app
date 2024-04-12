@@ -1,13 +1,20 @@
 "use server";
 
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 const api = process.env.API_URL;
 
 export const getUser = async () => {
   try {
+    const SessionId = cookies().get("task-manager.session")?.value as string;
+
     const response = await fetch(api + "/auth/whoAmI", {
       method: "GET",
+      headers: {
+        SessionId,
+      },
+      credentials: "include",
     });
 
     const user = await response.json();
@@ -27,12 +34,12 @@ export const signUp = async (formdata: FormData) => {
     headers: {
       "Content-Type": "application/json",
     },
+    credentials: "same-origin",
   });
 
   const user = await response.json();
 
   if (!user?.data?.id) {
-    // todo: handle errors
     console.log("an error occured.");
     return;
   }
@@ -43,24 +50,28 @@ export const signUp = async (formdata: FormData) => {
 export const signIn = async (formdata: FormData) => {
   const dto = Object.fromEntries(formdata) as any;
 
-  console.log("signing n")
+  console.log("signing n");
   const response = await fetch(api + "/auth/signIn", {
     method: "POST",
     body: JSON.stringify({ ...dto }),
     headers: {
       "Content-Type": "application/json",
     },
+    credentials: "include",
   });
 
   const user = await response.json();
 
-  if (!user?.data?.id) {
-    // todo: handle errors
+  const userId = user?.data?.id;
+
+  if (!userId) {
     console.log("an error occured.");
     return;
   }
 
-  console.log({ user})
+  console.log({ user });
+
+  cookies().set("task-manager.session", userId, { maxAge: 1000 * 60 * 60 });
 
   redirect("/dashboard");
 };

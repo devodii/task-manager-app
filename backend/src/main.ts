@@ -1,8 +1,7 @@
-import * as session from 'express-session';
+import { ValidationPipe } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ConfigService } from '@nestjs/config';
-import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const configService = new ConfigService();
@@ -15,16 +14,10 @@ async function bootstrap() {
 
   app.enableCors({
     origin: client,
+    credentials: true,
+    maxAge: 1000 * 60 * 60 * 7,
+    exposedHeaders: ['Set-Cookie'],
   });
-
-  app.use(
-    session({
-      secret: 'my-secret',
-      resave: false,
-      saveUninitialized: false,
-      name: 'task-manager.session',
-    }),
-  );
 
   await app.listen(port);
 }

@@ -1,4 +1,4 @@
-import { createTask } from "@/actions/task";
+import { mockCreateTask } from "@/actions/task";
 import { getUser, signIn, signUp } from "@/actions/user";
 import { AuthForm } from "@/components/auth-form";
 import { Button } from "@ui/button";
@@ -21,7 +21,7 @@ export default async function Index({ searchParams }: Props) {
 
       <form
         className="flex items-center flex-wrap gap-4 w-full max-w-4xl"
-        action={createTask}
+        action={mockCreateTask}
       >
         <Input
           className="w-4/5 placeholder:text-md text-md"
