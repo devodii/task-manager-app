@@ -7,8 +7,12 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get('whoAmI')
-  async whoAmI(@Headers('Session-Id') userId: string) {
-    return await this.userService.findOne(userId);
+  async whoAmI(@Headers('SessionId') userId: string) {
+    if (userId.length < 4) return;
+
+    const user = await this.userService.findOne(userId);
+
+    return user;
   }
 
   @Post('signUp')

@@ -1,13 +1,14 @@
 "use server";
 
+import { User } from "@/types";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 const api = process.env.API_URL;
 
-export const getUser = async () => {
+export const getUser = async (): Promise<User> => {
   try {
-    const SessionId = cookies().get("task-manager.session")?.value as string;
+    const SessionId = cookies().get("task-manager.session")?.value ?? "";
 
     const response = await fetch(api + "/auth/whoAmI", {
       method: "GET",
@@ -18,10 +19,11 @@ export const getUser = async () => {
     });
 
     const user = await response.json();
-    console.log({ user });
+
     return user;
   } catch (error) {
     console.log("An error occured while fetching user", { error });
+    return {} as any;
   }
 };
 
@@ -74,4 +76,11 @@ export const signIn = async (formdata: FormData) => {
   cookies().set("task-manager.session", userId, { maxAge: 1000 * 60 * 60 });
 
   redirect("/dashboard");
+};
+
+export const signOut = (formdata: FormData) => {
+  console.log({ formdata });
+  console.log("signing user out..");
+  cookies().delete("task-manager.session");
+  redirect("/");
 };

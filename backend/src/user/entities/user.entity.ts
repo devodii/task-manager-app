@@ -21,5 +21,5 @@ export class User {
   createdAt: Date;
 
   @UpdateDateColumn()
-  updateAt: Date | null;
+  updatedAt: Date | null;
 }

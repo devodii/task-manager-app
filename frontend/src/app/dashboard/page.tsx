@@ -1,5 +1,9 @@
-import { Wrapper } from "@/components/wrapper";
+import { DashboardHeader } from "@/components/dashboard-header";
 
 export default async function DashboardPage() {
-  return <Wrapper>This is the dashboard</Wrapper>;
+  return (
+    <section className="p-6">
+      <DashboardHeader />
+    </section>
+  );
 }
