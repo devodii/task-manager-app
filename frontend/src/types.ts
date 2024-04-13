@@ -4,3 +4,12 @@ export type User = {
   createdAt: string;
   updatedAt: string;
 };
+
+export type Task = {
+  id: number;
+  title: string;
+  description: string;
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: string;
+};
