@@ -1,6 +1,7 @@
 import { mockCreateTask } from "@/actions/task";
 import { getUser, signIn, signUp } from "@/actions/user";
 import { AuthForm } from "@/components/auth-form";
+import { SubmitButton } from "@/components/submit-button";
 import { Button } from "@ui/button";
 import { Input } from "@ui/input";
 import Link from "next/link";
@@ -15,7 +16,7 @@ export default async function Index({ searchParams }: Props) {
   const user = await getUser();
   return (
     <div className="min-h-screen container flex flex-col items-center gap-4 my-12">
-      <header>
+      <header className="w-full flex justify-end">
         {user?.id && (
           <Button variant="outline" asChild>
             <Link href={"/dashboard"}>Dashboard</Link>
@@ -37,7 +38,7 @@ export default async function Index({ searchParams }: Props) {
           name="task"
           placeholder="Add authentication..."
         />
-        <Button className="flex-1 py-5">Set task</Button>
+        <SubmitButton className="flex-1 py-5">Set task</SubmitButton>
       </form>
 
       {searchParams.auth === "signIn" && (

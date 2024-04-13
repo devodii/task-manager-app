@@ -1,8 +1,16 @@
+import { CreateTask } from "@/components/create-task";
 import { DashboardHeader } from "@/components/dashboard-header";
 import { Tasks } from "@/components/tasks";
 import * as React from "react";
 
-export default async function DashboardPage() {
+interface Props {
+  searchParams: {
+    createTask: string;
+  };
+}
+
+export default async function DashboardPage({ searchParams }: Props) {
+  console.log({ searchParams });
   return (
     <section className="p-6">
       <DashboardHeader />
@@ -14,6 +22,8 @@ export default async function DashboardPage() {
           <Tasks />
         </React.Suspense>
       </div>
+
+      {searchParams?.createTask == "true" && <CreateTask defaultOpen={true} />}
     </section>
   );
 }

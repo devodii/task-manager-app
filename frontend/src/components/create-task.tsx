@@ -16,22 +16,40 @@ import { Textarea } from "@ui/textarea";
 import { SubmitButton } from "./submit-button";
 import { createTask, updateTask } from "@/actions/task";
 import { Task } from "@/types";
+import { useRouter, useSearchParams } from "next/navigation";
 
 interface Props {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   action?: "create" | "edit";
   metadata?: Task;
+  defaultOpen?: boolean;
 }
 
 export const CreateTask = ({
   children: trigger,
   action = "create",
   metadata,
+  defaultOpen,
 }: Props) => {
-  const [isOpen, setIsOpen] = React.useState(false);
+  const [isOpen, setIsOpen] = React.useState(defaultOpen ?? false);
+
+  const searchParams = useSearchParams();
+  const router = useRouter()
+
+  const handleClearParams = () => {
+    const params = new URLSearchParams(searchParams);
+    params.delete("createTask");
+    router.replace("/dashboard")
+  };
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+    <Dialog
+      open={isOpen}
+      onOpenChange={(val) => {
+        setIsOpen(val);
+        handleClearParams();
+      }}
+    >
       {trigger && <DialogTrigger>{trigger}</DialogTrigger>}
       <DialogContent className="w-full max-w-3xl">
         <DialogHeader>
