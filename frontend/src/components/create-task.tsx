@@ -34,12 +34,12 @@ export const CreateTask = ({
   const [isOpen, setIsOpen] = React.useState(defaultOpen ?? false);
 
   const searchParams = useSearchParams();
-  const router = useRouter()
+  const router = useRouter();
 
   const handleClearParams = () => {
     const params = new URLSearchParams(searchParams);
-    params.delete("createTask");
-    router.replace("/dashboard")
+    params.delete("task");
+    router.replace("/dashboard");
   };
 
   return (
@@ -82,12 +82,12 @@ export const CreateTask = ({
               name="title"
               placeholder="Add a paywall.."
               required
-              defaultValue={metadata?.title}
+              defaultValue={searchParams.get("task") ?? metadata?.title}
             />
           </div>
 
           <div className="space-y-1">
-            <Label htmlFor="description">Title</Label>
+            <Label htmlFor="description">Description</Label>
             <Textarea
               id="description"
               name="description"

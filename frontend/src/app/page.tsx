@@ -41,6 +41,7 @@ export default async function Index({ searchParams }: Props) {
           className="w-4/5 placeholder:text-md text-md"
           name="task"
           placeholder="Add authentication..."
+          required
         />
         <SubmitButton className="flex-1 py-5">Set task</SubmitButton>
       </form>

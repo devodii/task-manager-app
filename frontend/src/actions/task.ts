@@ -10,11 +10,13 @@ const api = process.env.API_URL;
 export const mockCreateTask = async (formdata: FormData) => {
   const user = await getUser();
 
+  const task = formdata.get("task") as string;
+
   if (!user?.id) {
     redirect("?auth=signIn");
   }
 
-  redirect("/dashboard?createTask=true");
+  redirect(`/dashboard?task=${task}`);
 };
 
 export const createTask = async (formdata: FormData) => {

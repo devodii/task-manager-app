@@ -1,13 +1,12 @@
 "use client";
 
-import { Button } from "@ui/button";
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@ui/dialog";
 import { Input } from "@ui/input";
 import { Label } from "@ui/label";
+import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import * as React from "react";
 import { SubmitButton } from "./submit-button";
-import Link from "next/link";
 
 interface Props {
   variant: keyof typeof content;
@@ -64,7 +63,12 @@ export const AuthForm = ({
 
           <div className="space-y-2">
             <Label htmlFor="password">Password</Label>
-            <Input placeholder="******" name="password" id="password" />
+            <Input
+              placeholder="******"
+              name="password"
+              id="password"
+              type="password"
+            />
           </div>
 
           <SubmitButton className="text-md w-full">

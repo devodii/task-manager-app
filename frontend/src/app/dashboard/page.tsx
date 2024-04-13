@@ -5,12 +5,11 @@ import * as React from "react";
 
 interface Props {
   searchParams: {
-    createTask: string;
+    task: string;
   };
 }
 
 export default async function DashboardPage({ searchParams }: Props) {
-  console.log({ searchParams });
   return (
     <section className="p-6">
       <DashboardHeader />
@@ -23,7 +22,7 @@ export default async function DashboardPage({ searchParams }: Props) {
         </React.Suspense>
       </div>
 
-      {searchParams?.createTask == "true" && <CreateTask defaultOpen={true} />}
+      {searchParams?.task?.length > 1 && <CreateTask defaultOpen={true} />}
     </section>
   );
 }
