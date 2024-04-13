@@ -17,10 +17,14 @@ export default async function Index({ searchParams }: Props) {
   return (
     <div className="min-h-screen container flex flex-col items-center gap-4 my-12">
       <header className="w-full flex justify-end">
-        {user?.id && (
+        {user?.id ? (
           <Button variant="outline" asChild>
             <Link href={"/dashboard"}>Dashboard</Link>
           </Button>
+        ) : (
+          <AuthForm>
+            <Button variant="outline">Sign in</Button>
+          </AuthForm>
         )}
       </header>
 
