@@ -71,7 +71,7 @@ export const updateTask = async (formdata: FormData, id: number) => {
 
     if (!userId) return;
 
-    const response = await fetch(api + `/task/${id}`, {
+    await fetch(api + `/task/${id}`, {
       method: "PATCH",
       headers: {
         SessionId: user?.id,
@@ -80,9 +80,28 @@ export const updateTask = async (formdata: FormData, id: number) => {
       body: JSON.stringify({ ...data }),
     });
 
-    const task = await response.json();
+    revalidatePath("/dashboard");
+  } catch (error) {
+    console.log("An error occured while updating task", { error });
+  }
+};
 
-    console.log({ task });
+export const removeTask = async (id: number) => {
+  try {
+    const user = await getUser();
+
+    const userId = user?.id;
+
+    if (!userId) return;
+
+    const response = await fetch(api + `/task/${id}`, {
+      method: "DELETE",
+      headers: {
+        SessionId: user?.id,
+        "Content-Type": "application/json",
+      },
+    });
+
     revalidatePath("/dashboard");
   } catch (error) {
     console.log("An error occured while updating task", { error });

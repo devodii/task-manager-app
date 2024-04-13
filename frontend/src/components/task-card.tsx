@@ -1,6 +1,10 @@
+"use client"
+
 import { Task } from "@/types";
 import { FiEdit2 } from "react-icons/fi";
+import { AiOutlineDelete } from "react-icons/ai";
 import { CreateTask } from "./create-task";
+import { removeTask } from "@/actions/task";
 
 interface Props {
   task: Task;
@@ -14,9 +18,15 @@ export const TaskCard = ({ task }: Props) => {
         <span className="line-clamp-1">{task?.description}</span>
       </div>
 
-      <CreateTask action="edit" metadata={task}>
-        <FiEdit2 className="text-xl cursor-pointer" />
-      </CreateTask>
+      <div className="flex items-center gap-4">
+        <CreateTask action="edit" metadata={task}>
+          <FiEdit2 className="text-xl cursor-pointer" />
+        </CreateTask>
+        <AiOutlineDelete
+          className="text-xl cursor-pointer"
+          onClick={() => removeTask(task.id)}
+        />
+      </div>
     </div>
   );
 };

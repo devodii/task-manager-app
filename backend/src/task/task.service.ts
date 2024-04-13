@@ -36,4 +36,8 @@ export class TaskService {
 
     return await this.repo.save(task);
   }
+
+  async remove(id: number) {
+    return await this.repo.delete({ id });
+  }
 }

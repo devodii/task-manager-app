@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Headers,
   Param,
@@ -32,5 +33,10 @@ export class TaskController {
   @Patch(':id')
   async updateTask(@Param('id') id: number, @Body() dto: any) {
     return await this.taskService.update(id, dto);
+  }
+
+  @Delete(':id')
+  async deleteTask(@Param('id') id: number) {
+    return await this.taskService.remove(id);
   }
 }

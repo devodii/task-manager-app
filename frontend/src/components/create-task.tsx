@@ -79,7 +79,9 @@ export const CreateTask = ({
             />
           </div>
 
-          <SubmitButton className="w-full max-w-full">Create</SubmitButton>
+          <SubmitButton className="w-full max-w-full">
+            {action == "create" ? "create" : "edit"}
+          </SubmitButton>
         </form>
       </DialogContent>
     </Dialog>
