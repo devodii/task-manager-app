@@ -13,3 +13,9 @@ export type Task = {
   updatedAt: string;
   deletedAt: string;
 };
+
+export type Feedback = {
+  id: number;
+  message: string;
+  user: User;
+};

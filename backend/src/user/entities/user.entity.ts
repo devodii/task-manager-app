@@ -1,3 +1,4 @@
+import { Feedback } from 'src/feedback/entities/feedback.entity';
 import { Task } from 'src/task/entities/task.entity';
 import {
   Column,
@@ -27,4 +28,7 @@ export class User {
 
   @OneToMany(() => Task, (task) => task.user)
   tasks: Task[];
+
+  @OneToMany(() => Task, (task) => task.user)
+  feedbacks: Feedback[];
 }

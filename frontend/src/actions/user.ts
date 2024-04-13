@@ -78,9 +78,7 @@ export const signIn = async (formdata: FormData) => {
   redirect("/dashboard");
 };
 
-export const signOut = (formdata: FormData) => {
-  console.log({ formdata });
-  console.log("signing user out..");
+export const signOut = () => {
   cookies().delete("task-manager.session");
   redirect("/");
 };

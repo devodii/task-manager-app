@@ -17,7 +17,6 @@ export class UserController {
 
   @Post('signUp')
   async signUp(@Body() dto: UserDto) {
-    console.log('Attempt to sign up', { dto });
     const { email, password } = dto;
     const user = await this.userService.signUp(email, password);
 
