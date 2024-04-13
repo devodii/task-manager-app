@@ -3,6 +3,7 @@ import { getUser, signIn, signUp } from "@/actions/user";
 import { AuthForm } from "@/components/auth-form";
 import { Button } from "@ui/button";
 import { Input } from "@ui/input";
+import Link from "next/link";
 
 interface Props {
   searchParams: {
@@ -13,8 +14,16 @@ interface Props {
 export default async function Index({ searchParams }: Props) {
   const user = await getUser();
   return (
-    <div className="min-h-screen container flex flex-col items-center justify-center gap-4">
-      <h2 className="text-4xl md:text-5xl font-semibold">
+    <div className="min-h-screen container flex flex-col items-center gap-4 my-12">
+      <header>
+        {user?.id && (
+          <Button variant="outline" asChild>
+            <Link href={"/dashboard"}>Dashboard</Link>
+          </Button>
+        )}
+      </header>
+
+      <h2 className="text-4xl md:text-5xl font-semibold mt-24">
         Better productivity ahead
       </h2>
       <p className="text-xl">You set your task and achieve it.</p>

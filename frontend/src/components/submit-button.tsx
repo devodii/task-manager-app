@@ -1,3 +1,5 @@
+"use client";
+
 import { cn } from "@/lib/utils";
 import { Button, ButtonProps } from "@ui/button";
 import { useFormStatus } from "react-dom";

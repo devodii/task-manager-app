@@ -23,6 +23,7 @@ export class TaskController {
       throw new UnauthorizedException('A task must be created by user');
     }
 
+    console.log({ dto });
     return await this.taskService.create(userId, dto.title, dto.description);
   }
 }
