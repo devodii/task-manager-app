@@ -25,9 +25,7 @@ export const createTask = async (formdata: FormData) => {
 
   const userId = user?.id;
 
-  console.log({ title, description });
-
-  const response = await fetch(api + "/task", {
+  await fetch(api + "/task", {
     method: "POST",
     headers: {
       SessionId: userId,
@@ -35,8 +33,6 @@ export const createTask = async (formdata: FormData) => {
     },
     body: JSON.stringify({ title, description }),
   });
-
-  const task = await response.json();
 
   revalidatePath("/dashboard", "page");
 };
@@ -62,5 +58,33 @@ export const getTasks = async (): Promise<Task[] | []> => {
   } catch (error) {
     console.log("An error occured while fetching tasks", { error });
     return [];
+  }
+};
+
+export const updateTask = async (formdata: FormData, id: number) => {
+  try {
+    const data = Object.fromEntries(formdata);
+
+    const user = await getUser();
+
+    const userId = user?.id;
+
+    if (!userId) return;
+
+    const response = await fetch(api + `/task/${id}`, {
+      method: "PATCH",
+      headers: {
+        SessionId: user?.id,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ ...data }),
+    });
+
+    const task = await response.json();
+
+    console.log({ task });
+    revalidatePath("/dashboard");
+  } catch (error) {
+    console.log("An error occured while updating task", { error });
   }
 };

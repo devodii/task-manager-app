@@ -28,4 +28,12 @@ export class TaskService {
 
     return tasks;
   }
+
+  async update(id: number, attrs: Partial<Task>) {
+    const task = await this.findOne(id);
+
+    Object.assign(task, attrs);
+
+    return await this.repo.save(task);
+  }
 }

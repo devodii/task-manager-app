@@ -3,6 +3,8 @@ import {
   Controller,
   Get,
   Headers,
+  Param,
+  Patch,
   Post,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -25,5 +27,10 @@ export class TaskController {
 
     console.log({ dto });
     return await this.taskService.create(userId, dto.title, dto.description);
+  }
+
+  @Patch(':id')
+  async updateTask(@Param('id') id: number, @Body() dto: any) {
+    return await this.taskService.update(id, dto);
   }
 }

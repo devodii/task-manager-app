@@ -14,13 +14,20 @@ import { Input } from "@ui/input";
 import { Label } from "@ui/label";
 import { Textarea } from "@ui/textarea";
 import { SubmitButton } from "./submit-button";
-import { createTask } from "@/actions/task";
+import { createTask, updateTask } from "@/actions/task";
+import { Task } from "@/types";
 
 interface Props {
   children: React.ReactNode;
+  action?: "create" | "edit";
+  metadata?: Task;
 }
 
-export const CreateTask = ({ children: trigger }: Props) => {
+export const CreateTask = ({
+  children: trigger,
+  action = "create",
+  metadata,
+}: Props) => {
   const [isOpen, setIsOpen] = React.useState(false);
 
   return (
@@ -28,16 +35,27 @@ export const CreateTask = ({ children: trigger }: Props) => {
       {trigger && <DialogTrigger>{trigger}</DialogTrigger>}
       <DialogContent className="w-full max-w-3xl">
         <DialogHeader>
-          <DialogTitle>Create a task</DialogTitle>
-          <DialogDescription>Start becoming producive now!</DialogDescription>
+          <DialogTitle>
+            {action === "create" ? "Create a task" : "Edit this task"}
+          </DialogTitle>
+          {action == "create" && (
+            <DialogDescription>Start becoming producive now!</DialogDescription>
+          )}
         </DialogHeader>
 
         <form
           className="space-y-4"
-          action={async (formdata) => {
-            createTask(formdata);
-            setIsOpen(false);
-          }}
+          action={
+            action == "create"
+              ? async (formdata) => {
+                  createTask(formdata);
+                  setIsOpen(false);
+                }
+              : async (formdata) => {
+                  updateTask(formdata, metadata?.id as number);
+                  setIsOpen(false);
+                }
+          }
         >
           <div className="space-y-1">
             <Label htmlFor="title">Title</Label>
@@ -46,6 +64,7 @@ export const CreateTask = ({ children: trigger }: Props) => {
               name="title"
               placeholder="Add a paywall.."
               required
+              defaultValue={metadata?.title}
             />
           </div>
 
@@ -56,6 +75,7 @@ export const CreateTask = ({ children: trigger }: Props) => {
               name="description"
               placeholder="Create stripe webhook endpoint..."
               required
+              defaultValue={metadata?.description}
             />
           </div>
 
