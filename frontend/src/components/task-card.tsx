@@ -1,10 +1,11 @@
-"use client"
+"use client";
 
 import { Task } from "@/types";
 import { FiEdit2 } from "react-icons/fi";
 import { AiOutlineDelete } from "react-icons/ai";
 import { CreateTask } from "./create-task";
 import { removeTask } from "@/actions/task";
+import { DeleteTask } from "./delete-task";
 
 interface Props {
   task: Task;
@@ -22,10 +23,9 @@ export const TaskCard = ({ task }: Props) => {
         <CreateTask action="edit" metadata={task}>
           <FiEdit2 className="text-xl cursor-pointer" />
         </CreateTask>
-        <AiOutlineDelete
-          className="text-xl cursor-pointer"
-          onClick={() => removeTask(task.id)}
-        />
+        <DeleteTask onDelete={() => removeTask(task.id)}>
+          <AiOutlineDelete className="text-xl cursor-pointer" />
+        </DeleteTask>
       </div>
     </div>
   );
