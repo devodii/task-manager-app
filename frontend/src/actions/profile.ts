@@ -1,11 +1,37 @@
 "use server";
 
+import { getUser } from "@/actions/user";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+
+const api = process.env.API_URL;
+
 export const createProfile = async (formdata: FormData) => {
+  const user = await getUser();
+
+  if (!user?.id) redirect("/sign-in");
+
   const image = formdata.get("image") as FormDataEntryValue;
+  const username = formdata.get("username") as string;
 
-  const imageSrc = await uploadImage(image);
+  console.log({ image });
 
-  // upload other data to backend, with imgSrc
+  const imageUrl = await uploadImage(image);
+
+  const response = await fetch(api + "/profile", {
+    method: "POST",
+    body: JSON.stringify({ username, imageUrl: imageUrl ?? "" }),
+    headers: {
+      SessionId: user?.id,
+      "Content-Type": "application/json",
+    },
+  });
+
+  const data = await response.json();
+
+  console.log({ data });
+  revalidatePath("/dashboard");
+  redirect("/dashboard");
 };
 
 const uploadImage = async (image: any): Promise<string> => {
