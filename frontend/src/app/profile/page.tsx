@@ -1,7 +1,5 @@
-import ProfifleClient from "./client";
-
-export const runtime = "nodejs";
+import { CreateProfile } from "@profile/create-profile";
 
 export default function ProfilePage() {
-  return <ProfifleClient />;
+  return <CreateProfile />;
 }
