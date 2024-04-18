@@ -1,5 +1,6 @@
 "use server";
 
+import { cloudinary } from "@/lib/cloudinary";
 import { User } from "@/types";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";

@@ -1,10 +1,12 @@
 import { Feedback } from 'src/feedback/entities/feedback.entity';
+import { Profile } from 'src/profile/entities/profile.entity';
 import { Task } from 'src/task/entities/task.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -25,6 +27,9 @@ export class User {
 
   @UpdateDateColumn()
   updatedAt: Date | null;
+
+  @OneToOne(() => Profile)
+  profile: Profile;
 
   @OneToMany(() => Task, (task) => task.user)
   tasks: Task[];

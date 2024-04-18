@@ -1,5 +1,7 @@
-import { Wrapper } from "@/components/wrapper";
+import ProfifleClient from "./client";
+
+export const runtime = "nodejs";
 
 export default function ProfilePage() {
-  return <Wrapper>coming soon...</Wrapper>;
+  return <ProfifleClient />;
 }
