@@ -1,22 +1,17 @@
-import { ConfigService } from '@nestjs/config';
 import { DataSource, DataSourceOptions } from 'typeorm';
 
-export const createDataSourceOptions = async (
-  configService: ConfigService,
-): Promise<DataSourceOptions> => {
-  return {
-    type: 'postgres',
-    entities: ['dist/**/*.entity.js'],
-    url: configService.get<string>('POSTGRES_URL'),
-    migrations: ['dist/database/migrations/*.js'],
-  };
+import * as dotenv from 'dotenv';
+import * as dotenvExpand from 'dotenv-expand';
+
+// helps with dynamic db config, see: https://github.com/typeorm/typeorm/issues/8914
+dotenvExpand.expand(dotenv.config());
+
+export const dataSource: DataSourceOptions = {
+  type: 'postgres',
+
+  entities: ['dist/**/*.entity.js'],
+  url: process.env.POSTGRES_URL,
+  migrations: ['dist/database/migrations/*.js'],
 };
 
-const createDataSource = async (
-  configService: ConfigService,
-): Promise<DataSource> => {
-  const dataSourceOptions = await createDataSourceOptions(configService);
-  return new DataSource(dataSourceOptions);
-};
-
-export default createDataSource;
+export default new DataSource(dataSource);

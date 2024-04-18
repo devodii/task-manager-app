@@ -6,7 +6,7 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "build": "nest build",
+    "build": "npm run migrate || echo 'Schema wasnt touched' && nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "dev": "nest start --watch",
@@ -18,10 +18,13 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "typeorm": "npm run build && npx typeorm -d dist/database/data-source.js",
-    "gen-migration": "npm run typeorm -- migration:generate src/database/migrations/Migrations1",
-    "apply-migration": "npm run typeorm -- migration:run",
-    "revert-migration": "npm run typeorm -- migration:revert"
+    "typeorm": "npx typeorm -d dist/database/data-source.js",
+    "migrate": "nest build && npm run m:gen src/database/migrations/Migration && nest build && npm run m:run && echo 'All migrations have been ran'",
+    "show-migrations": "npx typeorm migration:show -d dist/database/data-source.js",
+    "move-old-migrations": "mv src/database/migrations/* src/database/old-migrations/",
+    "m:gen": "npm run typeorm -- migration:generate",
+    "m:run": "npm run typeorm -- migration:run",
+    "m:rev": "npm run typeorm -- migration:revert"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
@@ -32,6 +35,8 @@
     "bcrypt": "^5.1.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
+    "dotenv": "^16.4.5",
+    "dotenv-expand": "^11.0.6",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1"
   },
