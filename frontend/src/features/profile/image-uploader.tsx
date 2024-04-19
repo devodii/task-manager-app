@@ -13,6 +13,10 @@ export const ImageUploader = () => {
     const reader = new FileReader();
 
     reader.onloadend = () => {
+      console.log("displaying image...");
+    };
+
+    reader.onloadend = () => {
       setImageSrc(reader.result as any);
     };
 
