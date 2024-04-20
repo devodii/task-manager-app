@@ -16,7 +16,7 @@ export const ProfileDialog = ({
       <PopoverTrigger asChild>{trigger}</PopoverTrigger>
       <PopoverContent className="flex flex-col gap-2">
         <Button variant="outline" asChild>
-          <Link href={"/profile"}>Profile</Link>
+          <Link href={"/dashboard/profile"}>Profile</Link>
         </Button>
 
         <form action={signOut} className="w-full">

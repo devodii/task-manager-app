@@ -1,14 +1,16 @@
+import { getProfile } from "@/actions/profile";
 import { getUser } from "@/actions/user";
 import { Button } from "@ui/button";
+import Link from "next/link";
 import { CreateTask } from "./create-task";
 import { ProfileDialog } from "./profile-dialog";
-import { Avatar, AvatarFallback } from "./ui/avatar";
-import Link from "next/link";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export const DashboardHeader = async () => {
-  const user = await getUser();
-
-  const userInitial = user?.email?.slice(0, 2);
+  const [profile, user] = await Promise.all([getProfile(), getUser()]);
+  const userInitial = profile?.data?.id
+    ? profile.data?.username.split(" ")[0][0]
+    : user?.email?.slice(0, 1);
 
   return (
     <header className="border-b pb-4 w-full">
@@ -20,6 +22,10 @@ export const DashboardHeader = async () => {
         <div className="flex items-center gap-4">
           <ProfileDialog>
             <Avatar>
+              <AvatarImage
+                src={profile?.data?.imageUrl}
+                className="object-cover cursor-pointer"
+              />
               <AvatarFallback className="uppercase font-semibold select-none cursor-pointer">
                 {userInitial}
               </AvatarFallback>
