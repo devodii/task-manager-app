@@ -1,16 +1,22 @@
 "use client";
 
 import { createProfile } from "@/actions/profile";
-import { SubmitButton } from "@/components/submit-button";
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Wrapper } from "@/components/wrapper";
 import { cn } from "@/lib/utils";
+import { Profile } from "@/types";
 import { Input } from "@ui/input";
 import { Label } from "@ui/label";
 import * as React from "react";
+import { CgSpinnerAlt } from "react-icons/cg";
+import { toast } from "sonner";
+import { ViewProfile } from "./view-profile";
 
 export const CreateProfile = () => {
   const [imageSrc, setImageSrc] = React.useState(null);
+  const [isCreating, setIsCreating] = React.useState(false);
+  const [isCreated, setIsCreated] = React.useState(false);
+  const [profileData, setProfileData] = React.useState<Profile | null>(null);
 
   const handleImageChange = (e: any) => {
     const file = e.target.files[0];
@@ -29,6 +35,27 @@ export const CreateProfile = () => {
     }
   };
 
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsCreating(true);
+
+    const formdata = new FormData(e.currentTarget);
+    const response = await createProfile(formdata);
+
+    if (response.status) {
+      setProfileData(response.data);
+      setIsCreated(true);
+    }
+
+    setIsCreating(false);
+
+    toast("Your profile has been created", { position: "top-right" });
+  };
+
+  if (isCreated) {
+    return <ViewProfile data={profileData as Profile} />;
+  }
+
   return (
     <Wrapper
       className="justify-start my-12 md:my-16 lg:my-20 flex-col gap-12"
@@ -39,10 +66,19 @@ export const CreateProfile = () => {
       </h2>
 
       <form
-        action={createProfile}
+        onSubmit={handleSubmit}
         className="w-full max-w-2xl mx-auto space-y-6"
       >
         <div className="w-full flex-col flex items-center justify-center">
+          <input
+            type="file"
+            name="image"
+            id="image"
+            className="hidden"
+            accept="image/png, image/jpeg, image/jpg"
+            onChange={handleImageChange}
+          />
+
           {imageSrc ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
@@ -61,14 +97,6 @@ export const CreateProfile = () => {
               >
                 Upload a photo
               </Label>
-              <input
-                type="file"
-                name="image"
-                id="image"
-                className="hidden"
-                accept="image/png, image/jpeg, image/jpg"
-                onChange={handleImageChange}
-              />
             </>
           )}
         </div>
@@ -78,7 +106,18 @@ export const CreateProfile = () => {
           <Input required name="username" id="username" />
         </div>
 
-        <SubmitButton>Submit</SubmitButton>
+        <Button
+          className={cn(
+            `text-white w-full justify-center gap-4 items-center font-semibold ${
+              isCreating ? "cursor-not-allowed" : ""
+            }`
+          )}
+          aria-disabled={isCreating}
+          type="submit"
+        >
+          <span>Submit</span>
+          {isCreating && <CgSpinnerAlt className="animate-spin" size={20} />}
+        </Button>
       </form>
     </Wrapper>
   );

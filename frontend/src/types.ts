@@ -19,3 +19,10 @@ export type Feedback = {
   message: string;
   user: User;
 };
+
+export type Profile = {
+  id: string;
+  username: string;
+  imageUrl?: string;
+  createdAt: string;
+};

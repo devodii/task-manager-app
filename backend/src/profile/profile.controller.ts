@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   Headers,
   Post,
   UsePipes,
@@ -14,8 +15,13 @@ import { ProfileService } from './profile.service';
 export class ProfileController {
   constructor(private readonly profileService: ProfileService) {}
 
+  @Get()
+  async getProfile(@Headers('SessionId') userId: string) {
+    return await this.profileService.findOne(userId);
+  }
+
   @Post()
-  async create(
+  async createProfile(
     @Headers('SessionId') userId: string,
     @Body() dto: CreateProfileDto,
   ) {

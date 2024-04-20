@@ -2,6 +2,7 @@
 
 import { getUser } from "@/actions/user";
 import { revalidatePath } from "next/cache";
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 const api = process.env.API_URL;
@@ -14,24 +15,25 @@ export const createProfile = async (formdata: FormData) => {
   const image = formdata.get("image") as FormDataEntryValue;
   const username = formdata.get("username") as string;
 
-  console.log({ image });
+  console.log({ image, username });
 
-  // const imageUrl = await uploadImage(image);
+  const imageUrl = await uploadImage(image);
 
-  // const response = await fetch(api + "/profile", {
-  //   method: "POST",
-  //   body: JSON.stringify({ username, imageUrl: imageUrl ?? "" }),
-  //   headers: {
-  //     SessionId: user?.id,
-  //     "Content-Type": "application/json",
-  //   },
-  // });
+  const response = await fetch(api + "/profile", {
+    method: "POST",
+    body: JSON.stringify({ username, imageUrl: imageUrl ?? "" }),
+    headers: {
+      SessionId: user?.id,
+      "Content-Type": "application/json",
+    },
+  });
 
-  // const data = await response.json();
+  const data = await response.json();
 
-  // console.log({ data });
-  // revalidatePath("/dashboard");
-  // redirect("/dashboard");
+  console.log({ data });
+  revalidatePath("/dashboard");
+
+  return data;
 };
 
 const uploadImage = async (image: any): Promise<string> => {
@@ -54,4 +56,25 @@ const uploadImage = async (image: any): Promise<string> => {
   console.log({ file });
 
   return file.secure_url;
+};
+
+export const getProfile = async () => {
+  try {
+    const SessionId = cookies().get("task-manager.session")?.value ?? "";
+
+    const response = await fetch(api + "/profile", {
+      method: "GET",
+      headers: {
+        SessionId,
+      },
+      credentials: "include",
+    });
+
+    const profile = await response.json();
+
+    return profile;
+  } catch (error) {
+    console.log("An error occured while fetching profile", { error });
+    return;
+  }
 };
