@@ -46,7 +46,7 @@ export const signUp = async (formdata: FormData) => {
     return;
   }
 
-  redirect("/?auth=signIn");
+  redirect("/sign-in");
 };
 
 export const signIn = async (formdata: FormData) => {

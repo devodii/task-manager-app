@@ -13,7 +13,7 @@ export const mockCreateTask = async (formdata: FormData) => {
   const task = formdata.get("task") as string;
 
   if (!user?.id) {
-    redirect("?auth=signIn");
+    redirect("/sign-in");
   }
 
   redirect(`/dashboard?task=${task}`);

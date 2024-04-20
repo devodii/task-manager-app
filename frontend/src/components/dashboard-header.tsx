@@ -1,10 +1,10 @@
 import { getProfile } from "@/actions/profile";
 import { getUser } from "@/actions/user";
-import { Avatar, AvatarFallback, AvatarImage } from "@ui/avatar";
+import { ProfileDialog } from "@profile/profile-dialog";
 import { CreateTask } from "@task/create-task";
+import { Avatar, AvatarFallback, AvatarImage } from "@ui/avatar";
 import { Button } from "@ui/button";
 import Link from "next/link";
-import { ProfileDialog } from "./profile-dialog";
 
 export const DashboardHeader = async () => {
   const [profile, user] = await Promise.all([getProfile(), getUser()]);

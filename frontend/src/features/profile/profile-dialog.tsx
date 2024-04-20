@@ -5,8 +5,8 @@ import * as React from "react";
 import { signOut } from "@/actions/user";
 import { Popover, PopoverContent, PopoverTrigger } from "@ui/popover";
 import Link from "next/link";
-import { Button } from "./ui/button";
-import { SubmitButton } from "./submit-button";
+import { Button } from "@/components/ui/button";
+import { SubmitButton } from "@/components/submit-button";
 
 export const ProfileDialog = ({
   children: trigger,
