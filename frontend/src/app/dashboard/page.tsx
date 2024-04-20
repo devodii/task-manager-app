@@ -1,7 +1,7 @@
-import { CreateTask } from "@/components/create-task";
 import { DashboardHeader } from "@/components/dashboard-header";
 import { SendFeedback } from "@/components/send-feedback";
-import { Tasks } from "@/components/tasks";
+import { CreateTask } from "@task/create-task";
+import { Tasks } from "@task/tasks";
 import * as React from "react";
 
 interface Props {

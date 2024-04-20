@@ -1,5 +1,5 @@
 import { CreateTask } from "./create-task";
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 
 export const EmptyTasks = () => {
   return (

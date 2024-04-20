@@ -3,6 +3,7 @@
 import * as React from "react";
 
 import { createTask, updateTask } from "@/actions/task";
+import { SubmitButton } from "@/components/submit-button";
 import { Task } from "@/types";
 import {
   Dialog,
@@ -16,7 +17,6 @@ import { Input } from "@ui/input";
 import { Label } from "@ui/label";
 import { Textarea } from "@ui/textarea";
 import { useRouter, useSearchParams } from "next/navigation";
-import { SubmitButton } from "./submit-button";
 
 interface Props {
   children?: React.ReactNode;

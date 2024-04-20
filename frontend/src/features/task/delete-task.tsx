@@ -1,5 +1,4 @@
-import * as React from "react";
-import { Button } from "./ui/button";
+import { Button } from "@ui/button";
 import {
   Dialog,
   DialogClose,
@@ -7,6 +6,7 @@ import {
   DialogHeader,
   DialogTrigger,
 } from "@ui/dialog";
+import * as React from "react";
 
 interface Props {
   children: React.ReactNode;
