@@ -2,6 +2,8 @@
 
 import * as React from "react";
 
+import { createTask, updateTask } from "@/actions/task";
+import { Task } from "@/types";
 import {
   Dialog,
   DialogContent,
@@ -13,10 +15,8 @@ import {
 import { Input } from "@ui/input";
 import { Label } from "@ui/label";
 import { Textarea } from "@ui/textarea";
-import { SubmitButton } from "./submit-button";
-import { createTask, updateTask } from "@/actions/task";
-import { Task } from "@/types";
 import { useRouter, useSearchParams } from "next/navigation";
+import { SubmitButton } from "./submit-button";
 
 interface Props {
   children?: React.ReactNode;
@@ -40,6 +40,13 @@ export const CreateTask = ({
     const params = new URLSearchParams(searchParams);
     params.delete("task");
     router.replace("/dashboard");
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
+      e.preventDefault();
+      e.currentTarget.form?.requestSubmit();
+    }
   };
 
   return (
@@ -94,6 +101,7 @@ export const CreateTask = ({
               placeholder="Create stripe webhook endpoint..."
               required
               defaultValue={metadata?.description}
+              onKeyDown={handleKeyDown}
             />
           </div>
 

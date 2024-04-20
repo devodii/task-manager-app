@@ -10,7 +10,15 @@ export class ProfileService {
   async create(dto: CreateProfileDto, ownerId: string) {
     console.log({ dto, ownerId });
 
-    const profile = this.repo.create({ ...dto, user: { id: ownerId } });
+    const existingProfile = await this.repo.findOne({ where: { id: ownerId } });
+
+    if (existingProfile?.id) return { message: 'profile already exists.' };
+
+    const profile = this.repo.create({
+      ...dto,
+      user: { id: ownerId },
+      id: ownerId,
+    });
     return await this.repo.save(profile);
   }
 }

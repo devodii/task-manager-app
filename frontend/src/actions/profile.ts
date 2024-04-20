@@ -16,25 +16,26 @@ export const createProfile = async (formdata: FormData) => {
 
   console.log({ image });
 
-  const imageUrl = await uploadImage(image);
+  // const imageUrl = await uploadImage(image);
 
-  const response = await fetch(api + "/profile", {
-    method: "POST",
-    body: JSON.stringify({ username, imageUrl: imageUrl ?? "" }),
-    headers: {
-      SessionId: user?.id,
-      "Content-Type": "application/json",
-    },
-  });
+  // const response = await fetch(api + "/profile", {
+  //   method: "POST",
+  //   body: JSON.stringify({ username, imageUrl: imageUrl ?? "" }),
+  //   headers: {
+  //     SessionId: user?.id,
+  //     "Content-Type": "application/json",
+  //   },
+  // });
 
-  const data = await response.json();
+  // const data = await response.json();
 
-  console.log({ data });
-  revalidatePath("/dashboard");
-  redirect("/dashboard");
+  // console.log({ data });
+  // revalidatePath("/dashboard");
+  // redirect("/dashboard");
 };
 
 const uploadImage = async (image: any): Promise<string> => {
+  console.log({ image });
   const data = new FormData();
   data.append("file", image);
   data.append("api_key", process.env.CLOUDINARY_API_KEY!);
@@ -49,6 +50,8 @@ const uploadImage = async (image: any): Promise<string> => {
   );
 
   const file = await response.json();
+
+  console.log({ file });
 
   return file.secure_url;
 };
