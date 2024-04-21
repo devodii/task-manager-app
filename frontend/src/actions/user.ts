@@ -41,9 +41,12 @@ export const signUp = async (formdata: FormData) => {
 
   const user = await response.json();
 
+  if (user?.statusCode == 400) {
+    return { success: false, message: "This email is already in use" };
+  }
+
   if (!user?.data?.id) {
-    console.log("an error occured.");
-    return;
+    return { success: false, message: "An unexpected error occured" };
   }
 
   redirect("/sign-in");
@@ -67,8 +70,11 @@ export const signIn = async (formdata: FormData) => {
   const userId = user?.data?.id;
 
   if (!userId) {
-    console.log("an error occured.");
-    return;
+    return {
+      success: false,
+      message: "Incorrect credentials!",
+      possibleFix: "Try signing up if you do not have an account already",
+    };
   }
 
   console.log({ user });

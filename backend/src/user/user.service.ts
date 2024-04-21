@@ -39,9 +39,8 @@ export class UserService {
   // auth related stuff.
   async signUp(email: string, password: string): Promise<ApiResponse> {
     const user = await this.find(email);
-    console.log({ user });
 
-    if (user) {
+    if (user?.id) {
       throw new BadRequestException('USER ALREADY EXISTS!');
     }
 

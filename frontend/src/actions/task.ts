@@ -37,6 +37,7 @@ export const createTask = async (formdata: FormData) => {
   });
 
   revalidatePath("/dashboard", "page");
+  return { success: true };
 };
 
 export const getTasks = async (): Promise<Task[] | []> => {
@@ -73,7 +74,7 @@ export const updateTask = async (formdata: FormData, id: number) => {
 
     if (!userId) return;
 
-    await fetch(api + `/task/${id}`, {
+    const response = await fetch(api + `/task/${id}`, {
       method: "PATCH",
       headers: {
         SessionId: user?.id,
@@ -82,7 +83,14 @@ export const updateTask = async (formdata: FormData, id: number) => {
       body: JSON.stringify({ ...data }),
     });
 
+    const task = await response.json();
+
+    if (!task?.id) {
+      return { success: false };
+    }
+
     revalidatePath("/dashboard");
+    return { success: true };
   } catch (error) {
     console.log("An error occured while updating task", { error });
   }
@@ -96,7 +104,7 @@ export const removeTask = async (id: number) => {
 
     if (!userId) return;
 
-    const response = await fetch(api + `/task/${id}`, {
+    await fetch(api + `/task/${id}`, {
       method: "DELETE",
       headers: {
         SessionId: user?.id,
