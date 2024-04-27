@@ -1,15 +1,14 @@
-import { Profile } from 'src/profile/entities/profile.entity';
 import { Task } from 'src/task/entities/task.entity';
 import { User } from 'src/user/entities/user.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
-  ManyToMany,
   OneToMany,
   OneToOne,
   PrimaryColumn,
 } from 'typeorm';
+import { WorkspaceMember } from './workspace-member.entity';
 
 @Entity()
 export class Workspace {
@@ -28,6 +27,6 @@ export class Workspace {
   @OneToOne(() => User, (user) => user.ownedWorkspace, { onDelete: 'CASCADE' })
   owner: User;
 
-  @ManyToMany(() => Profile, (profile) => profile.workspaces)
-  members: Profile[];
+  @OneToMany(() => WorkspaceMember, (member) => member.workspace)
+  members: WorkspaceMember[];
 }
