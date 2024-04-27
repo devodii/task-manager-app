@@ -1,6 +1,7 @@
 import { Feedback } from 'src/feedback/entities/feedback.entity';
 import { Profile } from 'src/profile/entities/profile.entity';
 import { Task } from 'src/task/entities/task.entity';
+import { Workspace } from 'src/workspace/entities/workspace.entity';
 import {
   Column,
   CreateDateColumn,
@@ -36,4 +37,7 @@ export class User {
 
   @OneToMany(() => Task, (task) => task.user)
   feedbacks: Feedback[];
+
+  @OneToOne(() => Workspace, (workspace) => workspace.owner)
+  ownedWorkspace: Workspace;
 }

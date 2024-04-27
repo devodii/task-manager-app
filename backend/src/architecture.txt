@@ -1,0 +1,11 @@
+Here are some very important decisions that i'm taking while working on this application.
+
+1. users must be registered to do the following:
+↳ perform crud operations for a task without a workspace
+↳ create a profile
+↳ create a workspace
+↳ send members an invitation to join workspace
+
+2. users needs to create a profile in order to do the following:
+↳ send or receive an invite to join a workspace
+↳ after joining a workspace, they can now be given tasks there

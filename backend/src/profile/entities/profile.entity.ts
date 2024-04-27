@@ -25,7 +25,7 @@ export class Profile {
   @CreateDateColumn()
   createdAt: Date;
 
-  @OneToOne(() => User)
+  @OneToOne(() => User, { onDelete: 'CASCADE' })
   user: User;
 
   /**
