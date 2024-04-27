@@ -7,6 +7,7 @@ import { TaskModule } from './task/task.module';
 import { UserModule } from './user/user.module';
 import { FeedbackModule } from './feedback/feedback.module';
 import { ProfileModule } from './profile/profile.module';
+import { WorkspaceModule } from './workspace/workspace.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { ProfileModule } from './profile/profile.module';
     TaskModule,
     FeedbackModule,
     ProfileModule,
+    WorkspaceModule,
   ],
   controllers: [AppController],
   providers: [AppService],

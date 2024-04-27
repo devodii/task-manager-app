@@ -41,6 +41,9 @@ dependencies:
   rxjs:
     specifier: ^7.8.1
     version: 7.8.1
+  workspace:
+    specifier: 0.0.1-preview.1
+    version: 0.0.1-preview.1
 
 devDependencies:
   '@nestjs/cli':
@@ -5713,6 +5716,10 @@ packages:
     resolution: {integrity: sha512-eDMORYaPNZ4sQIuuYPDHdQvf4gyCF9rEEV/yPxGfwPkRodwEgiMUUXTx/dex+Me0wxx53S+NgUHaP7y3MGlDmg==}
     dependencies:
       string-width: 4.2.3
+    dev: false
+
+  /workspace@0.0.1-preview.1:
+    resolution: {integrity: sha512-oPpEvU7NIQ0MW7ReL+EigMUI2JPNp05kmqzWS6zXVUaSq5KxuQzfgxGd8wuurBulBkTaOnEcGge+2rriyDVHkw==}
     dev: false
 
   /wrap-ansi@6.2.0:

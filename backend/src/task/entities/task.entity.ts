@@ -1,4 +1,5 @@
 import { User } from 'src/user/entities/user.entity';
+import { Workspace } from 'src/workspace/entities/workspace.entity';
 import {
   Column,
   CreateDateColumn,
@@ -31,6 +32,10 @@ export class Task {
 
   @ManyToOne(() => User, (user) => user.tasks, { onDelete: 'CASCADE' })
   user: User;
-}
 
-// todo: add priority
+  @ManyToOne(() => Workspace, (workspace) => workspace.tasks, {
+    nullable: true,
+    onDelete: 'CASCADE',
+  })
+  workspace: Workspace | null;
+}
