@@ -5,10 +5,9 @@ import { Button } from "@ui/button";
 import { Input } from "@ui/input";
 import Link from "next/link";
 
-interface Props {}
-
 export default async function Index() {
   const user = await getUser();
+
   return (
     <div className="container flex flex-col items-center gap-4 my-12">
       <header className="w-full flex items-center justify-between">

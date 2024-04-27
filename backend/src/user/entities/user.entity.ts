@@ -39,7 +39,9 @@ export class User {
   @OneToMany(() => Task, (task) => task.user)
   feedbacks: Feedback[];
 
-  @OneToOne(() => Workspace, (workspace) => workspace.owner)
+  @OneToOne(() => Workspace, (workspace) => workspace.owner, {
+    onDelete: 'SET NULL',
+  })
   @JoinColumn({ name: 'workspaceId' })
   ownedWorkspace: Workspace;
 }

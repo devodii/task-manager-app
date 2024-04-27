@@ -1,3 +1,9 @@
+export type ApiResponse<TData = Record<string, any>> = {
+  object: string;
+  status: boolean;
+  data?: TData;
+};
+
 export type User = {
   id: string;
   email: string;

@@ -30,7 +30,7 @@ export const createTask = async (formdata: FormData) => {
   await fetch(api + "/task", {
     method: "POST",
     headers: {
-      SessionId: userId,
+      SessionId: userId ?? "",
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ title, description }),
@@ -51,7 +51,7 @@ export const getTasks = async (): Promise<Task[] | []> => {
     const response = await fetch(api + "/task", {
       method: "GET",
       headers: {
-        SessionId: user?.id,
+        SessionId: user?.id ?? "",
       },
     });
 
@@ -77,7 +77,7 @@ export const updateTask = async (formdata: FormData, id: number) => {
     const response = await fetch(api + `/task/${id}`, {
       method: "PATCH",
       headers: {
-        SessionId: user?.id,
+        SessionId: user?.id ?? "",
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ ...data }),
@@ -107,7 +107,7 @@ export const removeTask = async (id: number) => {
     await fetch(api + `/task/${id}`, {
       method: "DELETE",
       headers: {
-        SessionId: user?.id,
+        SessionId: user?.id ?? "",
         "Content-Type": "application/json",
       },
     });

@@ -55,7 +55,6 @@ export const signUp = async (formdata: FormData) => {
 export const signIn = async (formdata: FormData) => {
   const dto = Object.fromEntries(formdata) as any;
 
-  console.log("signing n");
   const response = await fetch(api + "/auth/signIn", {
     method: "POST",
     body: JSON.stringify({ ...dto }),
@@ -76,8 +75,6 @@ export const signIn = async (formdata: FormData) => {
       possibleFix: "Try signing up if you do not have an account already",
     };
   }
-
-  console.log({ user });
 
   cookies().set("task-manager.session", userId, { maxAge: 1000 * 60 * 60 });
 

@@ -1,6 +1,7 @@
 "use server";
 
 import { getUser } from "@/actions/user";
+import { ApiResponse, Profile } from "@/types";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -15,29 +16,25 @@ export const createProfile = async (formdata: FormData) => {
   const image = formdata.get("image") as FormDataEntryValue;
   const username = formdata.get("username") as string;
 
-  console.log({ image, username });
-
   const imageUrl = await uploadImage(image);
 
   const response = await fetch(api + "/profile", {
     method: "POST",
     body: JSON.stringify({ username, imageUrl: imageUrl ?? "" }),
     headers: {
-      SessionId: user?.id,
+      SessionId: user?.id ?? "",
       "Content-Type": "application/json",
     },
   });
 
   const data = await response.json();
 
-  console.log({ data });
   revalidatePath("/dashboard");
 
   return data;
 };
 
 const uploadImage = async (image: any): Promise<string> => {
-  console.log({ image });
   const data = new FormData();
   data.append("file", image);
   data.append("api_key", process.env.CLOUDINARY_API_KEY!);
@@ -52,8 +49,6 @@ const uploadImage = async (image: any): Promise<string> => {
   );
 
   const file = await response.json();
-
-  console.log({ file });
 
   return file.secure_url;
 };
@@ -70,7 +65,7 @@ export const getProfile = async () => {
       credentials: "include",
     });
 
-    const profile = await response.json();
+    const profile: ApiResponse<Profile> = await response.json();
 
     return profile;
   } catch (error) {

@@ -21,7 +21,8 @@
       "@/*": ["./src/*"],
       "@ui/*": ["./src/components/ui/*"],
       "@profile/*": ["./src/features/profile/*"],
-      "@task/*": ["./src/features/task/*"]
+      "@task/*": ["./src/features/task/*"],
+      "@workspace/*": ["./src/features/workspace/*"],
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
