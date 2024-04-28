@@ -1,6 +1,8 @@
 "use server";
 
+import { Workspace } from "@/types";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { getUser } from "./user";
 
 const api = process.env.API_URL;
@@ -12,7 +14,7 @@ export const createWorkspace = async (formdata: FormData) => {
 
   const userId = user?.id;
 
-  await fetch(api + "/workspace", {
+  const response = await fetch(api + "/workspace", {
     method: "POST",
     headers: {
       SessionId: userId ?? "",
@@ -21,7 +23,14 @@ export const createWorkspace = async (formdata: FormData) => {
     body: JSON.stringify({ name }),
   });
 
+  const workspace: Workspace = await response.json();
+
   revalidatePath("/dashboard", "page");
+
+  if (workspace?.id) {
+    redirect("/dashboard/workspace");
+  }
+
   return { success: true };
 };
 
@@ -38,11 +47,11 @@ export const getWorkspace = async () => {
       },
     });
 
-    const workspace = await response.json();
+    const workspace: Workspace = await response.json();
 
     return workspace;
   } catch (error) {
     console.log("An error occured while fetching workspace", { error });
-    return {} as any;
+    return {} as unknown as Workspace;
   }
 };

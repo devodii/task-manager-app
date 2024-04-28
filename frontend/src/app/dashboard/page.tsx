@@ -1,7 +1,6 @@
 import { getProfile } from "@/actions/profile";
 import { getTasks } from "@/actions/task";
 import { getWorkspace } from "@/actions/workpace";
-import { DashboardHeader } from "@/components/dashboard-header";
 import { SendFeedback } from "@/components/send-feedback";
 import { Button } from "@/components/ui/button";
 import { CreateTask } from "@task/create-task";
@@ -21,9 +20,7 @@ export default async function DashboardPage({ searchParams }: Props) {
   ]);
 
   return (
-    <section className="py-6 md:px-6">
-      <DashboardHeader />
-
+    <div>
       {tasks.length < 1 && !workspace?.id && (
         <div className="flex flex-col gap-6">
           <h4 className="text-2xl md:text-3xl font-semibold text-center mt-8 md:mt-14">
@@ -71,6 +68,6 @@ export default async function DashboardPage({ searchParams }: Props) {
       {searchParams?.task?.length > 1 && <CreateTask defaultOpen={true} />}
 
       <SendFeedback />
-    </section>
+    </div>
   );
 }

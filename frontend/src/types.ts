@@ -32,3 +32,12 @@ export type Profile = {
   imageUrl?: string;
   createdAt: string;
 };
+
+export type Workspace = {
+  id: string;
+  name: string;
+  createdAt: string;
+  tasks: Task[];
+  owner: User;
+  members: any; // todo: add correct type.
+};

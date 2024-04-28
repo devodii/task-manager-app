@@ -31,9 +31,6 @@ export const DashboardHeader = async () => {
               </AvatarFallback>
             </Avatar>
           </ProfileDialog>
-          <CreateTask>
-            <Button>create task</Button>
-          </CreateTask>
         </div>
       </div>
     </header>
