@@ -1,6 +1,6 @@
 "use server";
 
-import { Workspace } from "@/types";
+import { Workspace, WorkspaceMember } from "@/types";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { getUser } from "./user";
@@ -74,8 +74,6 @@ export const findWorkspace = async (workspaceId: string) => {
 };
 
 export const joinWorkspace = async (workspaceId: string) => {
-  console.log("joining... ", workspaceId);
-
   const user = await getUser();
 
   const response = await fetch(api + `/workspace/join/${workspaceId}`, {
@@ -91,4 +89,24 @@ export const joinWorkspace = async (workspaceId: string) => {
   if (!memberAddedToWorkspace?.success) return;
 
   redirect("/dashboard");
+};
+
+export const getWorkspaceMembers = async (workspaceId: string) => {
+  try {
+    const response = await fetch(
+      api + `/workspace/members?workspaceId=${workspaceId}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    const members: WorkspaceMember[] = (await response.json()) ?? [];
+
+    return members;
+  } catch (error) {
+    console.log("An error occured while fetching workspace", { error });
+    return {} as unknown as WorkspaceMember[];
+  }
 };

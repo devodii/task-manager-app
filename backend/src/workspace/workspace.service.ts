@@ -48,7 +48,7 @@ export class WorkspaceService {
         await this.profileService.findOne(profileId),
       ]);
 
-      if (!workspace?.id || !profile?.data?.id) {
+      if (!workspace?.id || !profileId) {
         console.log('one of the requirements wasnt met.');
         return;
       }
@@ -73,5 +73,19 @@ export class WorkspaceService {
     } catch (error) {
       console.log('An error occured while adding member to a workspace');
     }
+  }
+
+  async listWorkspaceMembers(workspaceId: string) {
+    const response = await this.workspaceMememberRepo.find({
+      where: { workspace: { id: workspaceId } },
+      relations: ['workspace', 'profile'],
+    });
+
+    const members = response.map(({ profile }) => ({
+      username: profile.username,
+      imageUrl: profile.imageUrl,
+    }));
+
+    return members;
   }
 }

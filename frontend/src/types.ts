@@ -39,5 +39,10 @@ export type Workspace = {
   createdAt: string;
   tasks: Task[];
   owner: User;
-  members: any; // todo: add correct type.
+  members: WorkspaceMember;
+};
+
+export type WorkspaceMember = {
+  username: string;
+  imageUrl: string;
 };

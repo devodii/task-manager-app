@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import { WorkspaceService } from './workspace.service';
 import { CurrentUserId } from 'src/decorators/current-user.decorator';
@@ -37,6 +38,14 @@ export class WorkspaceController {
     return workspace;
   }
 
+  @Get('members')
+  async getWorkspaceMembers(@Query('workspaceId') workspaceId: string) {
+    const members =
+      await this.workspaceService.listWorkspaceMembers(workspaceId);
+
+    return members;
+  }
+
   /**
    * Returns the current user's workspace.
    */
@@ -54,12 +63,11 @@ export class WorkspaceController {
   @Patch('join/:id')
   async addMemberToWorkspace(
     @CurrentUserId() profileId: string,
-    @Param('id') workspaceId,
+    @Param('id') workspaceId: string,
   ) {
     const memberAddedToWorkspace =
       await this.workspaceService.addMemberToWorkspace(profileId, workspaceId);
 
-    console.log({ memberAddedToWorkspace });
     return memberAddedToWorkspace;
   }
 }
