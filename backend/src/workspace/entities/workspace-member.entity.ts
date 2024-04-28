@@ -14,5 +14,5 @@ export class WorkspaceMember {
   workspace: Workspace;
 
   @ManyToOne(() => Profile, (profile) => profile.workspaces)
-  profile: string;
+  profile: Profile;
 }

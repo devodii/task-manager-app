@@ -55,3 +55,40 @@ export const getWorkspace = async () => {
     return {} as unknown as Workspace;
   }
 };
+
+export const findWorkspace = async (workspaceId: string) => {
+  try {
+    const response = await fetch(api + `/workspace/${workspaceId}`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const workspace: Workspace = await response.json();
+
+    return workspace;
+  } catch (error) {
+    console.log("An error occured while fetching workspace", { error });
+    return {} as unknown as Workspace;
+  }
+};
+
+export const joinWorkspace = async (workspaceId: string) => {
+  console.log("joining... ", workspaceId);
+
+  const user = await getUser();
+
+  const response = await fetch(api + `/workspace/join/${workspaceId}`, {
+    method: "PATCH",
+    headers: {
+      SessionId: user?.id ?? "",
+      "Content-Type": "application/json",
+    },
+  });
+
+  const memberAddedToWorkspace = await response.json();
+
+  if (!memberAddedToWorkspace?.success) return;
+
+  redirect("/dashboard");
+};
