@@ -1,4 +1,5 @@
-import { Controller, Post, Headers, Body } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
+import { CurrentUserId } from 'src/decorators/current-user.decorator';
 import { FeedbackService } from './feedback.service';
 
 @Controller('feedback')
@@ -7,7 +8,7 @@ export class FeedbackController {
 
   @Post()
   async submitFeedback(
-    @Headers('SessionId') userId: string,
+    @CurrentUserId() userId: string,
     @Body('message') message: string,
   ) {
     return await this.feedbackService.create(userId, message);

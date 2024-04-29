@@ -13,7 +13,7 @@ export const sendFeedback = async (formdata: FormData) => {
     method: "POST",
     body: JSON.stringify({ message }),
     headers: {
-      SessionId: user.id,
+      SessionId: user.id ?? null,
       "Content-Type": "application/json",
     },
     credentials: "same-origin",

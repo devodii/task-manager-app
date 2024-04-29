@@ -8,7 +8,10 @@ export class FeedbackService {
   constructor(@InjectRepository(Feedback) private repo: Repository<Feedback>) {}
 
   async create(userId: string, message: string) {
-    const feedback = this.repo.create({ message, user: { id: userId } });
+    const feedback = this.repo.create({
+      message,
+      ...(userId && { user: { id: userId } }),
+    });
 
     return await this.repo.save(feedback);
   }

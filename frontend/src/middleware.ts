@@ -4,13 +4,15 @@ import { NextRequest, NextResponse } from "next/server";
 export async function middleware(req: NextRequest) {
   const url = req.nextUrl;
 
-  const user = await getUser();
+  // const user = await getUser();
 
-  if (!user?.id && url.pathname.startsWith("/dashboard")) {
-    return NextResponse.redirect(new URL("/sign-in", req.url));
-  }
+  // if (!user?.id && url.pathname.startsWith("/dashboard")) {
+  //   return NextResponse.redirect(new URL("/sign-in", req.url));
+  // }
 
-  return NextResponse.next();
+  // return NextResponse.next();
+
+  return NextResponse.rewrite(new URL("/wip", req.url));
 }
 
 export const config = {

@@ -9,6 +9,9 @@ export class Feedback {
   @Column({ nullable: false, type: 'text' })
   message: string;
 
-  @ManyToOne(() => User, (user) => user.feedbacks, { onDelete: 'CASCADE' })
+  @ManyToOne(() => User, (user) => user.feedbacks, {
+    onDelete: 'CASCADE',
+    nullable: true,
+  })
   user: User;
 }
