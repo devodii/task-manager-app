@@ -21,6 +21,9 @@ export class Task {
   @Column({ type: 'varchar', nullable: false })
   description: string;
 
+  @Column({ type: 'varchar', default: 'todo' })
+  status: string;
+
   @CreateDateColumn()
   createdAt: Date;
 
