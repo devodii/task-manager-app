@@ -1,7 +1,7 @@
 import { getWorkspace } from "@/actions/workpace";
 import { Button } from "@/components/ui/button";
-import { Tasks } from "@task/tasks";
 import { CreateTask } from "@task/create-task";
+import { TaskBoard } from "@task/task-board";
 import { SendWorkspaceInvitation } from "@workspace/send-workspace-invitation";
 import { WorkspaceMembers } from "@workspace/workspace-members";
 import * as React from "react";
@@ -21,12 +21,12 @@ export default async function WorkspacePage() {
         </SendWorkspaceInvitation>
       </div>
 
-      <React.Suspense fallback={<div>Loading workspace members...</div>}>
+      {/* <React.Suspense fallback={<div>Loading workspace members...</div>}>
         <WorkspaceMembers workspaceId={workspace?.id!} />
-      </React.Suspense>
+      </React.Suspense> */}
 
-      <React.Suspense fallback={<div>Loading tasks..</div>}>
-        <Tasks />
+      <React.Suspense fallback={<div>Loading task board..</div>}>
+        <TaskBoard />
       </React.Suspense>
 
       <CreateTask>create</CreateTask>
