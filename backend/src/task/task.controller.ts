@@ -26,7 +26,12 @@ export class TaskController {
       throw new UnauthorizedException('A task must be created by user');
     }
 
-    return await this.taskService.create(userId, dto.title, dto.description);
+    return await this.taskService.create(
+      userId,
+      dto.title,
+      dto.description,
+      dto.workspaceId,
+    );
   }
 
   @Patch(':id')

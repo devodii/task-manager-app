@@ -5,6 +5,7 @@ import { TaskCard } from "./task-card";
 export const Tasks = async () => {
   const tasks = await getTasks();
 
+  console.log({ tasks });
   if (!tasks?.length) return <EmptyTasks />;
 
   return (

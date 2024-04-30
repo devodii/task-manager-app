@@ -7,8 +7,18 @@ import { Task } from './entities/task.entity';
 export class TaskService {
   constructor(@InjectRepository(Task) private repo: Repository<Task>) {}
 
-  async create(userId: string, title: string, description: string) {
-    const task = this.repo.create({ title, description, user: { id: userId } });
+  async create(
+    userId: string,
+    title: string,
+    description: string,
+    workspaceId: string,
+  ) {
+    const task = this.repo.create({
+      title,
+      description,
+      user: { id: userId },
+      workspace: { id: workspaceId },
+    });
 
     return await this.repo.save(task);
   }

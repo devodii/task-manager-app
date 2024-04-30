@@ -4,6 +4,7 @@ import { getUser } from "@/actions/user";
 import { Task } from "@/types";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { getWorkspace } from "./workpace";
 
 const api = process.env.API_URL;
 
@@ -23,7 +24,7 @@ export const createTask = async (formdata: FormData) => {
   const title = formdata.get("title") as string;
   const description = formdata.get("description") as string;
 
-  const user = await getUser();
+  const [user, workspace] = await Promise.all([getUser(), getWorkspace()]);
 
   const userId = user?.id;
 
@@ -33,7 +34,11 @@ export const createTask = async (formdata: FormData) => {
       SessionId: userId ?? "",
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ title, description }),
+    body: JSON.stringify({
+      title,
+      description,
+      workspaceId: workspace?.id ?? null,
+    }),
   });
 
   revalidatePath("/dashboard", "page");

@@ -1,10 +1,10 @@
-import { getWorkspace, getWorkspaceMembers } from "@/actions/workpace";
+import { getWorkspace } from "@/actions/workpace";
 import { Button } from "@/components/ui/button";
-import { WorkspaceMembers } from "@workspace/workspace-members";
-import { SendWorkspaceInvitation } from "@workspace/send-workspace-invitation";
-import * as React from "react";
-import { TaskCard } from "@/features/task/task-card";
+import { Tasks } from "@task/tasks";
 import { CreateTask } from "@task/create-task";
+import { SendWorkspaceInvitation } from "@workspace/send-workspace-invitation";
+import { WorkspaceMembers } from "@workspace/workspace-members";
+import * as React from "react";
 
 export default async function WorkspacePage() {
   const workspace = await getWorkspace();
@@ -25,7 +25,9 @@ export default async function WorkspacePage() {
         <WorkspaceMembers workspaceId={workspace?.id!} />
       </React.Suspense>
 
-      <TaskCard task={{ id: 1, title: "Test", description: "sweep" }} />
+      <React.Suspense fallback={<div>Loading tasks..</div>}>
+        <Tasks />
+      </React.Suspense>
 
       <CreateTask>create</CreateTask>
     </div>
