@@ -1,6 +1,7 @@
 "use client";
 
 import { useTask } from "@/contexts/task-context";
+import { socket } from "@/lib/socket";
 import { Task } from "@/types";
 import * as React from "react";
 import { AccomplishedTasks } from "./accomplished-tasks";
@@ -24,6 +25,10 @@ export const ClientTaskBoard = (props: Props) => {
         inProgress: tasksInProgress,
         done: accomplishedTasks,
       },
+    });
+
+    socket.emit("hello", { name: "Emmanuel" }, (res: any) => {
+      console.log({ res });
     });
   }, [props]);
 
