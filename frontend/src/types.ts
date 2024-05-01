@@ -1,3 +1,5 @@
+export type ActionType<T = string, P = any> = { type: T; payload?: P };
+
 export type ApiResponse<TData = Record<string, any>> = {
   object: string;
   status: boolean;

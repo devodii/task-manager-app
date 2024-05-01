@@ -7,11 +7,10 @@ export const Todos = () => {
   const { todo } = useTask();
 
   return (
-    <Droppable destination="todo" key={`drop_${nanoid()}`}>
-      <b className="text-xl font-semibold">Todo</b>
+    <Droppable board="todo" label="Todo" key={`drop_${nanoid()}`}>
       <ul className="grid grid-cols-1 gap-4">
         {todo?.map((el: any) => (
-          <TaskCard task={el} key={el.id} />
+          <TaskCard task={el} key={`id_${nanoid()}`} />
         ))}
       </ul>
     </Droppable>

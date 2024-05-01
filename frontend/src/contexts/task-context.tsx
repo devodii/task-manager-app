@@ -2,18 +2,53 @@
 
 // todo: fix types.
 import { parseElementsContext } from "@/lib/context";
-import { Task, TaskStatus } from "@/types";
+import { ActionType, Task, TaskStatus } from "@/types";
 import * as React from "react";
+
+type ICases =
+  | "task.updateAll"
+  | "task.updateTodo"
+  | "task.updateInProgress"
+  | "task.updateDone";
 
 // @ts-ignore
 const TaskContext = React.createContext<any>();
 
-const TaskProvider = ({ children }: React.PropsWithChildren) => {
-  const [todo, setTodo] = React.useState<Task[]>([]);
-  const [inProgress, setInProgress] = React.useState<Task[]>([]);
-  const [done, setDone] = React.useState<Task[]>([]);
+const initialState: any = {
+  todo: [] as Task[],
+  inProgress: [] as Task[],
+  done: [] as Task[],
+};
 
-  const getTab = (status: TaskStatus) => {
+const reducer = (
+  state: typeof initialState,
+  action: ActionType<ICases, any>
+) => {
+  const { type, payload } = action;
+  switch (type) {
+    case "task.updateAll":
+      return payload;
+
+    case "task.updateTodo":
+      return { ...state, todo: payload };
+
+    case "task.updateInProgress":
+      return { ...state, inProgress: payload };
+
+    case "task.updateDone":
+      return { ...state, done: payload };
+
+    default:
+      throw new Error("unknow action type!");
+  }
+};
+
+const TaskProvider = ({ children }: React.PropsWithChildren) => {
+  const [state, dispatch] = React.useReducer(reducer, initialState);
+
+  const { todo, inProgress, done } = state as typeof initialState;
+
+  const getBoard = (status: TaskStatus) => {
     switch (status) {
       case "todo":
         return todo;
@@ -26,16 +61,16 @@ const TaskProvider = ({ children }: React.PropsWithChildren) => {
     }
   };
 
-  const setTab = (status: TaskStatus, data: any) => {
+  const setBoard = (status: TaskStatus, data: any) => {
     switch (status) {
       case "todo":
-        setTodo(data);
+        dispatch({ type: "task.updateTodo", payload: data });
         break;
       case "in_progress":
-        setInProgress(data);
+        dispatch({ type: "task.updateInProgress", payload: data });
         break;
       case "done":
-        setDone(data);
+        dispatch({ type: "task.updateDone", payload: data });
         break;
     }
   };
@@ -49,26 +84,27 @@ const TaskProvider = ({ children }: React.PropsWithChildren) => {
     to: TaskStatus;
     id: number;
   }) => {
-    console.log({ from });
-    const tab = getTab(from);
-    const task = tab.find((el) => el.id == id)!;
-
-    const fil = tab.filter((task) => task.id != id);
-
-    console.log({ task, id, fil, tab });
-
     /**
-     * Add the task to the new board.
+     * What?
+     *
+     * 1. finds the task in the previous board and remove it from that board.
+     * 2. Adds the task to the new board
      */
-    setTab(to, (prev) => [...prev, task]);
+    const fromBoard = getBoard(from);
+    const taskToMove = fromBoard.find((el: Task) => el.id == id)!;
+    const updatedTaskToMove = { ...taskToMove, status: to };
 
-    /**
-     * Removes the task from the previous board
-     */
-    setTab(
-      from,
-      tab.filter((task) => task.id != id)
-    );
+    if (!taskToMove) {
+      console.error(`Task with ID ${id} not found in ${from} board`);
+      return;
+    }
+
+    const updatedFromBoard = fromBoard.filter((task: Task) => task.id != id);
+    setBoard(from, updatedFromBoard);
+
+    const toBoard = getBoard(to);
+    const updatedToBoard = [...toBoard, updatedTaskToMove];
+    setBoard(to, updatedToBoard);
   };
 
   return (
@@ -77,9 +113,7 @@ const TaskProvider = ({ children }: React.PropsWithChildren) => {
         todo,
         inProgress,
         done,
-        setTodo,
-        setInProgress,
-        setDone,
+        dispatch,
         moveTaskToBoard,
       }}
     >

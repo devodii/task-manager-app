@@ -14,20 +14,23 @@ interface Props {
 export const ClientTaskBoard = (props: Props) => {
   const { tasksInTodo, tasksInProgress, accomplishedTasks } = props;
 
-  const { setTodo, setInProgress, setDone } = useTask();
+  const { dispatch } = useTask();
 
   React.useEffect(() => {
-    setTodo(tasksInTodo);
-    setInProgress(tasksInProgress);
-    setDone(accomplishedTasks);
+    dispatch({
+      type: "task.updateAll",
+      payload: {
+        todo: tasksInTodo,
+        inProgress: tasksInProgress,
+        done: accomplishedTasks,
+      },
+    });
   }, [props]);
 
   return (
     <div className="grid grid-cols-3 w-full border gap-4">
       <Todos />
-
       <TasksInProgress />
-
       <AccomplishedTasks />
     </div>
   );

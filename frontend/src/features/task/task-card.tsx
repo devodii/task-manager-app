@@ -3,9 +3,9 @@
 import { cn } from "@/lib/utils";
 import { Task } from "@/types";
 import { useDrag } from "react-dnd";
-import { CiEdit } from "react-icons/ci";
-import { MdDragIndicator } from "react-icons/md";
 import { CreateTask } from "./create-task";
+
+import { DotsThree, PencilSimple } from "@phosphor-icons/react";
 
 interface Props {
   task: Task;
@@ -30,9 +30,9 @@ export const TaskCard = ({ task }: Props) => {
     >
       <nav className="flex w-full items-center gap-2 justify-end">
         <CreateTask metadata={task} action="edit">
-          <CiEdit className="size-5 cursor-pointer" />
+          <PencilSimple className="size-5 cursor-pointer" />
         </CreateTask>
-        <MdDragIndicator className="size-6 cursor-grab" />
+        <DotsThree className="size-6 cursor-grab" />
       </nav>
 
       <div className="flex flex-col gap-2">

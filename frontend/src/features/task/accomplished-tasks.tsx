@@ -8,8 +8,7 @@ export const AccomplishedTasks = () => {
   const { done } = useTask();
 
   return (
-    <Droppable key={`board_${nanoid()}`} destination="done">
-      <b className="text-xl font-semibold">Done</b>
+    <Droppable key={`drop${nanoid()}`} board="done" label="Done">
       <ul className="grid grid-cols-1 gap-4">
         {done?.map((el: any) => (
           <TaskCard task={el} key={`id_${nanoid()}`} />

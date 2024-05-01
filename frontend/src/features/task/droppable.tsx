@@ -3,23 +3,22 @@
 import { useTask } from "@/contexts/task-context";
 import { cn } from "@/lib/utils";
 import { Task, TaskStatus } from "@/types";
-import { nanoid } from "nanoid";
 import * as React from "react";
 import { useDrop } from "react-dnd";
 
 interface Props {
   children: React.ReactNode;
-  destination: TaskStatus;
+  board: TaskStatus;
+  label: string;
 }
 
-export const Droppable = ({ children, destination }: Props) => {
+export const Droppable = ({ children, board, label }: Props) => {
   const { moveTaskToBoard } = useTask();
 
   const [{ isOver }, drop] = useDrop(() => ({
     accept: "task-card",
     drop: (item: Task) => {
-      console.log({ from: item.status, to: destination, id: item.id });
-      moveTaskToBoard({ from: item.status, to: destination, id: item.id });
+      moveTaskToBoard({ from: item.status, to: board, id: item.id });
     },
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),
@@ -34,7 +33,8 @@ export const Droppable = ({ children, destination }: Props) => {
       )}
       ref={drop as any}
     >
-      {children}
+      <b className="text-xl mb-4 font-semibold">{label}</b>
+      <>{children}</>
     </section>
   );
 };
