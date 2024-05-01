@@ -8,8 +8,10 @@ import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Textarea } from "@/components/ui/textarea";
 import { Task } from "@/types";
+import { AssigneeSelector } from "@task/assignee-selector";
 import { useRouter, useSearchParams } from "next/navigation";
 
+import { Users } from "@phosphor-icons/react";
 interface Props {
   children?: React.ReactNode;
   action?: "create" | "edit";
@@ -75,7 +77,7 @@ export const CreateTask = ({
     >
       {trigger && <SheetTrigger asChild>{trigger}</SheetTrigger>}
 
-      <SheetContent className="min-w-[400px]">
+      <SheetContent className="min-w-[600px]">
         <form
           onSubmit={(e: any) =>
             handleSubmit(e, () => {
@@ -96,7 +98,19 @@ export const CreateTask = ({
               }
             }}
             name="title"
+            required
           />
+
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-1">
+              <Users size={20} />
+              <span className="text-[14px]">Assignee</span>
+            </div>
+
+            <div className="flex-1">
+              <AssigneeSelector />
+            </div>
+          </div>
 
           <Input
             className="min-h-max overflow-y-hidden text-xl border-none outline-none ring-none focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-xl placeholder:text-gray-500"
@@ -104,6 +118,7 @@ export const CreateTask = ({
             ref={descriptionRef as any}
             name="description"
             defaultValue={metadata?.description}
+            
           />
 
           <div className="w-full flex items-end justify-end mt-7">

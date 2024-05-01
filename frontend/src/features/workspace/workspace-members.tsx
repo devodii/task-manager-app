@@ -1,5 +1,6 @@
 import { getWorkspaceMembers } from "@/actions/workpace";
 import { Badge } from "@/components/ui/badge";
+import { ClientWorkspaceMembers } from "./client-workspace-members";
 
 interface Props {
   workspaceId: string;
@@ -15,6 +16,8 @@ export const WorkspaceMembers = async ({ workspaceId }: Props) => {
           <Badge key={member.username}>{member.username}</Badge>
         ))}
       </ul>
+
+      <ClientWorkspaceMembers members={members} />
     </div>
   );
 };
