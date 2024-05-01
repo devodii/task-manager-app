@@ -71,6 +71,9 @@ dependencies:
   react-icons:
     specifier: ^5.0.1
     version: 5.1.0(react@18.2.0)
+  react-resizable-panels:
+    specifier: ^2.0.19
+    version: 2.0.19(react-dom@18.2.0)(react@18.2.0)
   socket.io-client:
     specifier: ^4.7.2
     version: 4.7.5
@@ -3310,6 +3313,16 @@ packages:
       tslib: 2.6.2
       use-callback-ref: 1.3.2(@types/react@18.2.79)(react@18.2.0)
       use-sidecar: 1.1.2(@types/react@18.2.79)(react@18.2.0)
+    dev: false
+
+  /react-resizable-panels@2.0.19(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-v3E41kfKSuCPIvJVb4nL4mIZjjKIn/gh6YqZF/gDfQDolv/8XnhJBek4EiV2gOr3hhc5A3kOGOayk3DhanpaQw==}
+    peerDependencies:
+      react: ^16.14.0 || ^17.0.0 || ^18.0.0
+      react-dom: ^16.14.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
     dev: false
 
   /react-style-singleton@2.2.1(@types/react@18.2.79)(react@18.2.0):
