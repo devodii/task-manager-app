@@ -7,12 +7,14 @@ import { Label } from "@/components/ui/label";
 import { Wrapper } from "@/components/wrapper";
 import * as React from "react";
 import { toast } from "sonner";
+import { IoLogoGithub } from "react-icons/io5";
+import Link from "next/link";
 
 export default function WorkInProgressPage() {
   const [email, setEmail] = React.useState("");
 
   return (
-    <Wrapper>
+    <Wrapper className="flex-col gap-6">
       <div className="container flex flex-col gap-6 mx-auto px-6">
         <div className="text-2xl md:text-3xl text-center">
           ⚠️ This platform is heavily under construction
@@ -35,7 +37,7 @@ export default function WorkInProgressPage() {
             const response = await sendFeedback(formdata);
 
             if (response?.id) {
-              toast("Your request has been sent.", { position: "top-right" });
+              toast("You're on the waitlist! 🔥", { position: "top-right" });
             } else {
               toast("request failed, please try again.", {
                 position: "top-right",
@@ -61,6 +63,10 @@ export default function WorkInProgressPage() {
           </Button>
         </form>
       </div>
+
+      <Link href="https://github.com/devodii/task-manager-app" target="_blank">
+        <IoLogoGithub className="text-4xl" />
+      </Link>
     </Wrapper>
   );
 }
