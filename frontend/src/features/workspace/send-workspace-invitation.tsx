@@ -35,7 +35,7 @@ export const SendWorkspaceInvitation = ({
   };
   return (
     <Dialog>
-      {trigger && <DialogTrigger>{trigger}</DialogTrigger>}
+      {trigger && <DialogTrigger asChild>{trigger}</DialogTrigger>}
       <DialogContent
         className="w-full max-w-3xl h-max"
         onInteractOutside={(e) => e.preventDefault()}

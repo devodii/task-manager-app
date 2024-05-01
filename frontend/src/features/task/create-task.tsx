@@ -10,7 +10,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { Task } from "@/types";
 import { useRouter, useSearchParams } from "next/navigation";
 
-
 interface Props {
   children?: React.ReactNode;
   action?: "create" | "edit";
@@ -74,7 +73,7 @@ export const CreateTask = ({
         handleClearParams();
       }}
     >
-      {trigger && <SheetTrigger>{trigger}</SheetTrigger>}
+      {trigger && <SheetTrigger asChild>{trigger}</SheetTrigger>}
 
       <SheetContent className="min-w-[400px]">
         <form

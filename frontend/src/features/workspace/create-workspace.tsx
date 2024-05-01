@@ -47,7 +47,7 @@ export const CreateWorkspace = ({ children: trigger, username }: Props) => {
         setIsOpen(val);
       }}
     >
-      {trigger && <DialogTrigger>{trigger}</DialogTrigger>}
+      {trigger && <DialogTrigger asChild>{trigger}</DialogTrigger>}
       <DialogContent className="w-full max-w-3xl">
         <DialogHeader>
           <DialogTitle>Create a workspace</DialogTitle>

@@ -1,7 +1,6 @@
 "use client";
 
 import { useTask } from "@/contexts/task-context";
-import { socket } from "@/lib/socket";
 import { Task } from "@/types";
 import * as React from "react";
 import { AccomplishedTasks } from "./accomplished-tasks";
@@ -26,11 +25,8 @@ export const ClientTaskBoard = (props: Props) => {
         done: accomplishedTasks,
       },
     });
-
-    socket.emit("hello", { name: "Emmanuel" }, (res: any) => {
-      console.log({ res });
-    });
-  }, [props]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tasksInTodo, tasksInProgress, accomplishedTasks]);
 
   return (
     <div className="grid grid-cols-3 w-full border gap-4">

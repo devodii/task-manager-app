@@ -2,8 +2,10 @@
 
 // todo: fix types.
 import { parseElementsContext } from "@/lib/context";
+import { socket } from "@/lib/socket";
 import { ActionType, Task, TaskStatus } from "@/types";
 import * as React from "react";
+import { toast } from "sonner";
 
 type ICases =
   | "task.updateAll"
@@ -89,7 +91,9 @@ const TaskProvider = ({ children }: React.PropsWithChildren) => {
      *
      * 1. finds the task in the previous board and remove it from that board.
      * 2. Adds the task to the new board
+     * 3. Updates the task status via ws after 5s.
      */
+
     const fromBoard = getBoard(from);
     const taskToMove = fromBoard.find((el: Task) => el.id == id)!;
     const updatedTaskToMove = { ...taskToMove, status: to };
@@ -105,6 +109,18 @@ const TaskProvider = ({ children }: React.PropsWithChildren) => {
     const toBoard = getBoard(to);
     const updatedToBoard = [...toBoard, updatedTaskToMove];
     setBoard(to, updatedToBoard);
+
+    setTimeout(() => {
+      socket.emit(
+        "update-task-status",
+        { id: taskToMove?.id, newStatus: to },
+        (res: any) => {
+          if (!res?.id) {
+            toast("Sorry, your progress wasnt saved. try again");
+          }
+        }
+      );
+    }, 5000);
   };
 
   return (

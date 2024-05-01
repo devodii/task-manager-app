@@ -2,8 +2,13 @@ import {
   MessageBody,
   SubscribeMessage,
   WebSocketGateway,
-  WebSocketServer,
 } from '@nestjs/websockets';
+import { TaskService } from './task.service';
+
+type UpdateTaskStatusDto = {
+  id: number;
+  newStatus: string;
+};
 
 @WebSocketGateway({
   namespace: 'task',
@@ -12,11 +17,14 @@ import {
   },
 })
 export class TaskGateway {
-  @WebSocketServer()
-  @SubscribeMessage('hello')
-  sayHello(@MessageBody('name') name: string) {
-    console.log({ name });
+  constructor(private taskService: TaskService) {}
 
-    return { message: 'Hello' + name };
+  @SubscribeMessage('update-task-status')
+  async updateTaskStatus(@MessageBody() dto: UpdateTaskStatusDto) {
+    const task = await this.taskService.update(dto.id, {
+      status: dto.newStatus,
+    });
+
+    return task;
   }
 }
