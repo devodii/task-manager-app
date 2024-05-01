@@ -50,3 +50,8 @@ export type WorkspaceMember = {
   username: string;
   imageUrl: string;
 };
+
+export type Team = {
+  id: string;
+  workspace: Workspace;
+};

@@ -88,7 +88,7 @@ export const joinWorkspace = async (workspaceId: string) => {
 
   if (!memberAddedToWorkspace?.success) return;
 
-  redirect("/dashboard");
+  redirect("/dashboard/teams");
 };
 
 export const getWorkspaceMembers = async (workspaceId: string) => {

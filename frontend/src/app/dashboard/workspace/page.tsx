@@ -21,15 +21,19 @@ export default async function WorkspacePage() {
         </SendWorkspaceInvitation>
       </div>
 
-      {/* <React.Suspense fallback={<div>Loading workspace members...</div>}>
-        <WorkspaceMembers workspaceId={workspace?.id!} />
-      </React.Suspense> */}
-
       <React.Suspense fallback={<div>Loading task board..</div>}>
         <TaskBoard />
       </React.Suspense>
 
-      <CreateTask>create</CreateTask>
+      <CreateTask>
+        <Button variant="default" className="mt-8">
+          create task
+        </Button>
+      </CreateTask>
+
+      <React.Suspense fallback={<div>Loading workspace members...</div>}>
+        <WorkspaceMembers workspaceId={workspace?.id!} />
+      </React.Suspense>
     </div>
   );
 }

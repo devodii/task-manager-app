@@ -8,6 +8,7 @@ import { UserModule } from './user/user.module';
 import { FeedbackModule } from './feedback/feedback.module';
 import { ProfileModule } from './profile/profile.module';
 import { WorkspaceModule } from './workspace/workspace.module';
+import { TeamModule } from './team/team.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { WorkspaceModule } from './workspace/workspace.module';
     FeedbackModule,
     ProfileModule,
     WorkspaceModule,
+    TeamModule,
   ],
   controllers: [AppController],
   providers: [AppService],

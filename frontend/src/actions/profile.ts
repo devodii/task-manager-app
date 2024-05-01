@@ -35,6 +35,8 @@ export const createProfile = async (formdata: FormData) => {
 };
 
 const uploadImage = async (image: any): Promise<string> => {
+  if (!image) return "";
+
   const data = new FormData();
   data.append("file", image);
   data.append("api_key", process.env.CLOUDINARY_API_KEY!);
