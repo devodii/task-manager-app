@@ -23,6 +23,9 @@ export const mockCreateTask = async (formdata: FormData) => {
 export const createTask = async (formdata: FormData) => {
   const title = formdata.get("title") as string;
   const description = formdata.get("description") as string;
+  // const assignee = formdata.get("assignee") as string;
+
+  // console.log({ assignee });
 
   const [user, workspace] = await Promise.all([getUser(), getWorkspace()]);
 
@@ -71,6 +74,10 @@ export const getTasks = async (): Promise<Task[] | []> => {
 
 export const updateTask = async (formdata: FormData, id: number) => {
   try {
+    const title = formdata.get("title") as string;
+    const description = formdata.get("description") as string;
+    const assignee = formdata.get("assignee") as string;
+
     const data = Object.fromEntries(formdata);
 
     const user = await getUser();
@@ -85,7 +92,11 @@ export const updateTask = async (formdata: FormData, id: number) => {
         SessionId: user?.id ?? "",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ ...data }),
+      body: JSON.stringify({
+        title,
+        description,
+        // assignee,
+      }),
     });
 
     const task = await response.json();

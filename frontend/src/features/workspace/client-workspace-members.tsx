@@ -11,7 +11,6 @@ interface Props {
 export const ClientWorkspaceMembers = ({ members }: Props) => {
   const { setMembers } = useWorkspaceMembers();
 
-  console.log({ members });
   React.useEffect(() => {
     setMembers(members);
     // eslint-disable-next-line react-hooks/exhaustive-deps

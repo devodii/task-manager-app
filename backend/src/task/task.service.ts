@@ -24,7 +24,9 @@ export class TaskService {
   }
 
   async findOne(id: number) {
-    const task = await this.repo.findOne({ where: { id } });
+    const task = await this.repo.findOne({
+      where: { id },
+    });
 
     if (!task?.id) {
       throw new NotFoundException('Task not found!');
@@ -34,7 +36,9 @@ export class TaskService {
   }
 
   async findByUser(userId: string) {
-    const tasks = await this.repo.find({ where: { user: { id: userId } } });
+    const tasks = await this.repo.find({
+      where: { user: { id: userId } },
+    });
 
     return tasks;
   }

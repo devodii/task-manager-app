@@ -7,18 +7,41 @@ import { useWorkspaceMembers } from "@/contexts/workspace-members-context";
 import { Badge } from "@ui/badge";
 import { Command, CommandGroup, CommandItem } from "@ui/command";
 import { Command as CommandPrimitive } from "cmdk";
+import { parseElementsContext } from "@/lib/context";
 
-export const AssigneeSelector = () => {
+// @ts-ignore
+const AssigneeContext = React.createContext<{
+  assignees: any[];
+  setAssignees: React.Dispatch<React.SetStateAction<any[]>>;
+}>();
+
+const AssigneeProvider = ({ children }: React.PropsWithChildren) => {
+  const [assignees, setAssignees] = React.useState<any[]>([]);
+
+  return (
+    <AssigneeContext.Provider value={{ assignees, setAssignees }}>
+      {children}
+    </AssigneeContext.Provider>
+  );
+};
+
+const useAssignee = () => {
+  const context = React.useContext(AssigneeContext);
+
+  return parseElementsContext(context, "assignee context");
+};
+
+const AssigneeSelector = () => {
   const inputRef = React.useRef<HTMLInputElement>(null);
 
   const [open, setOpen] = React.useState(false);
   const [inputValue, setInputValue] = React.useState("");
 
-  const [selected, setSelected] = React.useState<any[]>([]);
+  const { assignees: selected, setAssignees: setSelected } = useAssignee();
 
-  const { members: _members } = useWorkspaceMembers();
+  const { members: workspaceMembers } = useWorkspaceMembers();
 
-  const members = _members.map((member) => ({
+  const members = workspaceMembers.map((member) => ({
     value: member.username,
     label: member.username,
     img: member.imageUrl,
@@ -130,3 +153,5 @@ export const AssigneeSelector = () => {
 };
 
 AssigneeSelector.displayName = "AssigneeSelector";
+
+export { useAssignee, AssigneeProvider, AssigneeSelector };

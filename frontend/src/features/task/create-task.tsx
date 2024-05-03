@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Textarea } from "@/components/ui/textarea";
 import { Task } from "@/types";
-import { AssigneeSelector } from "@task/assignee-selector";
+import { AssigneeSelector, useAssignee } from "@task/assignee-selector";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import { Users } from "@phosphor-icons/react";
@@ -31,6 +31,7 @@ export const CreateTask = ({
 
   const [isOpen, setIsOpen] = React.useState(defaultOpen ?? false);
 
+  const { assignees } = useAssignee();
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -118,8 +119,9 @@ export const CreateTask = ({
             ref={descriptionRef as any}
             name="description"
             defaultValue={metadata?.description}
-            
           />
+
+          <input name="assignee" value={assignees?.[0]?.value} />
 
           <div className="w-full flex items-end justify-end mt-7">
             <SubmitButton className="self-end max-w-[180px]">
