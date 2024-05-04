@@ -12,6 +12,7 @@ import { AssigneeSelector, useAssignee } from "@task/assignee-selector";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import { Users } from "@phosphor-icons/react";
+import { useTask } from "@/contexts/task-context";
 interface Props {
   children?: React.ReactNode;
   action?: "create" | "edit";
@@ -31,9 +32,9 @@ export const CreateTask = ({
 
   const [isOpen, setIsOpen] = React.useState(defaultOpen ?? false);
 
-  const { assignees } = useAssignee();
+  const { assignees, setAssignees } = useAssignee();
+  const { getStatus } = useTask();
 
-  console.log({ assignees });
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -55,6 +56,21 @@ export const CreateTask = ({
     }
   }, [titleRef, title]);
 
+  /**
+   * update assignees to the existing ones that exists for a task.
+   */
+  React.useEffect(() => {
+    if (metadata?.assignee?.id) {
+      const ass = {
+        value: metadata?.assignee.profileName,
+        label: metadata.assignee.profileName,
+        img: metadata.assignee.profileImg,
+      };
+
+      setAssignees([ass]);
+    }
+  }, [metadata, isOpen]);
+
   const handleSubmit = async (
     e: React.FormEvent<HTMLFormElement>,
     callback: any
@@ -65,17 +81,19 @@ export const CreateTask = ({
 
     action == "create"
       ? await createTask(formdata)
-      : await updateTask(formdata, metadata?.id as number);
+      : await updateTask(formdata, metadata?.id as any);
 
     callback?.();
   };
 
+  console.log({ img: assignees[0]?.img });
   return (
     <Sheet
       open={isOpen}
       onOpenChange={(val) => {
         setIsOpen(val);
         handleClearParams();
+        setAssignees([]);
       }}
     >
       {trigger && (
@@ -133,10 +151,27 @@ export const CreateTask = ({
             value={assignees?.[0]?.value}
           />
           <input
-            name="assigneeName"
+            name="assigneeImg"
             className="hidden"
             value={assignees?.[0]?.img}
           />
+
+          <input
+            name="status"
+            className="hidden"
+            value={getStatus(metadata?.id)}
+          />
+
+          {metadata?.id && (
+            <>
+              <input name="taskId" value={metadata.id} className="hidden" />
+              <input
+                name="assigneeId"
+                value={metadata.assignee?.id}
+                className="hidden"
+              />
+            </>
+          )}
 
           <div className="w-full flex items-end justify-end mt-7">
             <SubmitButton className="self-end max-w-[180px]">

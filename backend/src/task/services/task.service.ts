@@ -39,7 +39,6 @@ export class TaskService {
         title,
         description,
         user: { id: userId },
-        status: 'todo',
         workspace: { id: workspaceId },
       });
 
@@ -83,11 +82,34 @@ export class TaskService {
   }
 
   async update(id: string, attrs: Partial<Task>) {
-    const task = await this.findOne(id);
+    try {
+      const task = await this.findOne(id);
 
-    Object.assign(task, attrs);
+      const assignee = attrs?.assignee as any;
 
-    return await this.repo.save(task);
+      Object.assign(task, {
+        ...attrs,
+        assignee: {
+          profileImg: assignee.img ?? '',
+          profileName: assignee.name,
+        },
+        status: attrs.status,
+      });
+
+      const [updateTask] = await Promise.all([
+        this.repo.save(task),
+        this.assigneeService.upsert({
+          id: assignee?.id,
+          task,
+          profileImg: assignee?.img,
+          profileName: assignee.name,
+        }),
+      ]);
+
+      return updateTask;
+    } catch (error) {
+      console.log('an error occured while updating task', error);
+    }
   }
 
   async remove(id: string) {

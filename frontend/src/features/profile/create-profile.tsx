@@ -2,7 +2,6 @@
 
 import { createProfile } from "@/actions/profile";
 import { Button, buttonVariants } from "@/components/ui/button";
-import { Wrapper } from "@/components/wrapper";
 import { cn } from "@/lib/utils";
 import { Profile } from "@/types";
 import { Input } from "@ui/input";
@@ -53,10 +52,7 @@ export const CreateProfile = () => {
   }
 
   return (
-    <Wrapper
-      className="justify-start my-12 md:my-16 lg:my-20 flex-col gap-12"
-      as="section"
-    >
+    <section className="justify-start my-12 md:my-16 lg:my-20 flex-col gap-12">
       <h2 className="text-2xl md:text-3xl font-semibold text-center">
         Create your profile
       </h2>
@@ -115,6 +111,6 @@ export const CreateProfile = () => {
           {isCreating && <CgSpinnerAlt className="animate-spin" size={20} />}
         </Button>
       </form>
-    </Wrapper>
+    </section>
   );
 };

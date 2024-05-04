@@ -10,6 +10,10 @@ interface CreateAssigneeParameters {
   profileImg?: string;
 }
 
+interface UpdateAssigneeParameters extends CreateAssigneeParameters {
+  id: string;
+}
+
 export class TaskAssigneeService {
   constructor(
     @InjectRepository(TaskAssignee)
@@ -27,5 +31,22 @@ export class TaskAssigneeService {
     const savedAssignee = await this.repo.save(assignee);
 
     return savedAssignee;
+  }
+
+  async upsert({
+    id,
+    profileName,
+    profileImg,
+    task,
+  }: UpdateAssigneeParameters) {
+    if (id?.length < 3) {
+      return await this.create({ task, profileName, profileImg });
+    }
+
+    const assignee = await this.repo.findOne({ where: { id } });
+
+    Object.assign(assignee, { profileImg, profileName });
+
+    return await this.repo.save(assignee);
   }
 }

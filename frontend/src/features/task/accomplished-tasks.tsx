@@ -7,7 +7,6 @@ import { Droppable } from "./droppable";
 export const AccomplishedTasks = () => {
   const { done: tasks } = useTask();
 
-  console.log({ tasks });
   return (
     <Droppable key={`drop${nanoid()}`} board="done" label="Done">
       <ul className="grid grid-cols-1 gap-4">

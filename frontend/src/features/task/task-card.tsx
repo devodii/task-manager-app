@@ -19,8 +19,6 @@ export const TaskCard = ({ task }: Props) => {
     }),
   }));
 
-  console.log({ task });
-
   return (
     <EditTask metadata={task} action="edit">
       <div

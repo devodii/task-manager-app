@@ -11,8 +11,8 @@ import {
   PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { TaskAssignee } from './task-assignee.entity';
 import { TaskStatus } from '../task.interface';
+import { TaskAssignee } from './task-assignee.entity';
 
 @Entity()
 export class Task {
@@ -46,7 +46,9 @@ export class Task {
   })
   workspace: Workspace | null;
 
-  @OneToOne(() => TaskAssignee, (assignee) => assignee.task)
+  @OneToOne(() => TaskAssignee, (assignee) => assignee.task, {
+    onDelete: 'SET NULL',
+  })
   @JoinColumn()
   assignee: TaskAssignee;
 }

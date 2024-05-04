@@ -41,7 +41,7 @@ export const createTask = async (formdata: FormData) => {
       description,
       workspaceId: workspace?.id ?? null,
       assignee: {
-        name: assigneeName,
+        name: assigneeName ?? "",
         img: assigneeImg ?? "",
       },
     }),
@@ -77,11 +77,17 @@ export const getTasks = async (): Promise<Task[] | []> => {
 
 export const updateTask = async (formdata: FormData, id: number) => {
   try {
+    const taskId = formdata.get("taskId") as string;
+    const assigneeId = formdata.get("assigneeId") as string;
     const title = formdata.get("title") as string;
     const description = formdata.get("description") as string;
-    const assignee = formdata.get("assignee") as string;
+    const assigneeName = formdata.get("assigneeName") as string;
+    const assigneeImg = formdata.get("assigneeImg") as string;
+    const status = formdata.get("status") as string;
 
-    const data = Object.fromEntries(formdata);
+    console.log({ status });
+
+    console.log({ assigneeId, taskId });
 
     const user = await getUser();
 
@@ -96,9 +102,15 @@ export const updateTask = async (formdata: FormData, id: number) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
+        id: taskId,
         title,
         description,
-        // assignee,
+        assignee: {
+          id: assigneeId,
+          name: assigneeName ?? "",
+          img: assigneeImg ?? "",
+        },
+        status,
       }),
     });
 

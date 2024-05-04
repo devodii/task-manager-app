@@ -16,7 +16,7 @@ export type User = {
 export type TaskStatus = "todo" | "in_progress" | "done";
 
 export type Task = {
-  id: number;
+  id: string;
   title: string;
   status: TaskStatus;
   description: string;

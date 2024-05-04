@@ -96,7 +96,7 @@ const AssigneeSelector = () => {
               <Badge
                 key={member.value}
                 variant="secondary"
-                className="flex items-center gap-1"
+                className="flex items-center gap-1 bg-white hover:bg-white"
               >
                 <AssigneeInformation
                   name={member.value}

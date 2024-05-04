@@ -1,5 +1,4 @@
 import { BlurImage } from "@/components/blur-image";
-import { Wrapper } from "@/components/wrapper";
 import { Profile } from "@/types";
 
 interface Props {
@@ -8,10 +7,7 @@ interface Props {
 
 export const ViewProfile = ({ data }: Props) => {
   return (
-    <Wrapper
-      className="min-h-full justify-start my-12 md:my-16 lg:my-20 flex-col gap-12"
-      as="section"
-    >
+    <section className="min-h-full justify-start my-12 md:my-16 lg:my-20 flex-col gap-12">
       <h2 className="text-2xl md:text-3xl font-semibold text-center">
         Your Profile
       </h2>
@@ -34,6 +30,6 @@ export const ViewProfile = ({ data }: Props) => {
           <span>{data.username}</span>
         </div>
       </div>
-    </Wrapper>
+    </section>
   );
 };

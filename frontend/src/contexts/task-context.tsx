@@ -84,7 +84,7 @@ const TaskProvider = ({ children }: React.PropsWithChildren) => {
   }: {
     from: TaskStatus;
     to: TaskStatus;
-    id: number;
+    id: string;
   }) => {
     /**
      * What?
@@ -123,6 +123,20 @@ const TaskProvider = ({ children }: React.PropsWithChildren) => {
     }, 5000);
   };
 
+  const getStatus = (taskId: string) => {
+    const { todo, inProgress, done } = state;
+
+    const taskInTodo = todo.find((task: Task) => task.id === taskId);
+    if (taskInTodo) return taskInTodo.status;
+
+    const taskInProgress = inProgress.find((task: Task) => task.id === taskId);
+    if (taskInProgress) return taskInProgress.status;
+
+    const taskInDone = done.find((task: Task) => task.id === taskId);
+    if (taskInDone) return taskInDone.status;
+
+    return null;
+  };
   return (
     <TaskContext.Provider
       value={{
@@ -131,6 +145,7 @@ const TaskProvider = ({ children }: React.PropsWithChildren) => {
         done,
         dispatch,
         moveTaskToBoard,
+        getStatus,
       }}
     >
       {children}
