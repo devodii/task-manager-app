@@ -14,6 +14,7 @@ export type User = {
 };
 
 export type TaskStatus = "todo" | "in_progress" | "done";
+
 export type Task = {
   id: number;
   title: string;
@@ -22,6 +23,12 @@ export type Task = {
   createdAt: string;
   updatedAt: string;
   deletedAt: string;
+
+  assignee?: {
+    id: string;
+    profileName: string;
+    profileImg: string;
+  };
 };
 
 export type Feedback = {

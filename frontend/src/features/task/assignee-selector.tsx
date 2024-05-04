@@ -3,11 +3,13 @@
 import { X } from "lucide-react";
 import * as React from "react";
 
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useWorkspaceMembers } from "@/contexts/workspace-members-context";
+import { parseElementsContext } from "@/lib/context";
+import { getInitials } from "@/lib/utils";
 import { Badge } from "@ui/badge";
 import { Command, CommandGroup, CommandItem } from "@ui/command";
 import { Command as CommandPrimitive } from "cmdk";
-import { parseElementsContext } from "@/lib/context";
 
 // @ts-ignore
 const AssigneeContext = React.createContext<{
@@ -91,8 +93,16 @@ const AssigneeSelector = () => {
         <div className="flex gap-1 flex-wrap">
           {selected.map((member) => {
             return (
-              <Badge key={member.value} variant="secondary">
-                {member.label}
+              <Badge
+                key={member.value}
+                variant="secondary"
+                className="flex items-center gap-1"
+              >
+                <AssigneeInformation
+                  name={member.value}
+                  url={member.img}
+                  variant="md"
+                />
                 <button
                   className="ml-1 ring-offset-background rounded-full outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
                   onKeyDown={(e) => {
@@ -138,9 +148,13 @@ const AssigneeSelector = () => {
                       setInputValue("");
                       setSelected((prev) => [...prev, member]);
                     }}
-                    className={"cursor-pointer"}
+                    className="cursor-pointer flex items-center gap-2"
                   >
-                    {member.label}
+                    <AssigneeInformation
+                      name={member.value}
+                      url={member.img}
+                      variant="md"
+                    />
                   </CommandItem>
                 );
               })}
@@ -154,4 +168,27 @@ const AssigneeSelector = () => {
 
 AssigneeSelector.displayName = "AssigneeSelector";
 
-export { useAssignee, AssigneeProvider, AssigneeSelector };
+interface AssigneeImageProps {
+  name: string;
+  url: string;
+  variant?: "sm" | "md";
+}
+
+const AssigneeInformation = React.memo(
+  ({ name, url, variant = "sm" }: AssigneeImageProps) => (
+    <div className="flex items-center gap-1">
+      <Avatar className={variant == "sm" ? "size-4" : "size-6"}>
+        <AvatarImage src={url} className="obect-cover" />
+        <AvatarFallback className="uppercase font-semibold select-none cursor-pointer bg-gray-300 flex items-center justify-center text-center text-[14px]">
+          {getInitials(name)}
+        </AvatarFallback>
+      </Avatar>
+
+      <span className="text-[14px] font-medium">{name}</span>
+    </div>
+  )
+);
+
+AssigneeInformation.displayName = "AssigneeInformation";
+
+export { AssigneeInformation, AssigneeProvider, AssigneeSelector, useAssignee };

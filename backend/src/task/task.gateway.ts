@@ -3,11 +3,12 @@ import {
   SubscribeMessage,
   WebSocketGateway,
 } from '@nestjs/websockets';
-import { TaskService } from './task.service';
+import { TaskService } from './services/task.service';
+import { TaskStatus } from './task.interface';
 
 type UpdateTaskStatusDto = {
-  id: number;
-  newStatus: string;
+  id: string;
+  newStatus: TaskStatus;
 };
 
 @WebSocketGateway({

@@ -3,9 +3,8 @@
 import { cn } from "@/lib/utils";
 import { Task } from "@/types";
 import { useDrag } from "react-dnd";
-import { CreateTask } from "./create-task";
-
-import { DotsThree, PencilSimple } from "@phosphor-icons/react";
+import { CreateTask as EditTask } from "./create-task";
+import { AssigneeInformation } from "./assignee-selector";
 
 interface Props {
   task: Task;
@@ -20,25 +19,32 @@ export const TaskCard = ({ task }: Props) => {
     }),
   }));
 
-  return (
-    <div
-      className={cn(
-        "w-64 h-36 bg-gray-100 px-4 py-2 border rounded-md space-y-2",
-        isDragging ? "hidden" : ""
-      )}
-      ref={drag as any}
-    >
-      <nav className="flex w-full items-center gap-2 justify-end">
-        <CreateTask metadata={task} action="edit">
-          <PencilSimple className="size-5 cursor-pointer" />
-        </CreateTask>
-        <DotsThree className="size-6 cursor-grab" />
-      </nav>
+  console.log({ task });
 
-      <div className="flex flex-col gap-2">
-        <span className="text-sm font-medium">{task?.title}</span>
-        <span className="line-clamp-1">{task?.description}</span>
+  return (
+    <EditTask metadata={task} action="edit">
+      <div
+        className={cn(
+          "w-72 h-full bg-gray-100 px-4 py-2 border rounded-md space-y-2",
+          isDragging ? "hidden" : ""
+        )}
+        ref={drag as any}
+      >
+        <div className="flex flex-col gap-2">
+          <span className="text-sm font-medium line-clamp-2">
+            {task?.title}
+          </span>
+          <span className="line-clamp-1 text-[13px]">{task?.description}</span>
+        </div>
+
+        {task?.assignee?.id && (
+          <AssigneeInformation
+            name={task.assignee.profileName}
+            url={task.assignee.profileImg}
+            variant="md"
+          />
+        )}
       </div>
-    </div>
+    </EditTask>
   );
 };

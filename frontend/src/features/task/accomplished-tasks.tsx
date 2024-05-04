@@ -5,12 +5,13 @@ import { nanoid } from "nanoid";
 import { Droppable } from "./droppable";
 
 export const AccomplishedTasks = () => {
-  const { done } = useTask();
+  const { done: tasks } = useTask();
 
+  console.log({ tasks });
   return (
     <Droppable key={`drop${nanoid()}`} board="done" label="Done">
       <ul className="grid grid-cols-1 gap-4">
-        {done?.map((el: any) => (
+        {tasks?.map((el: any) => (
           <TaskCard task={el} key={`id_${nanoid()}`} />
         ))}
       </ul>

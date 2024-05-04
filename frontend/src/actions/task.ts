@@ -23,9 +23,8 @@ export const mockCreateTask = async (formdata: FormData) => {
 export const createTask = async (formdata: FormData) => {
   const title = formdata.get("title") as string;
   const description = formdata.get("description") as string;
-  // const assignee = formdata.get("assignee") as string;
-
-  // console.log({ assignee });
+  const assigneeName = formdata.get("assigneeName") as string;
+  const assigneeImg = formdata.get("assigneeImg") as string;
 
   const [user, workspace] = await Promise.all([getUser(), getWorkspace()]);
 
@@ -41,6 +40,10 @@ export const createTask = async (formdata: FormData) => {
       title,
       description,
       workspaceId: workspace?.id ?? null,
+      assignee: {
+        name: assigneeName,
+        img: assigneeImg ?? "",
+      },
     }),
   });
 

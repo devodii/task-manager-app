@@ -9,7 +9,7 @@ import {
   Post,
   UnauthorizedException,
 } from '@nestjs/common';
-import { TaskService } from './task.service';
+import { TaskService } from './services/task.service';
 
 @Controller('task')
 export class TaskController {
@@ -26,21 +26,29 @@ export class TaskController {
       throw new UnauthorizedException('A task must be created by user');
     }
 
-    return await this.taskService.create(
+    const { title, description, workspaceId } = dto;
+
+    const assignee = dto?.assignee;
+
+    return await this.taskService.create({
       userId,
-      dto.title,
-      dto.description,
-      dto.workspaceId,
-    );
+      title,
+      description,
+      workspaceId,
+      assignee: {
+        name: assignee?.name,
+        img: assignee?.img,
+      },
+    });
   }
 
   @Patch(':id')
-  async updateTask(@Param('id') id: number, @Body() dto: any) {
+  async updateTask(@Param('id') id: string, @Body() dto: any) {
     return await this.taskService.update(id, dto);
   }
 
   @Delete(':id')
-  async deleteTask(@Param('id') id: number) {
+  async deleteTask(@Param('id') id: string) {
     return await this.taskService.remove(id);
   }
 }

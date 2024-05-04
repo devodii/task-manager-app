@@ -5,15 +5,19 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinColumn,
   ManyToOne,
-  PrimaryGeneratedColumn,
+  OneToOne,
+  PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { TaskAssignee } from './task-assignee.entity';
+import { TaskStatus } from '../task.interface';
 
 @Entity()
 export class Task {
-  @PrimaryGeneratedColumn('increment')
-  id: number;
+  @PrimaryColumn()
+  id: string;
 
   @Column({ type: 'varchar', nullable: false })
   title: string;
@@ -22,7 +26,7 @@ export class Task {
   description: string;
 
   @Column({ type: 'varchar', default: 'todo' })
-  status: string;
+  status: TaskStatus;
 
   @CreateDateColumn()
   createdAt: Date;
@@ -41,4 +45,8 @@ export class Task {
     onDelete: 'CASCADE',
   })
   workspace: Workspace | null;
+
+  @OneToOne(() => TaskAssignee, (assignee) => assignee.task)
+  @JoinColumn()
+  assignee: TaskAssignee;
 }

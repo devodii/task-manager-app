@@ -32,6 +32,8 @@ export const CreateTask = ({
   const [isOpen, setIsOpen] = React.useState(defaultOpen ?? false);
 
   const { assignees } = useAssignee();
+
+  console.log({ assignees });
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -76,7 +78,11 @@ export const CreateTask = ({
         handleClearParams();
       }}
     >
-      {trigger && <SheetTrigger asChild>{trigger}</SheetTrigger>}
+      {trigger && (
+        <SheetTrigger asChild className="cursor-pointer">
+          {trigger}
+        </SheetTrigger>
+      )}
 
       <SheetContent className="min-w-[600px]">
         <form
@@ -121,7 +127,16 @@ export const CreateTask = ({
             defaultValue={metadata?.description}
           />
 
-          <input name="assignee" value={assignees?.[0]?.value} />
+          <input
+            name="assigneeName"
+            className="hidden"
+            value={assignees?.[0]?.value}
+          />
+          <input
+            name="assigneeName"
+            className="hidden"
+            value={assignees?.[0]?.img}
+          />
 
           <div className="w-full flex items-end justify-end mt-7">
             <SubmitButton className="self-end max-w-[180px]">
