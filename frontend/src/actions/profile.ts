@@ -31,7 +31,7 @@ export const createProfile = async (formdata: FormData) => {
 
   revalidatePath("/dashboard");
 
-  return data;
+  redirect("/dashboard");
 };
 
 const uploadImage = async (image: any): Promise<string> => {

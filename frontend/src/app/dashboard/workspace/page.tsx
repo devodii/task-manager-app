@@ -1,15 +1,34 @@
+import { getProfile } from "@/actions/profile";
 import { getWorkspace } from "@/actions/workpace";
 import { Button } from "@/components/ui/button";
 import { CreateTask } from "@task/create-task";
 import { TaskBoard } from "@task/task-board";
+import { CreateWorkspace } from "@workspace/create-workspace";
 import { SendWorkspaceInvitation } from "@workspace/send-workspace-invitation";
 import { WorkspaceMembers } from "@workspace/workspace-members";
 import * as React from "react";
 
 export default async function WorkspacePage() {
-  const workspace = await getWorkspace();
+  const [profile, workspace] = await Promise.all([
+    getProfile(),
+    getWorkspace(),
+  ]);
 
   const workspaceUrl = process.env.APP_URL + `/join/${workspace?.id}`;
+
+  if (!profile?.data?.id) {
+    return <div>Please create a profile in order to create workspace</div>;
+  }
+
+  if (!workspace?.id)
+    return (
+      <div className="w-full items-center flex justify-center flex-col gap-4">
+        <h4>Create a workspace to start getting organized with your team</h4>
+        <CreateWorkspace username={profile?.data?.username!}>
+          <Button>create workspace</Button>
+        </CreateWorkspace>
+      </div>
+    );
 
   return (
     <div className="container">

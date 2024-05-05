@@ -29,6 +29,7 @@ export const getUser = async (): Promise<User> => {
 
 export const signUp = async (formdata: FormData) => {
   const dto = Object.fromEntries(formdata) as any;
+  const next = formdata.get("next") as string;
 
   const response = await fetch(api + "/auth/signUp", {
     method: "POST",
@@ -41,19 +42,26 @@ export const signUp = async (formdata: FormData) => {
 
   const user = await response.json();
 
+  const userId = user?.data?.id;
+
   if (user?.statusCode == 400) {
     return { success: false, message: "This email is already in use" };
   }
 
-  if (!user?.data?.id) {
+  if (!userId) {
     return { success: false, message: "An unexpected error occured" };
   }
 
-  redirect("/sign-in");
+  cookies().set("task-manager.session", userId, { maxAge: 1000 * 60 * 60 });
+
+  redirect(next ?? "/onboarding");
 };
 
 export const signIn = async (formdata: FormData) => {
   const dto = Object.fromEntries(formdata) as any;
+  const next = formdata.get("next") as string;
+
+  console.log({ next });
 
   const response = await fetch(api + "/auth/signIn", {
     method: "POST",
@@ -78,7 +86,7 @@ export const signIn = async (formdata: FormData) => {
 
   cookies().set("task-manager.session", userId, { maxAge: 1000 * 60 * 60 });
 
-  redirect("/dashboard");
+  redirect(next ?? "/dashboard");
 };
 
 export const signOut = () => {

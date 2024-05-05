@@ -10,10 +10,12 @@ import { toast } from "sonner";
 import { Button } from "./ui/button";
 import { Separator } from "./ui/separator";
 import { Wrapper } from "./wrapper";
+import { SubmitButton } from "./submit-button";
 
 interface Props {
   variant: keyof typeof content;
   action: (formdata: FormData) => any;
+  next?: string;
 }
 
 const content = {
@@ -27,25 +29,11 @@ const content = {
   },
 };
 
-export const AuthForm = ({ variant = "sign-in", action }: Partial<Props>) => {
-  const [isAuthenticating, setIsAuthenticating] = React.useState(false);
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsAuthenticating(true);
-    const formdata = new FormData(e.currentTarget);
-
-    const response = await action?.(formdata);
-
-    if (!response?.success && response?.message) {
-      toast(response?.message, {
-        position: "top-right",
-        description: response?.possibleFix ?? "",
-      });
-    }
-
-    setIsAuthenticating(false);
-  };
+export const AuthForm = ({
+  variant = "sign-in",
+  action,
+  next,
+}: Partial<Props>) => {
   return (
     <Wrapper
       className="h-full w-screen flex gap-6 px-6 md:px-12 lg:px-20"
@@ -58,7 +46,6 @@ export const AuthForm = ({ variant = "sign-in", action }: Partial<Props>) => {
         <form
           className="grid grid-cols-1 gap-4 w-full max-w-3xl mx-auto"
           action={action}
-          onSubmit={handleSubmit}
         >
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
@@ -70,20 +57,9 @@ export const AuthForm = ({ variant = "sign-in", action }: Partial<Props>) => {
             <Input name="password" id="password" type="password" required />
           </div>
 
-          <Button
-            className={cn(
-              `text-white w-full justify-center gap-4 items-center font-semibold ${
-                isAuthenticating ? "cursor-not-allowed" : ""
-              }`
-            )}
-            aria-disabled={isAuthenticating}
-            type="submit"
-          >
-            <span className="text-md">{content[variant].cta}</span>
-            {isAuthenticating && (
-              <CgSpinnerAlt className="animate-spin" size={20} />
-            )}
-          </Button>
+          <input name="next" className="hidden" value={next} />
+
+          <SubmitButton>{content[variant].cta}</SubmitButton>
         </form>
 
         {variant === "sign-in" ? (

@@ -25,7 +25,7 @@ export const createWorkspace = async (formdata: FormData) => {
 
   const workspace: Workspace = await response.json();
 
-  revalidatePath("/dashboard", "page");
+  revalidatePath("/dashboard", "layout");
 
   if (workspace?.id) {
     redirect("/dashboard/workspace");

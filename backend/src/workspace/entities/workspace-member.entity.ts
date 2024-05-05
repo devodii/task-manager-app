@@ -10,9 +10,13 @@ export class WorkspaceMember {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => Workspace, (workspace) => workspace.members)
+  @ManyToOne(() => Workspace, (workspace) => workspace.members, {
+    onDelete: 'CASCADE',
+  })
   workspace: Workspace;
 
-  @ManyToOne(() => Profile, (profile) => profile.workspaces)
+  @ManyToOne(() => Profile, (profile) => profile.workspaces, {
+    onDelete: 'CASCADE',
+  })
   profile: Profile;
 }
