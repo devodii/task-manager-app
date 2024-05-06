@@ -175,18 +175,22 @@ interface AssigneeImageProps {
 }
 
 const AssigneeInformation = React.memo(
-  ({ name, url, variant = "sm" }: AssigneeImageProps) => (
-    <div className="flex items-center gap-1">
-      <Avatar className={variant == "sm" ? "size-4" : "size-6"}>
-        <AvatarImage src={url} className="obect-cover" />
-        <AvatarFallback className="uppercase font-semibold select-none cursor-pointer bg-gray-300 flex items-center justify-center text-center text-[14px]">
-          {getInitials(name)}
-        </AvatarFallback>
-      </Avatar>
+  ({ name, url, variant = "sm" }: AssigneeImageProps) => {
+    if (!name) return null;
 
-      <span className="text-[14px] font-medium">{name}</span>
-    </div>
-  )
+    return (
+      <div className="flex items-center gap-1">
+        <Avatar className={variant == "sm" ? "size-4" : "size-6"}>
+          <AvatarImage src={url} className="obect-cover" />
+          <AvatarFallback className="uppercase font-semibold select-none cursor-pointer bg-gray-300 flex items-center justify-center text-center text-[14px]">
+            {getInitials(name)}
+          </AvatarFallback>
+        </Avatar>
+
+        <span className="text-[14px] font-medium">{name}</span>
+      </div>
+    );
+  }
 );
 
 AssigneeInformation.displayName = "AssigneeInformation";

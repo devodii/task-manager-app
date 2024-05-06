@@ -61,13 +61,15 @@ export const CreateTask = ({
    */
   React.useEffect(() => {
     if (metadata?.assignee?.id) {
-      const ass = {
-        value: metadata?.assignee.profileName,
-        label: metadata.assignee.profileName,
-        img: metadata.assignee.profileImg,
-      };
-
-      setAssignees([ass]);
+      metadata?.assignee.profileName
+        ? setAssignees([
+            {
+              value: metadata?.assignee.profileName,
+              label: metadata.assignee.profileName,
+              img: metadata.assignee.profileImg,
+            },
+          ])
+        : setAssignees([]);
     }
   }, [metadata, isOpen]);
 
@@ -86,7 +88,6 @@ export const CreateTask = ({
     callback?.();
   };
 
-  console.log({ img: assignees[0]?.img });
   return (
     <Sheet
       open={isOpen}
@@ -145,16 +146,20 @@ export const CreateTask = ({
             defaultValue={metadata?.description}
           />
 
-          <input
-            name="assigneeName"
-            className="hidden"
-            value={assignees?.[0]?.value}
-          />
-          <input
-            name="assigneeImg"
-            className="hidden"
-            value={assignees?.[0]?.img}
-          />
+          {assignees?.length > 0 && (
+            <>
+              <input
+                name="assigneeName"
+                className="hidden"
+                value={assignees?.[0]?.value}
+              />
+              <input
+                name="assigneeImg"
+                className="hidden"
+                value={assignees?.[0]?.img}
+              />
+            </>
+          )}
 
           <input
             name="status"

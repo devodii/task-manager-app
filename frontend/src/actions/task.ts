@@ -85,6 +85,8 @@ export const updateTask = async (formdata: FormData, id: number) => {
     const assigneeImg = formdata.get("assigneeImg") as string;
     const status = formdata.get("status") as string;
 
+    console.log({ assigneeName, assigneeImg });
+
     console.log({ status });
 
     console.log({ assigneeId, taskId });

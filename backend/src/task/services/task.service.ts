@@ -87,11 +87,13 @@ export class TaskService {
 
       const assignee = attrs?.assignee as any;
 
+      console.log({ assignee });
+
       Object.assign(task, {
         ...attrs,
         assignee: {
-          profileImg: assignee.img ?? '',
-          profileName: assignee.name,
+          profileImg: assignee?.img ?? '',
+          profileName: assignee?.name ?? '',
         },
         status: attrs.status,
       });
