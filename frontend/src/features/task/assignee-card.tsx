@@ -8,9 +8,15 @@ interface Props {
   name: string;
   url: string;
   variant: "sm" | "md";
+  imgOnly?: boolean;
 }
 
-export const AssigneeCard = ({ name, url, variant = "sm" }: Props) => {
+export const AssigneeCard = ({
+  name,
+  url,
+  variant = "sm",
+  imgOnly = false,
+}: Props) => {
   const [error, setError] = React.useState(false);
 
   if (name?.length < 1) return;
@@ -21,7 +27,16 @@ export const AssigneeCard = ({ name, url, variant = "sm" }: Props) => {
         <div className="size-6 bg-gray-300 text-black rounded-full text-center font-medium text-[14px] uppercase flex items-center justify-center">
           {getInitials(name!)}
         </div>
-        <span className="text-[14px] font-medium">{name}</span>
+        {!imgOnly && (
+          <span
+            className={cn(
+              "font-medium",
+              variant == "sm" ? "text-[11px]" : "text-[14px]"
+            )}
+          >
+            {name}
+          </span>
+        )}
       </div>
     );
 
@@ -39,14 +54,16 @@ export const AssigneeCard = ({ name, url, variant = "sm" }: Props) => {
         )}
         onError={() => setError(true)}
       />
-      <span
-        className={cn(
-          "font-medium",
-          variant == "sm" ? "text-[11px]" : "text-[14px]"
-        )}
-      >
-        {name}
-      </span>
+      {!imgOnly && (
+        <span
+          className={cn(
+            "font-medium",
+            variant == "sm" ? "text-[11px]" : "text-[14px]"
+          )}
+        >
+          {name}
+        </span>
+      )}
     </div>
   );
 };

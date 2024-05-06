@@ -31,8 +31,9 @@ export default async function WorkspacePage() {
     );
 
   return (
-    <div className="container">
-      <div className="w-full flex items-end justify-end">
+    <section className="container">
+      <div className="flex items-center justify-between my-4">
+        <div className="text-2xl font-medium">{workspace.name}</div>
         <SendWorkspaceInvitation invitationLink={workspaceUrl}>
           <Button variant="link" className="underline underline-offser-2">
             Invite people
@@ -53,6 +54,6 @@ export default async function WorkspacePage() {
       <React.Suspense fallback={<div>Loading workspace members...</div>}>
         <WorkspaceMembers workspaceId={workspace?.id!} />
       </React.Suspense>
-    </div>
+    </section>
   );
 }

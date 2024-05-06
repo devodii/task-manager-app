@@ -88,6 +88,8 @@ export const joinWorkspace = async (workspaceId: string) => {
 
   if (!memberAddedToWorkspace?.success) return;
 
+  revalidatePath("/dashboard/teams");
+
   redirect("/dashboard/teams");
 };
 
