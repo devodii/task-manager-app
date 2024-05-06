@@ -3,13 +3,12 @@
 import { X } from "lucide-react";
 import * as React from "react";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useWorkspaceMembers } from "@/contexts/workspace-members-context";
 import { parseElementsContext } from "@/lib/context";
-import { getInitials } from "@/lib/utils";
 import { Badge } from "@ui/badge";
 import { Command, CommandGroup, CommandItem } from "@ui/command";
 import { Command as CommandPrimitive } from "cmdk";
+import { AssigneeCard } from "./assignee-card";
 
 // @ts-ignore
 const AssigneeContext = React.createContext<{
@@ -98,7 +97,7 @@ const AssigneeSelector = () => {
                 variant="secondary"
                 className="flex items-center gap-1 bg-white hover:bg-white"
               >
-                <AssigneeInformation
+                <AssigneeCard
                   name={member.value}
                   url={member.img}
                   variant="md"
@@ -150,7 +149,7 @@ const AssigneeSelector = () => {
                     }}
                     className="cursor-pointer flex items-center gap-2"
                   >
-                    <AssigneeInformation
+                    <AssigneeCard
                       name={member.value}
                       url={member.img}
                       variant="md"
@@ -168,31 +167,4 @@ const AssigneeSelector = () => {
 
 AssigneeSelector.displayName = "AssigneeSelector";
 
-interface AssigneeImageProps {
-  name: string;
-  url: string;
-  variant?: "sm" | "md";
-}
-
-const AssigneeInformation = React.memo(
-  ({ name, url, variant = "sm" }: AssigneeImageProps) => {
-    if (!name) return null;
-
-    return (
-      <div className="flex items-center gap-1">
-        <Avatar className={variant == "sm" ? "size-4" : "size-6"}>
-          <AvatarImage src={url} className="obect-cover" />
-          <AvatarFallback className="uppercase font-semibold select-none cursor-pointer bg-gray-300 flex items-center justify-center text-center text-[14px]">
-            {getInitials(name)}
-          </AvatarFallback>
-        </Avatar>
-
-        <span className="text-[14px] font-medium">{name}</span>
-      </div>
-    );
-  }
-);
-
-AssigneeInformation.displayName = "AssigneeInformation";
-
-export { AssigneeInformation, AssigneeProvider, AssigneeSelector, useAssignee };
+export { AssigneeProvider, AssigneeSelector, useAssignee };

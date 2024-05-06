@@ -11,8 +11,8 @@ import { Task } from "@/types";
 import { AssigneeSelector, useAssignee } from "@task/assignee-selector";
 import { useRouter, useSearchParams } from "next/navigation";
 
-import { Users } from "@phosphor-icons/react";
 import { useTask } from "@/contexts/task-context";
+import { Users } from "@phosphor-icons/react";
 interface Props {
   children?: React.ReactNode;
   action?: "create" | "edit";

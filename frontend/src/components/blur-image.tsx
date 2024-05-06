@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import Image, { type ImageProps } from "next/image";
 import * as React from "react";
 
+interface Props extends ImageProps {}
 export const BlurImage = ({ src, className, ...rest }: ImageProps) => {
   const [isLoading, setIsLoading] = React.useState(true);
   return (

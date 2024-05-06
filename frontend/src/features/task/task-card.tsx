@@ -3,8 +3,8 @@
 import { cn } from "@/lib/utils";
 import { Task } from "@/types";
 import { useDrag } from "react-dnd";
+import { AssigneeCard } from "./assignee-card";
 import { CreateTask as EditTask } from "./create-task";
-import { AssigneeInformation } from "./assignee-selector";
 
 interface Props {
   task: Task;
@@ -36,10 +36,10 @@ export const TaskCard = ({ task }: Props) => {
         </div>
 
         {task?.assignee?.id && (
-          <AssigneeInformation
+          <AssigneeCard
             name={task.assignee.profileName}
             url={task.assignee.profileImg}
-            variant="md"
+            variant="sm"
           />
         )}
       </div>
