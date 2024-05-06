@@ -1,16 +1,12 @@
 "use client";
 
-import { cn } from "@/lib/utils";
 import { Input } from "@ui/input";
 import { Label } from "@ui/label";
 import Link from "next/link";
-import * as React from "react";
-import { CgSpinnerAlt } from "react-icons/cg";
-import { toast } from "sonner";
-import { Button } from "./ui/button";
+import { useSearchParams } from "next/navigation";
+import { SubmitButton } from "./submit-button";
 import { Separator } from "./ui/separator";
 import { Wrapper } from "./wrapper";
-import { SubmitButton } from "./submit-button";
 
 interface Props {
   variant: keyof typeof content;
@@ -34,6 +30,12 @@ export const AuthForm = ({
   action,
   next,
 }: Partial<Props>) => {
+  const searchParams = useSearchParams();
+  const params = new URLSearchParams(searchParams);
+
+  const queryStrings: any[] = [];
+  params.forEach((val, key) => queryStrings.push(`${key}=${val}`));
+
   return (
     <Wrapper
       className="h-full w-screen flex gap-6 px-6 md:px-12 lg:px-20"
@@ -65,14 +67,20 @@ export const AuthForm = ({
         {variant === "sign-in" ? (
           <div className="flex items-center justify-center gap-1">
             <span> Dont have an account yet?</span>{" "}
-            <Link href="/sign-up" className="underline underline-offset-2">
+            <Link
+              href={`/sign-up?${queryStrings.join("&")}`}
+              className="underline underline-offset-2"
+            >
               Sign up
             </Link>
           </div>
         ) : (
           <div className="flex items-center justify-center gap-1">
             <span>Already have an accont?</span>{" "}
-            <Link href="/sign-in" className="underline underline-offset-2">
+            <Link
+              href={`/sign-in?${queryStrings.join("&")}`}
+              className="underline underline-offset-2"
+            >
               Sign in
             </Link>
           </div>
@@ -81,7 +89,7 @@ export const AuthForm = ({
 
       <div className="hidden md:flex md:w-2/5 h-screen gap-12 items-center">
         <Separator className="h-full w-px" />
-        <div className="text-2xl ">Task Manager</div>
+        <div className="text-2xl">Task Manager</div>
       </div>
     </Wrapper>
   );

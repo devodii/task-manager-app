@@ -29,9 +29,10 @@ export const createProfile = async (formdata: FormData) => {
 
   const data = await response.json();
 
+  revalidatePath("/onboarding");
   revalidatePath("/dashboard");
 
-  redirect("/dashboard");
+  return data;
 };
 
 const uploadImage = async (image: any): Promise<string> => {

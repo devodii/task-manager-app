@@ -54,7 +54,7 @@ export const signUp = async (formdata: FormData) => {
 
   cookies().set("task-manager.session", userId, { maxAge: 1000 * 60 * 60 });
 
-  redirect(next ?? "/onboarding");
+  redirect(`/onboarding?next=${next}`);
 };
 
 export const signIn = async (formdata: FormData) => {
@@ -86,7 +86,7 @@ export const signIn = async (formdata: FormData) => {
 
   cookies().set("task-manager.session", userId, { maxAge: 1000 * 60 * 60 });
 
-  redirect(next ?? "/dashboard");
+  redirect(!!next?.length ? next : "/dashboard");
 };
 
 export const signOut = () => {

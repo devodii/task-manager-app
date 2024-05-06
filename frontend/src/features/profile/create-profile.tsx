@@ -5,15 +5,16 @@ import { SubmitButton } from "@/components/submit-button";
 import { buttonVariants } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
-import { Profile } from "@/types";
 import { Input } from "@ui/input";
 import { Label } from "@ui/label";
 import * as React from "react";
+import { toast } from "sonner";
 
 export const CreateProfile = ({
   children: trigger,
 }: React.PropsWithChildren) => {
   const [imageSrc, setImageSrc] = React.useState(null);
+  const [open, setOpen] = React.useState(false);
 
   const handleImageChange = (e: any) => {
     const file = e.target.files[0];
@@ -28,8 +29,24 @@ export const CreateProfile = ({
     }
   };
 
+  const handleCreate = async (e: any) => {
+    try {
+      e.preventDefault();
+
+      const formdata = new FormData(e.currentTarget);
+
+      const res = await createProfile(formdata);
+
+      if (!res?.data?.id) {
+        toast("An error occured while creating your profile.");
+      }
+    } catch (error) {
+    } finally {
+      setOpen(false);
+    }
+  };
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       {trigger && <DialogTrigger asChild>{trigger}</DialogTrigger>}
 
       <DialogContent className="max-w-5xl flex items-center justify-center">
@@ -39,7 +56,7 @@ export const CreateProfile = ({
           </h2>
 
           <form
-            action={createProfile}
+            onSubmit={handleCreate}
             className="w-full mx-auto max-w-xl space-y-6"
           >
             <div className="w-full flex-col flex items-center justify-center">

@@ -1,15 +1,14 @@
-import { Button } from "@/components/ui/button";
-import { Wrapper } from "@/components/wrapper";
-import { CreateProfile } from "@profile/create-profile";
+import { getProfile } from "@/actions/profile";
+import { OnboardingClient } from "./client";
 
-export default function OnboardingPage() {
-  return (
-    <Wrapper className="flex-col gap-4">
-      <div>Youre almost set</div>
+interface Props {
+  searchParams?: {
+    next: string;
+  };
+}
 
-      <CreateProfile>
-        <Button>create profile</Button>
-      </CreateProfile>
-    </Wrapper>
-  );
+export default async function OnboardingPage({ searchParams }: Props) {
+  const profile = await getProfile();
+
+  return <OnboardingClient next={searchParams?.next} profile={profile?.data} />;
 }
