@@ -94,6 +94,8 @@ const TaskProvider = ({ children }: React.PropsWithChildren) => {
      * 3. Updates the task status via ws after 5s.
      */
 
+    if (from == to) return;
+
     const fromBoard = getBoard(from);
     const taskToMove = fromBoard.find((el: Task) => el.id == id)!;
     const updatedTaskToMove = { ...taskToMove, status: to };
