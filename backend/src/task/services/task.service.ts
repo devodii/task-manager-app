@@ -104,7 +104,7 @@ export class TaskService {
           id: assignee?.id,
           task,
           profileImg: assignee?.img,
-          profileName: assignee.name,
+          profileName: assignee?.name,
         }),
       ]);
 
@@ -112,6 +112,15 @@ export class TaskService {
     } catch (error) {
       console.log('an error occured while updating task', error);
     }
+  }
+
+  async findByWorkspace(workspaceId: string) {
+    const tasks = await this.repo.find({
+      where: { workspace: { id: workspaceId } },
+      relations: ['workspace'],
+    });
+
+    return tasks;
   }
 
   async remove(id: string) {

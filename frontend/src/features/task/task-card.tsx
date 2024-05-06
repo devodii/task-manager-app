@@ -23,7 +23,7 @@ export const TaskCard = ({ task }: Props) => {
     <EditTask metadata={task} action="edit">
       <div
         className={cn(
-          "w-72 h-full bg-gray-100 px-4 py-2 border rounded-md space-y-2",
+          "w-full min-w-52 h-full bg-gray-100 px-4 py-2 border rounded-md space-y-2",
           isDragging ? "hidden" : ""
         )}
         ref={drag as any}

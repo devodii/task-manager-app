@@ -6,6 +6,7 @@ import { TaskBoard } from "@task/task-board";
 import { CreateWorkspace } from "@workspace/create-workspace";
 import { SendWorkspaceInvitation } from "@workspace/send-workspace-invitation";
 import { WorkspaceMembers } from "@workspace/workspace-members";
+import { nanoid } from "nanoid";
 import * as React from "react";
 
 export default async function WorkspacePage() {
@@ -42,7 +43,7 @@ export default async function WorkspacePage() {
       </div>
 
       <React.Suspense fallback={<div>Loading task board..</div>}>
-        <TaskBoard />
+        <TaskBoard isOwner key={`task_board_${nanoid()}`} />
       </React.Suspense>
 
       <CreateTask>

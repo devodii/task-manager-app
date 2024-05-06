@@ -85,12 +85,6 @@ export const updateTask = async (formdata: FormData, id: number) => {
     const assigneeImg = formdata.get("assigneeImg") as string;
     const status = formdata.get("status") as string;
 
-    console.log({ assigneeName, assigneeImg });
-
-    console.log({ status });
-
-    console.log({ assigneeId, taskId });
-
     const user = await getUser();
 
     const userId = user?.id;
@@ -148,5 +142,32 @@ export const removeTask = async (id: number) => {
     revalidatePath("/dashboard");
   } catch (error) {
     console.log("An error occured while updating task", { error });
+  }
+};
+
+export const getWorkspaceTasks = async (workspaceId: string) => {
+  try {
+    const user = await getUser();
+
+    const userId = user?.id;
+
+    if (!userId) return [];
+
+    const response = await fetch(
+      api + `/task/workspace?workspaceId=${workspaceId}`,
+      {
+        method: "GET",
+        headers: {
+          SessionId: user?.id ?? "",
+        },
+      }
+    );
+
+    const tasks = await response.json();
+
+    return tasks as Task[];
+  } catch (error) {
+    console.log("An error occured while fetching tasks", { error });
+    return [];
   }
 };

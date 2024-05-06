@@ -7,6 +7,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   UnauthorizedException,
 } from '@nestjs/common';
 import { TaskService } from './services/task.service';
@@ -18,6 +19,11 @@ export class TaskController {
   @Get()
   async getTasks(@Headers('SessionId') userId: string) {
     return await this.taskService.findByUser(userId);
+  }
+
+  @Get('workspace')
+  async getWorkspaceTasks(@Query('workspaceId') workspaceId: string) {
+    return await this.taskService.findByWorkspace(workspaceId);
   }
 
   @Post()

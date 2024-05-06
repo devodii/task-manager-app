@@ -1,8 +1,15 @@
-import { getTasks } from "@/actions/task";
+import { getTasks, getWorkspaceTasks } from "@/actions/task";
 import { ClientTaskBoard } from "./client-task-board";
 
-export const TaskBoard = async () => {
-  const tasks = await getTasks();
+interface Props {
+  isOwner?: boolean;
+  workspaceId?: string;
+}
+
+export const TaskBoard = async ({ isOwner, workspaceId }: Props) => {
+  const tasks = isOwner
+    ? await getTasks()
+    : await getWorkspaceTasks(workspaceId!);
 
   const tasksInTodo = tasks.filter((task) => task.status == "todo");
   const tasksInProgress = tasks.filter((task) => task.status == "in_progress");
