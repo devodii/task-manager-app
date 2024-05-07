@@ -1,12 +1,15 @@
 "use client";
 
+import * as React from "react";
+
 import { Input } from "@ui/input";
 import { Label } from "@ui/label";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { SubmitButton } from "./submit-button";
+import { Button } from "./ui/button";
 import { Separator } from "./ui/separator";
 import { Wrapper } from "./wrapper";
+import { toast } from "sonner";
 
 interface Props {
   variant: keyof typeof content;
@@ -36,6 +39,8 @@ export const AuthForm = ({
   const queryStrings: any[] = [];
   params.forEach((val, key) => queryStrings.push(`${key}=${val}`));
 
+  const [isAuthenticating, setIsAuthenticating] = React.useState(false);
+
   return (
     <Wrapper
       className="h-full w-screen flex gap-6 px-6 md:px-12 lg:px-20"
@@ -47,11 +52,28 @@ export const AuthForm = ({
         </h2>
         <form
           className="grid grid-cols-1 gap-4 w-full max-w-3xl mx-auto"
-          action={action}
+          onSubmit={async (e) => {
+            e.preventDefault();
+            setIsAuthenticating(true);
+            const formdata = new FormData(e.currentTarget);
+            const response = await action?.(formdata);
+
+            switch (response?.code) {
+              case 404:
+                toast("Account not found", { position: "top-right" });
+                break;
+
+              case 400:
+                toast("Email in use", { position: "top-right" });
+                break;
+            }
+
+            setIsAuthenticating(false);
+          }}
         >
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
-            <Input name="email" id="email" required />
+            <Input name="email" id="email" required type="email" />
           </div>
 
           <div className="space-y-2">
@@ -61,7 +83,13 @@ export const AuthForm = ({
 
           <input name="next" className="hidden" value={next} />
 
-          <SubmitButton>{content[variant].cta}</SubmitButton>
+          <Button
+            type="submit"
+            className="text-white w-full justify-center gap-4 items-center font-semibold"
+            disabled={isAuthenticating}
+          >
+            {content[variant].cta}
+          </Button>
         </form>
 
         {variant === "sign-in" ? (

@@ -5,12 +5,13 @@ import { AssigneeCard } from "@task/assignee-card";
 import { nanoid } from "nanoid";
 import Link from "next/link";
 
+import { getProfile } from "@/actions/profile";
 import { CaretRight } from "./client";
 
 export const dynamic = "force-dynamic";
 
 export default async function TeamsPage() {
-  const teams = await getTeams();
+  const [teams, profile] = await Promise.all([getTeams(), getProfile()]);
 
   return (
     <ul className="w-full grid grid-cols-1 gap-4">
@@ -30,7 +31,7 @@ export default async function TeamsPage() {
 
                 <div className="flex items-center gap-1">
                   <div className="flex">
-                    {members.map((member) => (
+                    {members.slice(0, 4).map((member) => (
                       <div key={nanoid()} className="-ml-3">
                         <AssigneeCard
                           imgOnly
@@ -40,6 +41,14 @@ export default async function TeamsPage() {
                         />
                       </div>
                     ))}
+                    <div key={nanoid()} className="-ml-3">
+                      <AssigneeCard
+                        imgOnly
+                        name={profile?.data?.username!}
+                        url={profile?.data?.imageUrl!}
+                        variant="md"
+                      />
+                    </div>
                   </div>
                   <CaretRight
                     size={18}
