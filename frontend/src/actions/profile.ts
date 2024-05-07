@@ -58,19 +58,19 @@ const uploadImage = async (image: any): Promise<string> => {
 
 export const getProfile = async () => {
   try {
-    const SessionId = cookies().get("task-manager.session")?.value ?? "";
+  const SessionId = cookies().get("merchant_id")?.value ?? "";
 
-    const response = await fetch(api + "/profile", {
-      method: "GET",
-      headers: {
-        SessionId,
-      },
-      credentials: "include",
-    });
+  const response = await fetch(api + "/profile", {
+    method: "GET",
+    headers: {
+      SessionId,
+    },
+    credentials: "include",
+  });
 
-    const profile: ApiResponse<Profile> = await response.json();
+  const profile: ApiResponse<Profile> = await response.json();
 
-    return profile;
+  return profile;
   } catch (error) {
     console.log("An error occured while fetching profile", { error });
     return;

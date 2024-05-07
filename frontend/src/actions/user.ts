@@ -8,19 +8,19 @@ const api = process.env.API_URL;
 
 export const getUser = async (): Promise<User> => {
   try {
-    const SessionId = cookies().get("task-manager.session")?.value ?? "";
+  const SessionId = cookies().get("merchant_id")?.value ?? "";
 
-    const response = await fetch(api + "/auth/whoAmI", {
-      method: "GET",
-      headers: {
-        SessionId,
-      },
-      credentials: "include",
-    });
+  const response = await fetch(api + "/auth/whoAmI", {
+    method: "GET",
+    headers: {
+      SessionId,
+    },
+    credentials: "include",
+  });
 
-    const user = await response.json();
+  const user = await response.json();
 
-    return user;
+  return user;
   } catch (error) {
     console.log("An error occured while fetching user", { error });
     return {} as any;
@@ -52,7 +52,7 @@ export const signUp = async (formdata: FormData) => {
     return { success: false, message: "An unexpected error occured" };
   }
 
-  cookies().set("task-manager.session", userId, { maxAge: 1000 * 60 * 60 });
+  cookies().set("merchant_id", userId, { maxAge: 1000 * 60 * 60 });
 
   redirect(`/onboarding?${next ? `next=${next}` : ""}`);
 };
@@ -84,12 +84,12 @@ export const signIn = async (formdata: FormData) => {
     };
   }
 
-  cookies().set("task-manager.session", userId, { maxAge: 1000 * 60 * 60 });
+  cookies().set("merchant_id", userId, { maxAge: 1000 * 60 * 60 });
 
-  redirect(!!next?.length ? next : "/dashboard");
+  redirect(next?.length > 0 ? next : "/dashboard");
 };
 
 export const signOut = () => {
-  cookies().delete("task-manager.session");
+  cookies().delete("merchant_id");
   redirect("/");
 };
