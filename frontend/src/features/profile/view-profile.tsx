@@ -12,8 +12,8 @@ export const ViewProfile = ({ data }: Props) => {
         <figure className="flex items-center justify-center flex-col gap-2">
           <figcaption>Photo</figcaption>
           <BlurImage
-            src={data.imageUrl!}
-            alt={`${data.username} on task manager app`}
+            src={data?.imageUrl!}
+            alt={`${data?.username} on task manager app`}
             width={150}
             height={150}
             quality={80}
@@ -23,7 +23,7 @@ export const ViewProfile = ({ data }: Props) => {
 
         <div className="flex gap-2 items-center">
           <span>Name:</span>
-          <span>{data.username}</span>
+          <span>{data?.username}</span>
         </div>
       </div>
     </section>

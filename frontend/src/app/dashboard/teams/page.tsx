@@ -31,16 +31,21 @@ export default async function TeamsPage() {
 
                 <div className="flex items-center gap-1">
                   <div className="flex">
-                    {members.slice(0, 4).map((member) => (
-                      <div key={nanoid()} className="-ml-3">
-                        <AssigneeCard
-                          imgOnly
-                          name={member.username}
-                          url={member.imageUrl}
-                          variant="md"
-                        />
-                      </div>
-                    ))}
+                    {members
+                      .slice(0, 4)
+                      .filter(
+                        (member) => member.username !== profile?.data?.username
+                      )
+                      .map((member) => (
+                        <div key={nanoid()} className="-ml-3">
+                          <AssigneeCard
+                            imgOnly
+                            name={member.username}
+                            url={member.imageUrl}
+                            variant="md"
+                          />
+                        </div>
+                      ))}
                     <div key={nanoid()} className="-ml-3">
                       <AssigneeCard
                         imgOnly
