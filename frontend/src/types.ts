@@ -1,3 +1,5 @@
+export type ActionType<T = string, P = any> = { type: T; payload?: P };
+
 export type ApiResponse<TData = Record<string, any>> = {
   object: string;
   status: boolean;
@@ -11,13 +13,22 @@ export type User = {
   updatedAt: string;
 };
 
+export type TaskStatus = "todo" | "in_progress" | "done";
+
 export type Task = {
-  id: number;
+  id: string;
   title: string;
+  status: TaskStatus;
   description: string;
   createdAt: string;
   updatedAt: string;
   deletedAt: string;
+
+  assignee?: {
+    id: string;
+    profileName: string;
+    profileImg: string;
+  };
 };
 
 export type Feedback = {
@@ -45,4 +56,9 @@ export type Workspace = {
 export type WorkspaceMember = {
   username: string;
   imageUrl: string;
+};
+
+export type Team = {
+  id: string;
+  workspace: Workspace;
 };

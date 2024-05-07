@@ -1,5 +1,4 @@
 import { BlurImage } from "@/components/blur-image";
-import { Wrapper } from "@/components/wrapper";
 import { Profile } from "@/types";
 
 interface Props {
@@ -8,20 +7,13 @@ interface Props {
 
 export const ViewProfile = ({ data }: Props) => {
   return (
-    <Wrapper
-      className="min-h-full justify-start my-12 md:my-16 lg:my-20 flex-col gap-12"
-      as="section"
-    >
-      <h2 className="text-2xl md:text-3xl font-semibold text-center">
-        Your Profile
-      </h2>
-
+    <section className="min-h-full justify-start my-12 md:my-16 lg:my-20 flex-col gap-12">
       <div className="flex flex-col items-center justify-center gap-4">
         <figure className="flex items-center justify-center flex-col gap-2">
           <figcaption>Photo</figcaption>
           <BlurImage
             src={data.imageUrl!}
-            alt="user on task manager app"
+            alt={`${data.username} on task manager app`}
             width={150}
             height={150}
             quality={80}
@@ -34,6 +26,6 @@ export const ViewProfile = ({ data }: Props) => {
           <span>{data.username}</span>
         </div>
       </div>
-    </Wrapper>
+    </section>
   );
 };

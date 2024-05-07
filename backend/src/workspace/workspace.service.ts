@@ -16,13 +16,21 @@ export class WorkspaceService {
   ) {}
 
   async create(ownerId: string, name: string) {
-    const workspace = this.repo.create({
-      id: `workspace_${nanoid()}`,
-      owner: { id: ownerId },
-      name,
-    });
+    try {
+      const workspace = this.repo.create({
+        id: `workspace_${nanoid()}`,
+        owner: { id: ownerId },
+        name,
+      });
 
-    return await this.repo.save(workspace);
+      const save = await this.repo.save(workspace);
+
+      await this.addMemberToWorkspace(ownerId, save?.id);
+
+      return save;
+    } catch (error) {
+      console.log('an error occured while creating workspace');
+    }
   }
 
   async findUserWorkspace(ownerId: string) {
@@ -48,16 +56,22 @@ export class WorkspaceService {
         await this.profileService.findOne(profileId),
       ]);
 
+      const existingMember = await this.workspaceMememberRepo.findOne({
+        where: {
+          workspace: { id: workspace?.id },
+          profile: { id: profile?.data?.id },
+        },
+        relations: ['profile', 'workspace'],
+      });
+
       if (!workspace?.id || !profileId) {
         console.log('one of the requirements wasnt met.');
         return;
       }
 
-      /**
-       * A workspace owner cannot invite himself to join same workspace
-       */
-      if (workspace?.owner?.id === profile?.data.id) {
-        return { success: true, message: 'member already exists' };
+      // returns true if that member already exists.
+      if (existingMember?.profile?.id) {
+        return { success: true };
       }
 
       const newMember = this.workspaceMememberRepo.create({
@@ -71,7 +85,9 @@ export class WorkspaceService {
 
       return { success: true, message: 'member added' };
     } catch (error) {
-      console.log('An error occured while adding member to a workspace');
+      console.log('An error occured while adding member to a workspace', {
+        error,
+      });
     }
   }
 

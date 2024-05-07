@@ -26,7 +26,7 @@ export default async function Index() {
       <h2 className="text-4xl md:text-5xl font-semibold mt-24 text-center">
         Better productivity ahead
       </h2>
-      <p className="text-xl text-center">You set your task and achieve it.</p>
+      <p className="text-xl text-center">The open source linear alternative</p>
 
       <form
         className="flex items-center flex-wrap gap-4 w-full max-w-4xl"

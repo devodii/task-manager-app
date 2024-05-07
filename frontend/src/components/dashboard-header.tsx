@@ -1,9 +1,7 @@
 import { getProfile } from "@/actions/profile";
 import { getUser } from "@/actions/user";
 import { ProfileDialog } from "@profile/profile-dialog";
-import { CreateTask } from "@task/create-task";
 import { Avatar, AvatarFallback, AvatarImage } from "@ui/avatar";
-import { Button } from "@ui/button";
 import Link from "next/link";
 
 export const DashboardHeader = async () => {

@@ -32,7 +32,7 @@ export default async function JoinWorkspacePage({
           <JoinWorkspaceButton workspaceId={workspace?.id} />
         ) : (
           <Button asChild>
-            <Link href="/sign-in">Login</Link>
+            <Link href={`/sign-in?next=/join/${workspaceId}`}>Login</Link>
           </Button>
         )}
       </div>

@@ -23,8 +23,15 @@
       "@profile/*": ["./src/features/profile/*"],
       "@task/*": ["./src/features/task/*"],
       "@workspace/*": ["./src/features/workspace/*"],
+      "@providers/*": ["./src/providers/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "src/features/task/create-tas.tsx"
+  ],
   "exclude": ["node_modules"]
 }

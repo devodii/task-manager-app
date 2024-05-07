@@ -25,7 +25,7 @@ export const createWorkspace = async (formdata: FormData) => {
 
   const workspace: Workspace = await response.json();
 
-  revalidatePath("/dashboard", "page");
+  revalidatePath("/dashboard", "layout");
 
   if (workspace?.id) {
     redirect("/dashboard/workspace");
@@ -88,7 +88,9 @@ export const joinWorkspace = async (workspaceId: string) => {
 
   if (!memberAddedToWorkspace?.success) return;
 
-  redirect("/dashboard");
+  revalidatePath("/dashboard/teams");
+
+  redirect("/dashboard/teams");
 };
 
 export const getWorkspaceMembers = async (workspaceId: string) => {
