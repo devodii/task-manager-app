@@ -16,6 +16,7 @@ import {
 import { Input } from "@ui/input";
 import { Label } from "@ui/label";
 import { CgSpinnerAlt } from "react-icons/cg";
+import { toast } from "sonner";
 
 interface Props {
   children?: React.ReactNode;
@@ -33,11 +34,20 @@ export const CreateWorkspace = ({ children: trigger, username }: Props) => {
     e.preventDefault();
     setIsLoading(true);
 
-    // todo: handle errors
-    const formdata = new FormData(e.currentTarget);
-    await createWorkspace(formdata);
+    try {
+      const formdata = new FormData(e.currentTarget);
+      const response = await createWorkspace(formdata);
 
-    callback?.();
+      if (!response.success) {
+        toast("An error occured while creating your workspace");
+      }
+
+    } catch (error) {
+      // do nothing..
+    } finally {
+      callback?.();
+      setIsLoading(false);
+    }
   };
 
   return (

@@ -31,7 +31,7 @@ export const createWorkspace = async (formdata: FormData) => {
     redirect("/dashboard/workspace");
   }
 
-  return { success: true };
+  return { success: false };
 };
 
 export const getWorkspace = async () => {
