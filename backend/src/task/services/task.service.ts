@@ -117,7 +117,7 @@ export class TaskService {
   async findByWorkspace(workspaceId: string) {
     const tasks = await this.repo.find({
       where: { workspace: { id: workspaceId } },
-      relations: ['workspace'],
+      relations: ['workspace', 'assignee'],
     });
 
     return tasks;

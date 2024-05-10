@@ -1,6 +1,6 @@
 "use client";
 
-import { useTask } from "@/contexts/task-context";
+import { useTask } from "@/hooks/use-task";
 import { Task } from "@/types";
 import * as React from "react";
 import { AccomplishedTasks } from "./accomplished-tasks";

@@ -17,7 +17,7 @@ export const mockCreateTask = async (formdata: FormData) => {
     redirect("/sign-in");
   }
 
-  redirect(`/dashboard?task=${task}`);
+  redirect(`/dashboard/workspace?task=${task}`);
 };
 
 export const createTask = async (formdata: FormData) => {
@@ -26,7 +26,9 @@ export const createTask = async (formdata: FormData) => {
   const assigneeName = formdata.get("assigneeName") as string;
   const assigneeImg = formdata.get("assigneeImg") as string;
 
-  const [user, workspace] = await Promise.all([getUser(), getWorkspace()]);
+  const workspaceId = formdata.get("workspaceId");
+
+  const user = await getUser();
 
   const userId = user?.id;
 
@@ -39,7 +41,7 @@ export const createTask = async (formdata: FormData) => {
     body: JSON.stringify({
       title,
       description,
-      workspaceId: workspace?.id ?? null,
+      workspaceId: workspaceId ?? null,
       assignee: {
         name: assigneeName ?? "",
         img: assigneeImg ?? "",

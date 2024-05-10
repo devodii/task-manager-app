@@ -1,6 +1,5 @@
 "use client";
 
-// todo: fix types.
 import { parseElementsContext } from "@/lib/context";
 import { socket } from "@/lib/socket";
 import { ActionType, Task, TaskStatus } from "@/types";

@@ -3,7 +3,7 @@
 import { X } from "lucide-react";
 import * as React from "react";
 
-import { useWorkspaceMembers } from "@/contexts/workspace-members-context";
+import { useWorkspaceMembers } from "@/hooks/use-workspace-member";
 import { parseElementsContext } from "@/lib/context";
 import { Badge } from "@ui/badge";
 import { Command, CommandGroup, CommandItem } from "@ui/command";

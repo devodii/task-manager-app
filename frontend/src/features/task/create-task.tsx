@@ -11,13 +11,16 @@ import { Task } from "@/types";
 import { AssigneeSelector, useAssignee } from "@task/assignee-selector";
 import { useRouter, useSearchParams } from "next/navigation";
 
-import { useTask } from "@/contexts/task-context";
+import { useTask } from "@/hooks/use-task";
 import { Users } from "@phosphor-icons/react";
+
 interface Props {
   children?: React.ReactNode;
   action?: "create" | "edit";
   metadata?: Task;
   defaultOpen?: boolean;
+  defaultTitle?: string;
+  workspaceId: string;
 }
 
 export const CreateTask = ({
@@ -25,10 +28,12 @@ export const CreateTask = ({
   defaultOpen,
   action = "create",
   metadata,
+  defaultTitle = "",
+  workspaceId,
 }: Partial<Props>) => {
   const titleRef = React.useRef<HTMLTextAreaElement>();
   const descriptionRef = React.useRef<HTMLInputElement>();
-  const [title, setTitle] = React.useState(metadata?.title ?? "");
+  const [title, setTitle] = React.useState(metadata?.title ?? defaultTitle);
 
   const [isOpen, setIsOpen] = React.useState(defaultOpen ?? false);
 
@@ -45,7 +50,7 @@ export const CreateTask = ({
 
     if (task) {
       params.delete("task");
-      router.replace("/dashboard");
+      router.replace("/dashboard/workspace");
     }
   };
 
@@ -73,19 +78,19 @@ export const CreateTask = ({
     }
   }, [metadata, isOpen]);
 
-  const handleSubmit = async (
-    e: React.FormEvent<HTMLFormElement>,
-    callback: any
-  ) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsOpen(false);
 
     const formdata = new FormData(e.currentTarget);
+
+    if (action === "create") {
+      setTitle("");
+    }
 
     action == "create"
       ? await createTask(formdata)
       : await updateTask(formdata, metadata?.id as any);
-
-    callback?.();
   };
 
   return (
@@ -104,13 +109,7 @@ export const CreateTask = ({
       )}
 
       <SheetContent className="min-w-[600px]">
-        <form
-          onSubmit={(e: any) =>
-            handleSubmit(e, () => {
-              setIsOpen(false);
-            })
-          }
-        >
+        <form onSubmit={handleSubmit}>
           <Textarea
             className="overflow-y-hidden font-bold text-3xl border-none outline-none ring-none focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-2xl placeholder:font-semibold placeholder:text-gray-600"
             autoFocus
@@ -177,6 +176,8 @@ export const CreateTask = ({
               />
             </>
           )}
+
+          <Input name="workspaceId" value={workspaceId} className="hidden" />
 
           <div className="w-full flex items-end justify-end mt-7">
             <SubmitButton className="self-end max-w-[180px]">

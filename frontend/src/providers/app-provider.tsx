@@ -1,7 +1,7 @@
 "use client";
 
-import { TaskProvider } from "@/contexts/task-context";
-import { WorkspaceMembersProvider } from "@/contexts/workspace-members-context";
+import { TaskProvider } from "@/hooks/use-task";
+import { WorkspaceMembersProvider } from "@/hooks/use-workspace-member";
 import { AssigneeProvider } from "@task/assignee-selector";
 import * as React from "react";
 import { DndProvider } from "react-dnd";

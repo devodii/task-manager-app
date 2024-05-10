@@ -4,6 +4,7 @@ import { SubmitButton } from "@/components/submit-button";
 import { Button } from "@ui/button";
 import { Input } from "@ui/input";
 import Link from "next/link";
+import { IoLogoGithub } from "./client";
 
 export default async function Index() {
   const user = await getUser();
@@ -23,10 +24,10 @@ export default async function Index() {
         )}
       </header>
 
-      <h2 className="text-4xl md:text-5xl font-semibold mt-24 text-center from-[hsl(var(--muted))] from-0% to-[hsl(var(--foreground))] to-40%">
+      <h2 className="text-4xl md:text-5xl font-semibold mt-24 text-center">
         Better productivity ahead
       </h2>
-      <p className="text-muted text-xl text-center">The open source linear alternative</p>
+      <p className="text-xl text-center">The open source linear alternative</p>
 
       <form
         className="flex items-center flex-wrap gap-4 w-full max-w-4xl"
@@ -40,6 +41,10 @@ export default async function Index() {
         />
         <SubmitButton className="flex-1 py-5">Set task</SubmitButton>
       </form>
+
+      <Link href="https://github.com/devodii/task-manager-app" target="_blank">
+        <IoLogoGithub className="text-4xl" />
+      </Link>
     </div>
   );
 }

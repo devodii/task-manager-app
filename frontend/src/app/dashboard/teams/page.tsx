@@ -13,6 +13,10 @@ export const dynamic = "force-dynamic";
 export default async function TeamsPage() {
   const [teams, profile] = await Promise.all([getTeams(), getProfile()]);
 
+  if (teams.length < 1) {
+    return <div className="mt-4">You’re not in any team :)</div>;
+  }
+
   return (
     <ul className="w-full grid grid-cols-1 gap-4">
       {teams.map(async (team: any) => {

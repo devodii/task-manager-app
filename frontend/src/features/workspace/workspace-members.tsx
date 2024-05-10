@@ -11,9 +11,9 @@ export const WorkspaceMembers = async ({ workspaceId }: Props) => {
   if (members?.length < 1) return <div>No members</div>;
 
   return (
-    <div>
+    <div className="mt-12">
       <b>Workspace members</b>
-      <ul className="flex items-center gap-2 mt-4">
+      <ul className="flex items-center gap-2 mt-2">
         {members.map((member) => (
           <Badge key={member.username}>{member.username}</Badge>
         ))}

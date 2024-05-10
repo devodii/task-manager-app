@@ -5,25 +5,26 @@ interface Props {
   data: Profile;
 }
 
-export const ViewProfile = ({ data }: Props) => {
+export const ViewProfile = ({ data: profile }: Props) => {
   return (
-    <section className="min-h-full justify-start my-12 md:my-16 lg:my-20 flex-col gap-12">
+    <section className="w-full flex items-center justify-center">
       <div className="flex flex-col items-center justify-center gap-4">
         <figure className="flex items-center justify-center flex-col gap-2">
           <figcaption>Photo</figcaption>
           <BlurImage
-            src={data?.imageUrl!}
-            alt={`${data?.username} on task manager app`}
+            src={profile?.imageUrl!}
+            alt={`${profile?.username} on task manager app`}
             width={150}
             height={150}
             quality={80}
-            className="rounded-full size-[150px] object-cover"
+            className="rounded-full size-[150px] object-cover text-[50px]"
+            fallbackText={profile.username[0]}
           />
         </figure>
 
         <div className="flex gap-2 items-center">
           <span>Name:</span>
-          <span>{data?.username}</span>
+          <span>{profile?.username}</span>
         </div>
       </div>
     </section>

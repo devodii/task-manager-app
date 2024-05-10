@@ -1,6 +1,6 @@
 import { TaskCard } from "./task-card";
 
-import { useTask } from "@/contexts/task-context";
+import { useTask } from "@/hooks/use-task";
 import { nanoid } from "nanoid";
 import { Droppable } from "./droppable";
 

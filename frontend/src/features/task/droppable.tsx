@@ -1,6 +1,6 @@
 "use client";
 
-import { useTask } from "@/contexts/task-context";
+import { useTask } from "@/hooks/use-task";
 import { cn } from "@/lib/utils";
 import { Task, TaskStatus } from "@/types";
 import * as React from "react";
@@ -29,7 +29,7 @@ export const Droppable = ({ children, board, label }: Props) => {
     <section
       className={cn(
         "flex flex-col gap-2 items-center",
-        isOver ? "bg-red-500" : ""
+        isOver ? "bg-gray-200" : ""
       )}
       ref={drop as any}
     >

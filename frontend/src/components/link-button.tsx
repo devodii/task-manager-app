@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSelectedLayoutSegments } from "next/navigation";
 
 interface Props {
   path: string;
@@ -11,9 +11,9 @@ interface Props {
 }
 
 export const LinkButton = ({ label, path }: Props) => {
-  const pathname = usePathname();
+  const segments = useSelectedLayoutSegments();
 
-  const isActive = (href: string) => href === pathname;
+  const isActive = (href: string) => segments.includes(href.split("/")[2]);
 
   return (
     <Button asChild variant={"ghost"}>

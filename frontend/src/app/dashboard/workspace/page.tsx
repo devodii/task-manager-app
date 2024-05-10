@@ -9,7 +9,13 @@ import { WorkspaceMembers } from "@workspace/workspace-members";
 import { nanoid } from "nanoid";
 import * as React from "react";
 
-export default async function WorkspacePage() {
+interface Props {
+  searchParams: {
+    task: string;
+  };
+}
+
+export default async function WorkspacePage({ searchParams }: Props) {
   const [profile, workspace] = await Promise.all([
     getProfile(),
     getWorkspace(),
@@ -46,8 +52,8 @@ export default async function WorkspacePage() {
         <TaskBoard isOwner key={`task_board_${nanoid()}`} />
       </React.Suspense>
 
-      <CreateTask>
-        <Button variant="default" className="mt-8">
+      <CreateTask workspaceId={workspace.id}>
+        <Button variant="default" className="mt-8 mx-auto w-full max-w-xs">
           create task
         </Button>
       </CreateTask>
@@ -55,6 +61,14 @@ export default async function WorkspacePage() {
       <React.Suspense fallback={<div>Loading workspace members...</div>}>
         <WorkspaceMembers workspaceId={workspace?.id!} />
       </React.Suspense>
+
+      {searchParams?.task?.length > 1 && (
+        <CreateTask
+          defaultOpen={true}
+          defaultTitle={searchParams.task}
+          workspaceId={workspace.id}
+        />
+      )}
     </section>
   );
 }

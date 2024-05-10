@@ -57,8 +57,6 @@ export const signIn = async (formdata: FormData) => {
   const dto = Object.fromEntries(formdata) as any;
   const next = formdata.get("next") as string;
 
-  console.log({ next });
-
   const response = await fetch(api + "/auth/signIn", {
     method: "POST",
     body: JSON.stringify({ ...dto }),
@@ -71,8 +69,6 @@ export const signIn = async (formdata: FormData) => {
   const user = await response.json();
 
   const userId = user?.data?.id;
-
-  console.log({ user });
 
   if (!userId) {
     return {
