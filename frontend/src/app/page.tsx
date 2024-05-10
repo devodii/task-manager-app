@@ -9,7 +9,7 @@ export default async function Index() {
   const user = await getUser();
 
   return (
-    <div className="container flex flex-col items-center gap-4 my-12">
+    <div className="container flex flex-col items-center gap-4 my-12 bg-[var(--foreground)]">
       <header className="w-full flex items-center justify-between">
         <div className="text-xl font-medium">Task Manager</div>
         {user?.id ? (
@@ -23,10 +23,10 @@ export default async function Index() {
         )}
       </header>
 
-      <h2 className="text-4xl md:text-5xl font-semibold mt-24 text-center">
+      <h2 className="text-4xl md:text-5xl font-semibold mt-24 text-center from-[hsl(var(--muted))] from-0% to-[hsl(var(--foreground))] to-40%">
         Better productivity ahead
       </h2>
-      <p className="text-xl text-center">The open source linear alternative</p>
+      <p className="text-muted text-xl text-center">The open source linear alternative</p>
 
       <form
         className="flex items-center flex-wrap gap-4 w-full max-w-4xl"
