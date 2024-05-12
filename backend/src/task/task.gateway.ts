@@ -14,7 +14,7 @@ type UpdateTaskStatusDto = {
 @WebSocketGateway({
   namespace: 'task',
   cors: {
-    origin: ['http://localhost:3000', 'https://task-manager-v1.vercel.app/'],
+    origin: ['https://task-manager-v1.vercel.app', 'http://localhost:3000'],
   },
 })
 export class TaskGateway {

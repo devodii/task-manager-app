@@ -42,7 +42,7 @@ export class TaskService {
         workspace: { id: workspaceId },
       });
 
-      const [savedTask, savedAssignee] = await Promise.all([
+      const [savedTask] = await Promise.all([
         this.repo.save(task),
         this.assigneeService.create({
           task,
@@ -50,8 +50,6 @@ export class TaskService {
           profileImg: assignee.img,
         }),
       ]);
-
-      console.log({ savedTask, savedAssignee });
 
       return savedTask;
     } catch (error) {
@@ -86,8 +84,6 @@ export class TaskService {
       const task = await this.findOne(id);
 
       const assignee = attrs?.assignee as any;
-
-      console.log({ assignee });
 
       Object.assign(task, {
         ...attrs,
