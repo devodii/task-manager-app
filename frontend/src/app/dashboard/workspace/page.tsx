@@ -1,6 +1,7 @@
 import { getProfile } from "@/actions/profile";
 import { getWorkspace } from "@/actions/workpace";
 import { Button } from "@/components/ui/button";
+import { EditWorkspace } from "@/features/workspace/edit-workspace";
 import { CreateTask } from "@task/create-task";
 import { TaskBoard } from "@task/task-board";
 import { CreateWorkspace } from "@workspace/create-workspace";
@@ -41,11 +42,15 @@ export default async function WorkspacePage({ searchParams }: Props) {
     <section className="container">
       <div className="flex items-center justify-between my-4">
         <div className="text-2xl font-medium">{workspace.name}</div>
-        <SendWorkspaceInvitation invitationLink={workspaceUrl}>
-          <Button variant="link" className="underline underline-offser-2">
-            Invite people
-          </Button>
-        </SendWorkspaceInvitation>
+
+        <div className="flex items-center gap-1">
+          <EditWorkspace workspace={workspace} />
+          <SendWorkspaceInvitation invitationLink={workspaceUrl}>
+            <Button variant="link" className="underline underline-offser-2">
+              Invite people
+            </Button>
+          </SendWorkspaceInvitation>
+        </div>
       </div>
 
       <React.Suspense fallback={<div>Loading task board..</div>}>

@@ -11,6 +11,8 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { TaskService } from './services/task.service';
+import { CreateTaskDTO } from './dto/create-task.dto';
+import { UpdateTaskDTO } from './dto/update-task.dto';
 
 @Controller('task')
 export class TaskController {
@@ -27,7 +29,10 @@ export class TaskController {
   }
 
   @Post()
-  async addTask(@Headers('SessionId') userId: string, @Body() dto: any) {
+  async addTask(
+    @Headers('SessionId') userId: string,
+    @Body() dto: CreateTaskDTO,
+  ) {
     if (typeof userId == 'undefined') {
       throw new UnauthorizedException('A task must be created by user');
     }
@@ -42,14 +47,14 @@ export class TaskController {
       description,
       workspaceId,
       assignee: {
-        name: assignee?.name,
-        img: assignee?.img,
+        name: assignee?.profileName,
+        img: assignee?.profileImg,
       },
     });
   }
 
   @Patch(':id')
-  async updateTask(@Param('id') id: string, @Body() dto: any) {
+  async updateTask(@Param('id') id: string, @Body() dto: UpdateTaskDTO) {
     return await this.taskService.update(id, dto);
   }
 

@@ -2,9 +2,10 @@
 
 import * as React from "react";
 
-import { createWorkspace } from "@/actions/workpace";
+import { createWorkspace, updateWorkspace } from "@/actions/workpace";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { Workspace } from "@/types";
 import {
   Dialog,
   DialogContent,
@@ -20,10 +21,18 @@ import { toast } from "sonner";
 
 interface Props {
   children?: React.ReactNode;
-  username: string;
+  username?: string;
+
+  action?: "create" | "update";
+  metadata?: Workspace;
 }
 
-export const CreateWorkspace = ({ children: trigger, username }: Props) => {
+export const CreateWorkspace = ({
+  children: trigger,
+  username,
+  action = "create",
+  metadata,
+}: Props) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
 
@@ -36,12 +45,16 @@ export const CreateWorkspace = ({ children: trigger, username }: Props) => {
 
     try {
       const formdata = new FormData(e.currentTarget);
-      const response = await createWorkspace(formdata);
 
-      if (!response.success) {
+      const name = formdata.get("name") as string;
+      const response =
+        action == "create"
+          ? await createWorkspace(formdata)
+          : await updateWorkspace(metadata!.id, name);
+
+      if (!response?.success) {
         toast("An error occured while creating your workspace");
       }
-
     } catch (error) {
       // do nothing..
     } finally {
@@ -60,7 +73,9 @@ export const CreateWorkspace = ({ children: trigger, username }: Props) => {
       {trigger && <DialogTrigger asChild>{trigger}</DialogTrigger>}
       <DialogContent className="w-full max-w-3xl">
         <DialogHeader>
-          <DialogTitle>Create a workspace</DialogTitle>
+          <DialogTitle>
+            {action == "create" ? "Create a workspace" : "Edit your workspace"}
+          </DialogTitle>
 
           <DialogDescription>
             A workspace is a place where you can solve problems with your
@@ -97,7 +112,9 @@ export const CreateWorkspace = ({ children: trigger, username }: Props) => {
             aria-disabled={isLoading}
             type="submit"
           >
-            <span>create workspace</span>
+            <span>
+              {action === "create" ? "create workspace" : "edit workspace"}
+            </span>
             {isLoading && <CgSpinnerAlt className="animate-spin" size={20} />}
           </Button>
         </form>

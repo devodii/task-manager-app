@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { nanoid } from 'nanoid';
 import { ProfileService } from 'src/profile/profile.service';
@@ -103,5 +103,21 @@ export class WorkspaceService {
     }));
 
     return members;
+  }
+
+  async update(id: string, name: string) {
+    try {
+      const workspace = await this.repo.findOne({ where: { id } });
+
+      console.log({ workspace });
+
+      if (!workspace?.id) throw new NotFoundException('WORKSPACE NOT FOUND');
+
+      Object.assign(workspace, { name });
+
+      return await this.repo.save(workspace);
+    } catch (error) {
+      console.log('an error occured while updating workspace', { error });
+    }
   }
 }

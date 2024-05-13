@@ -4,6 +4,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
   OneToMany,
   OneToOne,
   PrimaryColumn,
@@ -15,6 +16,7 @@ export class Workspace {
   @PrimaryColumn()
   id: string;
 
+  @Index()
   @Column({ unique: true, nullable: false })
   name: string;
 

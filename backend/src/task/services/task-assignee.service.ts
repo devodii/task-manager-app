@@ -2,17 +2,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { nanoid } from 'nanoid';
 import { Repository } from 'typeorm';
 import { TaskAssignee } from '../entities/task-assignee.entity';
-import { Task } from '../entities/task.entity';
-
-interface CreateAssigneeParameters {
-  task: Task;
-  profileName: string;
-  profileImg?: string;
-}
-
-interface UpdateAssigneeParameters extends CreateAssigneeParameters {
-  id: string;
-}
+import {
+  CreateAssigneeParameters,
+  UpdateAssigneeParameters,
+} from '../task.interface';
 
 export class TaskAssigneeService {
   constructor(

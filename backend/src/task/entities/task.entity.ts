@@ -48,6 +48,7 @@ export class Task {
 
   @OneToOne(() => TaskAssignee, (assignee) => assignee.task, {
     onDelete: 'SET NULL',
+    nullable: true,
   })
   @JoinColumn()
   assignee: TaskAssignee;

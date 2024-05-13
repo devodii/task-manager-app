@@ -43,8 +43,8 @@ export const createTask = async (formdata: FormData) => {
       description,
       workspaceId: workspaceId ?? null,
       assignee: {
-        name: assigneeName ?? "",
-        img: assigneeImg ?? "",
+        profileName: assigneeName ?? "",
+        profileImg: assigneeImg ?? "",
       },
     }),
   });

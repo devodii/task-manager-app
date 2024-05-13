@@ -34,6 +34,34 @@ export const createWorkspace = async (formdata: FormData) => {
   return { success: false };
 };
 
+export const updateWorkspace = async (id: string, name: string) => {
+  try {
+    const user = await getUser();
+
+    if (!user?.id) return;
+
+    const response = await fetch(api + `/workspace/${id}`, {
+      headers: {
+        SessionId: user?.id ?? "",
+        "Content-Type": "application/json",
+      },
+      method: "PATCH",
+      body: JSON.stringify({ id, name }),
+    });
+
+    const workspace: Workspace = await response.json();
+
+    console.log({ workspace });
+
+    revalidatePath("/dashboard/workspace");
+
+    return { success: true };
+  } catch (error) {
+    console.log("An error occured while updating workspace", { error });
+    return { success: false };
+  }
+};
+
 export const getWorkspace = async () => {
   try {
     const user = await getUser();

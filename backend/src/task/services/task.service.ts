@@ -2,19 +2,10 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { nanoid } from 'nanoid';
 import { Repository } from 'typeorm';
+import { UpdateTaskDTO } from '../dto/update-task.dto';
 import { Task } from '../entities/task.entity';
+import { CreateTaskParameters } from '../task.interface';
 import { TaskAssigneeService } from './task-assignee.service';
-
-interface CreateTaskParameters {
-  userId: string;
-  title: string;
-  description: string;
-  workspaceId: string;
-  assignee?: {
-    name: string;
-    img?: string;
-  };
-}
 
 @Injectable()
 export class TaskService {
@@ -79,7 +70,7 @@ export class TaskService {
     return tasks;
   }
 
-  async update(id: string, attrs: Partial<Task>) {
+  async update(id: string, attrs: UpdateTaskDTO) {
     try {
       const task = await this.findOne(id);
 
@@ -119,6 +110,7 @@ export class TaskService {
     return tasks;
   }
 
+  // todo: add only owner guard.
   async remove(id: string) {
     return await this.repo.delete({ id });
   }

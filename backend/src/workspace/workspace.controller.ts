@@ -10,6 +10,8 @@ import {
 } from '@nestjs/common';
 import { WorkspaceService } from './workspace.service';
 import { CurrentUserId } from 'src/decorators/current-user.decorator';
+import { CreateWorkspaceDTO } from './dto/create-workspace.dto';
+import { UpdateWorkspaceDTO } from './dto/update-workspace.dto';
 
 // todo: add auth guard
 @Controller('workspace')
@@ -19,9 +21,9 @@ export class WorkspaceController {
   @Post()
   async createWorkspace(
     @CurrentUserId() userId: string,
-    @Body('name') name: string,
+    @Body() dto: CreateWorkspaceDTO,
   ) {
-    return await this.workspaceService.create(userId, name);
+    return await this.workspaceService.create(userId, dto.name);
   }
 
   /**
@@ -58,6 +60,17 @@ export class WorkspaceController {
     }
 
     return workspace;
+  }
+
+  @Patch(':id')
+  async updateWorkspace(
+    @CurrentUserId() userId: string,
+    @Body() dto: UpdateWorkspaceDTO,
+  ) {
+    const { id, name } = dto;
+
+    console.log({ dto });
+    return await this.workspaceService.update(id, name);
   }
 
   @Patch('join/:id')
