@@ -1,7 +1,7 @@
 "use client";
 
 import { Workspace } from "@/types";
-import { CreateWorkspace, CreateWorkspace as Edit } from "./create-workspace";
+import { CreateWorkspace } from "./create-workspace";
 import { RiEdit2Line } from "react-icons/ri";
 import {
   Tooltip,
@@ -16,7 +16,7 @@ interface Props {
 
 export const EditWorkspace = ({ workspace }: Props) => {
   return (
-    <TooltipProvider>
+    <TooltipProvider delayDuration={200}>
       <Tooltip>
         <TooltipTrigger>
           <CreateWorkspace action="update" metadata={workspace}>

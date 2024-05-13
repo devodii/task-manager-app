@@ -36,7 +36,7 @@ export class User {
   @OneToMany(() => Task, (task) => task.user)
   tasks: Task[];
 
-  @OneToMany(() => Task, (task) => task.user)
+  @OneToMany(() => Task, (task) => task.user, { nullable: true })
   feedbacks: Feedback[];
 
   @OneToOne(() => Workspace, (workspace) => workspace.owner, {

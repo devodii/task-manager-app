@@ -109,8 +109,6 @@ export class WorkspaceService {
     try {
       const workspace = await this.repo.findOne({ where: { id } });
 
-      console.log({ workspace });
-
       if (!workspace?.id) throw new NotFoundException('WORKSPACE NOT FOUND');
 
       Object.assign(workspace, { name });
