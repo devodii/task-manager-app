@@ -7,17 +7,19 @@ import {
   Patch,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { WorkspaceService } from './workspace.service';
 import { CurrentUserId } from 'src/decorators/current-user.decorator';
 import { CreateWorkspaceDTO } from './dto/create-workspace.dto';
 import { UpdateWorkspaceDTO } from './dto/update-workspace.dto';
+import { AuthGuard } from 'src/guards/auth.guard';
 
-// todo: add auth guard
 @Controller('workspace')
 export class WorkspaceController {
   constructor(private readonly workspaceService: WorkspaceService) {}
 
+  @UseGuards(AuthGuard)
   @Post()
   async createWorkspace(
     @CurrentUserId() userId: string,
@@ -63,6 +65,7 @@ export class WorkspaceController {
   }
 
   @Patch(':id')
+  @UseGuards(AuthGuard)
   async updateWorkspace(
     @CurrentUserId() userId: string,
     @Body() dto: UpdateWorkspaceDTO,
@@ -74,6 +77,7 @@ export class WorkspaceController {
   }
 
   @Patch('join/:id')
+  @UseGuards(AuthGuard)
   async addMemberToWorkspace(
     @CurrentUserId() profileId: string,
     @Param('id') workspaceId: string,

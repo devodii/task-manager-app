@@ -105,8 +105,8 @@ export const updateTask = async (formdata: FormData, id: number) => {
         description,
         assignee: {
           id: assigneeId,
-          name: assigneeName ?? "",
-          img: assigneeImg ?? "",
+          profileName: assigneeName ?? "",
+          profileImg: assigneeImg ?? "",
         },
         status,
       }),
@@ -118,14 +118,14 @@ export const updateTask = async (formdata: FormData, id: number) => {
       return { success: false };
     }
 
-    revalidatePath("/dashboard");
+    revalidatePath("/dashboard/workspace");
     return { success: true };
   } catch (error) {
     console.log("An error occured while updating task", { error });
   }
 };
 
-export const removeTask = async (id: number) => {
+export const removeTask = async (id: string) => {
   try {
     const user = await getUser();
 
@@ -141,7 +141,7 @@ export const removeTask = async (id: number) => {
       },
     });
 
-    revalidatePath("/dashboard");
+    revalidatePath("/dashboard/workspace");
   } catch (error) {
     console.log("An error occured while updating task", { error });
   }

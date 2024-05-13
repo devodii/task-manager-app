@@ -36,6 +36,8 @@ export class TaskAssigneeService {
       return await this.create({ task, profileName, profileImg });
     }
 
+    console.log({ profileName, profileImg, id });
+
     const assignee = await this.repo.findOne({ where: { id } });
 
     Object.assign(assignee, { profileImg, profileName });

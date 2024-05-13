@@ -12,7 +12,7 @@ import { Label } from "@ui/label";
 import { toast } from "sonner";
 
 import { BlurImage } from "@/components/blur-image";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface Props {
   children: React.ReactNode;
@@ -26,7 +26,6 @@ export const CreateProfile = ({
   metadata: profile,
   redirectTo,
 }: Props) => {
-  const router = useRouter();
   const [isCreating, setIsCreating] = React.useState(false);
   const [imageSrc, setImageSrc] = React.useState(null);
   const [viewProfile, setViewProfile] = React.useState(false);
@@ -96,11 +95,8 @@ export const CreateProfile = ({
                 <span>{profile?.username}</span>
               </div>
 
-              <Button
-                className="w-full"
-                onClick={() => router.push(redirectTo ?? "/dashboard")}
-              >
-                Next
+              <Button className="w-full" asChild>
+                <Link href={redirectTo ?? "/dashboard"}>Next</Link>
               </Button>
             </div>
           </section>

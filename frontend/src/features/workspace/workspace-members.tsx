@@ -8,13 +8,14 @@ interface Props {
 export const WorkspaceMembers = async ({ workspaceId }: Props) => {
   const members = await getWorkspaceMembers(workspaceId);
 
+  console.log({ members})
   if (members?.length < 1) return <div>No members</div>;
 
   return (
     <div className="mt-12">
       <b>Workspace members</b>
       <ul className="flex items-center gap-2 mt-2">
-        {members.map((member) => (
+        {members?.map((member) => (
           <Badge key={member.username}>{member.username}</Badge>
         ))}
       </ul>

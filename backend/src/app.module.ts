@@ -9,6 +9,7 @@ import { FeedbackModule } from './feedback/feedback.module';
 import { ProfileModule } from './profile/profile.module';
 import { WorkspaceModule } from './workspace/workspace.module';
 import { TeamModule } from './team/team.module';
+import { AuthGuard } from './guards/auth.guard';
 
 @Module({
   imports: [
@@ -22,6 +23,6 @@ import { TeamModule } from './team/team.module';
     TeamModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, AuthGuard],
 })
 export class AppModule {}
