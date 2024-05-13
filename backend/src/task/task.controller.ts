@@ -8,11 +8,13 @@ import {
   Patch,
   Post,
   Query,
-  UnauthorizedException,
+  UseGuards,
 } from '@nestjs/common';
-import { TaskService } from './services/task.service';
+import { CurrentUserId } from 'src/decorators/current-user.decorator';
+import { AuthGuard } from 'src/guards/auth.guard';
 import { CreateTaskDTO } from './dto/create-task.dto';
 import { UpdateTaskDTO } from './dto/update-task.dto';
+import { TaskService } from './services/task.service';
 
 @Controller('task')
 export class TaskController {
@@ -28,15 +30,9 @@ export class TaskController {
     return await this.taskService.findByWorkspace(workspaceId);
   }
 
+  @UseGuards(AuthGuard)
   @Post()
-  async addTask(
-    @Headers('SessionId') userId: string,
-    @Body() dto: CreateTaskDTO,
-  ) {
-    if (typeof userId == 'undefined') {
-      throw new UnauthorizedException('A task must be created by user');
-    }
-
+  async addTask(@CurrentUserId() userId: string, @Body() dto: CreateTaskDTO) {
     const { title, description, workspaceId } = dto;
 
     const assignee = dto?.assignee;
@@ -53,11 +49,13 @@ export class TaskController {
     });
   }
 
+  @UseGuards(AuthGuard)
   @Patch(':id')
   async updateTask(@Param('id') id: string, @Body() dto: UpdateTaskDTO) {
     return await this.taskService.update(id, dto);
   }
 
+  @UseGuards(AuthGuard)
   @Delete(':id')
   async deleteTask(@Param('id') id: string) {
     return await this.taskService.remove(id);

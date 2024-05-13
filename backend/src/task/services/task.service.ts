@@ -79,8 +79,8 @@ export class TaskService {
       Object.assign(task, {
         ...attrs,
         assignee: {
-          profileImg: assignee?.img ?? '',
-          profileName: assignee?.name ?? '',
+          profileImg: assignee?.profileImg ?? '',
+          profileName: assignee?.profileName ?? '',
         },
         status: attrs.status,
       });
@@ -90,8 +90,8 @@ export class TaskService {
         this.assigneeService.upsert({
           id: assignee?.id,
           task,
-          profileImg: assignee?.img,
-          profileName: assignee?.name,
+          profileImg: assignee?.profileImg,
+          profileName: assignee?.profileName,
         }),
       ]);
 
