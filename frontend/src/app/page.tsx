@@ -5,6 +5,7 @@ import { Button } from "@ui/button";
 import { Input } from "@ui/input";
 import Link from "next/link";
 import { IoLogoGithub } from "./client";
+import { TryAnonymously } from "@/components/fake-user-button";
 
 export default async function Index() {
   const user = await getUser();
@@ -45,6 +46,8 @@ export default async function Index() {
       <Link href="https://github.com/devodii/task-manager-app" target="_blank">
         <IoLogoGithub className="text-4xl" />
       </Link>
+
+      <TryAnonymously />
     </div>
   );
 }

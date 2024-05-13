@@ -27,11 +27,15 @@ export const createWorkspace = async (formdata: FormData) => {
 
   revalidatePath("/dashboard", "layout");
 
+  console.log({ workspace });
+
   if (workspace?.id) {
     redirect("/dashboard/workspace");
   }
 
-  return { success: false };
+  if (!workspace?.id) {
+    return { success: false };
+  }
 };
 
 export const updateWorkspace = async (id: string, name: string) => {

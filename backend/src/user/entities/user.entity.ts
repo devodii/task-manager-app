@@ -9,13 +9,13 @@ import {
   JoinColumn,
   OneToMany,
   OneToOne,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
 @Entity({ name: 'account' })
 export class User {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryColumn()
   id: string;
 
   @Column({ unique: true, nullable: false })
@@ -30,7 +30,7 @@ export class User {
   @UpdateDateColumn()
   updatedAt: Date | null;
 
-  @OneToOne(() => Profile)
+  @OneToOne(() => Profile, { onDelete: 'CASCADE' })
   profile: Profile;
 
   @OneToMany(() => Task, (task) => task.user)
@@ -44,4 +44,7 @@ export class User {
   })
   @JoinColumn({ name: 'workspaceId' })
   ownedWorkspace: Workspace;
+
+  @Column({ type: 'boolean', default: false })
+  isFake: boolean;
 }

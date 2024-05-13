@@ -5,5 +5,5 @@ import { IsNotEmpty, IsString } from 'class-validator';
 export class UpdateTaskDTO extends PartialType(CreateTaskDTO) {
   @IsString()
   @IsNotEmpty()
-  id: string;
+  id?: string;
 }

@@ -11,6 +11,7 @@ export type User = {
   email: string;
   createdAt: string;
   updatedAt: string;
+  isFake: boolean;
 };
 
 export type TaskStatus = "todo" | "in_progress" | "done";
