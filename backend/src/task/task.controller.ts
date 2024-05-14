@@ -3,14 +3,12 @@ import {
   Controller,
   Delete,
   Get,
-  Headers,
   Param,
   Patch,
   Post,
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { CurrentUserId } from 'src/decorators/current-user.decorator';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { CreateTaskDTO } from './dto/create-task.dto';
 import { UpdateTaskDTO } from './dto/update-task.dto';
@@ -20,11 +18,6 @@ import { TaskService } from './services/task.service';
 export class TaskController {
   constructor(private readonly taskService: TaskService) {}
 
-  @Get()
-  async getTasks(@Headers('SessionId') userId: string) {
-    return await this.taskService.findByUser(userId);
-  }
-
   @Get('workspace')
   async getWorkspaceTasks(@Query('workspaceId') workspaceId: string) {
     return await this.taskService.findByWorkspace(workspaceId);
@@ -32,13 +25,12 @@ export class TaskController {
 
   @UseGuards(AuthGuard)
   @Post()
-  async addTask(@CurrentUserId() userId: string, @Body() dto: CreateTaskDTO) {
+  async addTask(@Body() dto: CreateTaskDTO) {
     const { title, description, workspaceId } = dto;
 
     const assignee = dto?.assignee;
 
     return await this.taskService.create({
-      userId,
       title,
       description,
       workspaceId,

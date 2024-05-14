@@ -1,6 +1,5 @@
 import { Feedback } from 'src/feedback/entities/feedback.entity';
 import { Profile } from 'src/profile/entities/profile.entity';
-import { Task } from 'src/task/entities/task.entity';
 import { Workspace } from 'src/workspace/entities/workspace.entity';
 import {
   Column,
@@ -30,13 +29,11 @@ export class User {
   @UpdateDateColumn()
   updatedAt: Date | null;
 
-  @OneToOne(() => Profile, { onDelete: 'CASCADE' })
+  @OneToOne(() => Profile, (profile) => profile.user, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'profileId' })
   profile: Profile;
 
-  @OneToMany(() => Task, (task) => task.user)
-  tasks: Task[];
-
-  @OneToMany(() => Task, (task) => task.user, { nullable: true })
+  @OneToMany(() => Feedback, (feedback) => feedback.user, { nullable: true })
   feedbacks: Feedback[];
 
   @OneToOne(() => Workspace, (workspace) => workspace.owner, {
@@ -46,5 +43,5 @@ export class User {
   ownedWorkspace: Workspace;
 
   @Column({ type: 'boolean', default: false })
-  isFake: boolean;
+  isAnonymous: boolean;
 }

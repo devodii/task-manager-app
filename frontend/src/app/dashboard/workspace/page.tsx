@@ -1,10 +1,10 @@
 import { getProfile } from "@/actions/profile";
 import { getWorkspace } from "@/actions/workpace";
 import { Button } from "@/components/ui/button";
-import { EditWorkspace } from "@/features/workspace/edit-workspace";
 import { CreateTask } from "@task/create-task";
 import { TaskBoard } from "@task/task-board";
 import { CreateWorkspace } from "@workspace/create-workspace";
+import { EditWorkspace } from "@workspace/edit-workspace";
 import { SendWorkspaceInvitation } from "@workspace/send-workspace-invitation";
 import { WorkspaceMembers } from "@workspace/workspace-members";
 import { nanoid } from "nanoid";
@@ -54,7 +54,7 @@ export default async function WorkspacePage({ searchParams }: Props) {
       </div>
 
       <React.Suspense fallback={<div>Loading task board..</div>}>
-        <TaskBoard isOwner key={`task_board_${nanoid()}`} />
+        <TaskBoard key={`task_board_${nanoid()}`} workspaceId={workspace?.id} />
       </React.Suspense>
 
       <CreateTask workspaceId={workspace.id}>

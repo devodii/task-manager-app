@@ -82,7 +82,7 @@ export class UserService {
   async createFakeUser() {
     const user = this.repo.create({
       id: `user_${nanoid()}`,
-      isFake: true,
+      isAnonymous: true,
       email: `${nanoid()}@gmail.com`,
       password: `pass_${nanoid()}`,
     });
@@ -95,7 +95,7 @@ export class UserService {
 
     if (!user?.id) throw new NotFoundException('USER TO BE DELETED NOT FOUND');
 
-    if (!user?.isFake)
+    if (!user?.isAnonymous)
       throw new BadRequestException('CANNOT DELETE A REAL USER');
 
     const del = await this.repo.delete({ id });

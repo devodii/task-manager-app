@@ -18,7 +18,6 @@ export class TaskService {
    * This creates a task and assigns it to a workspace member
    */
   async create({
-    userId,
     title,
     description,
     workspaceId,
@@ -29,7 +28,6 @@ export class TaskService {
         id: `task_${nanoid()}`,
         title,
         description,
-        user: { id: userId },
         workspace: { id: workspaceId },
       });
 
@@ -59,15 +57,6 @@ export class TaskService {
     }
 
     return task;
-  }
-
-  async findByUser(userId: string) {
-    const tasks = await this.repo.find({
-      where: { user: { id: userId } },
-      relations: ['assignee'],
-    });
-
-    return tasks;
   }
 
   async update(id: string, attrs: UpdateTaskDTO) {

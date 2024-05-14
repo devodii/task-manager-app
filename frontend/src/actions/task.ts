@@ -53,30 +53,6 @@ export const createTask = async (formdata: FormData) => {
   return { success: true };
 };
 
-export const getTasks = async (): Promise<Task[] | []> => {
-  try {
-    const user = await getUser();
-
-    const userId = user?.id;
-
-    if (!userId) return [];
-
-    const response = await fetch(api + "/task", {
-      method: "GET",
-      headers: {
-        SessionId: user?.id ?? "",
-      },
-    });
-
-    const tasks = await response.json();
-
-    return tasks as Task[];
-  } catch (error) {
-    console.log("An error occured while fetching tasks", { error });
-    return [];
-  }
-};
-
 export const updateTask = async (formdata: FormData, id: number) => {
   try {
     const taskId = formdata.get("taskId") as string;

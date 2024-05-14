@@ -13,7 +13,7 @@ export const DashboardSidebar = async () => {
         <LinkButton label="Teams" path="/dashboard/teams" />
       </li>
 
-      {user?.isFake && <li className="fixed bottom-4">Anonymous</li>}
+      {user?.isAnonymous && <li className="fixed bottom-4">Anonymous</li>}
     </ul>
   );
 };

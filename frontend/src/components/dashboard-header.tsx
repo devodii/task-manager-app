@@ -18,7 +18,7 @@ export const DashboardHeader = async () => {
         </Link>
 
         <div className="flex items-center gap-4">
-          <ProfileDialog isAnonymous={user?.isFake}>
+          <ProfileDialog isAnonymous={user?.isAnonymous}>
             <Avatar>
               <AvatarImage
                 src={profile?.data?.imageUrl}

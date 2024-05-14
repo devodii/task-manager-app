@@ -55,8 +55,6 @@ export const updateWorkspace = async (id: string, name: string) => {
 
     const workspace: Workspace = await response.json();
 
-    console.log({ workspace });
-
     revalidatePath("/dashboard/workspace");
 
     return { success: true };
