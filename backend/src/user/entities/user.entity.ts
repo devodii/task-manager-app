@@ -5,7 +5,6 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinColumn,
   OneToMany,
   OneToOne,
   PrimaryColumn,
@@ -30,7 +29,6 @@ export class User {
   updatedAt: Date | null;
 
   @OneToOne(() => Profile, (profile) => profile.user, { onDelete: 'CASCADE' })
-  @JoinColumn({ name: 'profileId' })
   profile: Profile;
 
   @OneToMany(() => Feedback, (feedback) => feedback.user, { nullable: true })
@@ -39,7 +37,6 @@ export class User {
   @OneToOne(() => Workspace, (workspace) => workspace.owner, {
     onDelete: 'SET NULL',
   })
-  @JoinColumn({ name: 'workspaceId' })
   ownedWorkspace: Workspace;
 
   @Column({ type: 'boolean', default: false })

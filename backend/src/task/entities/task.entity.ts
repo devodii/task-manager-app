@@ -4,7 +4,6 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  JoinColumn,
   ManyToOne,
   OneToOne,
   PrimaryColumn,
@@ -46,6 +45,5 @@ export class Task {
     onDelete: 'CASCADE',
     nullable: true,
   })
-  @JoinColumn()
   assignee: TaskAssignee;
 }

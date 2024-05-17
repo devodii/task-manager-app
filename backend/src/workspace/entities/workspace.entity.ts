@@ -5,6 +5,7 @@ import {
   CreateDateColumn,
   Entity,
   Index,
+  JoinColumn,
   OneToMany,
   OneToOne,
   PrimaryColumn,
@@ -27,6 +28,7 @@ export class Workspace {
   tasks: Task[];
 
   @OneToOne(() => User, (user) => user.ownedWorkspace, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'ownerId' })
   owner: User;
 
   @OneToMany(() => WorkspaceMember, (member) => member.workspace)

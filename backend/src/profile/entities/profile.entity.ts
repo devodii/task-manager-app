@@ -6,6 +6,7 @@ import {
   CreateDateColumn,
   Entity,
   Index,
+  JoinColumn,
   OneToMany,
   OneToOne,
   PrimaryColumn,
@@ -27,6 +28,7 @@ export class Profile {
   createdAt: Date;
 
   @OneToOne(() => User, (user) => user?.profile, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'userId' })
   user: User;
 
   @OneToMany(() => WorkspaceMember, (member) => member.workspace)
