@@ -1,5 +1,6 @@
 import { getUser } from "@/actions/user";
 import { LinkButton } from "@/components/link-button";
+import { Badge } from "@ui/badge";
 
 export const DashboardSidebar = async () => {
   const user = await getUser();
@@ -13,7 +14,11 @@ export const DashboardSidebar = async () => {
         <LinkButton label="Teams" path="/dashboard/teams" />
       </li>
 
-      {user?.isAnonymous && <li className="fixed bottom-4">Anonymous</li>}
+      {user?.isAnonymous && (
+        <li className="fixed bottom-4">
+          <Badge>Anonymous</Badge>
+        </li>
+      )}
     </ul>
   );
 };

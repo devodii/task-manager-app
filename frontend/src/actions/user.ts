@@ -87,7 +87,7 @@ export const signOut = () => {
   redirect("/");
 };
 
-export const createFakeUser = async () => {
+export const signInAsFakeUser = async () => {
   const response = await fetch(api + "/auth/create-fake-user", {
     method: "POST",
     headers: {

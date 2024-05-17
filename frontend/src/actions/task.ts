@@ -3,22 +3,8 @@
 import { getUser } from "@/actions/user";
 import { Task } from "@/types";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
-import { getWorkspace } from "./workpace";
 
 const api = process.env.API_URL;
-
-export const mockCreateTask = async (formdata: FormData) => {
-  const user = await getUser();
-
-  const task = formdata.get("task") as string;
-
-  if (!user?.id) {
-    redirect("/sign-in");
-  }
-
-  redirect(`/dashboard/workspace?task=${task}`);
-};
 
 export const createTask = async (formdata: FormData) => {
   const title = formdata.get("title") as string;
