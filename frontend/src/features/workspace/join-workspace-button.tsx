@@ -19,6 +19,7 @@ export const JoinWorkspaceButton = ({ workspaceId, ...rest }: Props) => {
         joinWorkspace(workspaceId);
       }}
       {...rest}
+      disabled={isJoining}
       className={cn(isJoining ? "cursor-not-allowed" : "cursor-pointer")}
     >
       Join now

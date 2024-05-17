@@ -1,3 +1,5 @@
+import * as React from "react";
+
 import { getProfile } from "@/actions/profile";
 import { getWorkspace } from "@/actions/workpace";
 import { Button } from "@/components/ui/button";
@@ -8,7 +10,6 @@ import { EditWorkspace } from "@workspace/edit-workspace";
 import { SendWorkspaceInvitation } from "@workspace/send-workspace-invitation";
 import { WorkspaceMembers } from "@workspace/workspace-members";
 import { nanoid } from "nanoid";
-import * as React from "react";
 
 interface Props {
   searchParams: {
