@@ -1,14 +1,15 @@
+import * as React from "react";
+
 import { getProfile } from "@/actions/profile";
 import { getWorkspace } from "@/actions/workpace";
 import { Button } from "@/components/ui/button";
-import { EditWorkspace } from "@/features/workspace/edit-workspace";
+import { GettingStarted } from "@dashboard/getting-started";
 import { CreateTask } from "@task/create-task";
 import { TaskBoard } from "@task/task-board";
-import { CreateWorkspace } from "@workspace/create-workspace";
+import { EditWorkspace } from "@workspace/edit-workspace";
 import { SendWorkspaceInvitation } from "@workspace/send-workspace-invitation";
 import { WorkspaceMembers } from "@workspace/workspace-members";
 import { nanoid } from "nanoid";
-import * as React from "react";
 
 interface Props {
   searchParams: {
@@ -29,14 +30,7 @@ export default async function WorkspacePage({ searchParams }: Props) {
   }
 
   if (!workspace?.id)
-    return (
-      <div className="w-full items-center flex justify-center flex-col gap-4">
-        <h4>Create a workspace to start getting organized with your team</h4>
-        <CreateWorkspace username={profile?.data?.username!}>
-          <Button>create workspace</Button>
-        </CreateWorkspace>
-      </div>
-    );
+    return <GettingStarted username={profile.data.username} />;
 
   return (
     <section className="container">
@@ -54,7 +48,7 @@ export default async function WorkspacePage({ searchParams }: Props) {
       </div>
 
       <React.Suspense fallback={<div>Loading task board..</div>}>
-        <TaskBoard isOwner key={`task_board_${nanoid()}`} />
+        <TaskBoard key={`task_board_${nanoid()}`} workspaceId={workspace?.id} />
       </React.Suspense>
 
       <CreateTask workspaceId={workspace.id}>

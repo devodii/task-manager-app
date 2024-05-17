@@ -72,7 +72,6 @@ export class WorkspaceController {
   ) {
     const { id, name } = dto;
 
-    console.log({ dto });
     return await this.workspaceService.update(id, name);
   }
 

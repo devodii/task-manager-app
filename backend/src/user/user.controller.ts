@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Headers, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Headers, Post } from '@nestjs/common';
 import { CreateUserDto as UserDto } from './dto/create-user.dto';
 import { UserService } from './user.service';
 
@@ -28,5 +28,16 @@ export class UserController {
     const { email, password } = dto;
 
     return await this.userService.signIn(email, password);
+  }
+
+  @Post('create-fake-user')
+  async createFakeUser() {
+    return await this.userService.createFakeUser();
+  }
+
+  @Delete('remove-fake-user')
+  async removeFakeUser(@Body('userId') userId: string) {
+    console.log({ userId });
+    return await this.userService.removeFakeUser(userId);
   }
 }

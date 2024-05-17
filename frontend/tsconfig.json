@@ -23,6 +23,7 @@
       "@profile/*": ["./src/features/profile/*"],
       "@task/*": ["./src/features/task/*"],
       "@workspace/*": ["./src/features/workspace/*"],
+      "@dashboard*": ["./src/features/dashboard/*"],
       "@providers/*": ["./src/providers/*"]
     }
   },

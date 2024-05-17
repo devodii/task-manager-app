@@ -48,7 +48,6 @@ export default async function TeamWorkspacePage({ params }: Props) {
 
       <React.Suspense fallback={<div>Loading task board..</div>}>
         <TaskBoard
-          isOwner={false}
           workspaceId={params.workspaceId}
           key={`task_board_${nanoid()}`}
         />

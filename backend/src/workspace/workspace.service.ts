@@ -1,7 +1,12 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { nanoid } from 'nanoid';
 import { ProfileService } from 'src/profile/profile.service';
+import { UserService } from 'src/user/user.service';
 import { Repository } from 'typeorm';
 import { WorkspaceMember } from './entities/workspace-member.entity';
 import { Workspace } from './entities/workspace.entity';
@@ -13,13 +18,16 @@ export class WorkspaceService {
     @InjectRepository(WorkspaceMember)
     private workspaceMememberRepo: Repository<WorkspaceMember>,
     private profileService: ProfileService,
+    private usersService: UserService,
   ) {}
 
   async create(ownerId: string, name: string) {
+    const owner = await this.usersService.findOne(ownerId);
+
     try {
       const workspace = this.repo.create({
         id: `workspace_${nanoid()}`,
-        owner: { id: ownerId },
+        owner,
         name,
       });
 
@@ -43,6 +51,9 @@ export class WorkspaceService {
 
   async findOne(id: string) {
     const workspace = await this.repo.findOne({ where: { id } });
+
+    if (!workspace?.id) throw new NotFoundException('WORKSPACE NOT FOUND');
+
     return workspace;
   }
 
@@ -64,10 +75,10 @@ export class WorkspaceService {
         relations: ['profile', 'workspace'],
       });
 
-      if (!workspace?.id || !profileId) {
-        console.log('one of the requirements wasnt met.');
-        return;
-      }
+      if (!workspace?.id || !profileId)
+        throw new BadRequestException(
+          'ONE OF THE REQUIREMENT TO JOIN A WORKSPACE WASNT MET',
+        );
 
       // returns true if that member already exists.
       if (existingMember?.profile?.id) {
@@ -80,8 +91,6 @@ export class WorkspaceService {
       });
 
       await this.workspaceMememberRepo.save(newMember);
-
-      console.log('member has been saved');
 
       return { success: true, message: 'member added' };
     } catch (error) {

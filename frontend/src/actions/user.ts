@@ -86,3 +86,44 @@ export const signOut = () => {
   cookies().delete("merchant_id");
   redirect("/");
 };
+
+export const signInAsFakeUser = async () => {
+  const response = await fetch(api + "/auth/create-fake-user", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+  });
+
+  const user = (await response.json()) as User;
+
+  console.log({ user });
+
+  cookies().set("merchant_id", user?.id, { maxAge: 1000 * 60 * 30 }); // 30 minutes
+
+  if (user?.id) {
+    redirect("/onboarding");
+  }
+
+  return user;
+};
+
+export const deleteFakeUser = async () => {
+  const user = await getUser();
+
+  const response = await fetch(api + "/auth/remove-fake-user", {
+    method: "DELETE",
+
+    body: JSON.stringify({ userId: user?.id }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+  });
+
+  console.log({ response });
+
+  cookies().delete("merchant_id");
+  redirect("/");
+};

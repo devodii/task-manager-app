@@ -1,4 +1,4 @@
-import { Column, Entity, OneToOne, PrimaryColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
 import { Task } from './task.entity';
 
 @Entity()
@@ -13,5 +13,6 @@ export class TaskAssignee {
   profileImg: string;
 
   @OneToOne(() => Task, (task) => task.assignee, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'taskId' })
   task: Task;
 }

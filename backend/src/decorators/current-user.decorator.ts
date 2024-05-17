@@ -6,6 +6,6 @@ export const CurrentUserId = createParamDecorator(
 
     const userId = await request.headers.sessionid;
 
-    return userId.length > 4 ? (userId as string) : null;
+    return userId?.length > 4 ? (userId as string) : null;
   },
 );

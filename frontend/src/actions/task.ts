@@ -3,22 +3,8 @@
 import { getUser } from "@/actions/user";
 import { Task } from "@/types";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
-import { getWorkspace } from "./workpace";
 
 const api = process.env.API_URL;
-
-export const mockCreateTask = async (formdata: FormData) => {
-  const user = await getUser();
-
-  const task = formdata.get("task") as string;
-
-  if (!user?.id) {
-    redirect("/sign-in");
-  }
-
-  redirect(`/dashboard/workspace?task=${task}`);
-};
 
 export const createTask = async (formdata: FormData) => {
   const title = formdata.get("title") as string;
@@ -51,30 +37,6 @@ export const createTask = async (formdata: FormData) => {
 
   revalidatePath("/dashboard", "page");
   return { success: true };
-};
-
-export const getTasks = async (): Promise<Task[] | []> => {
-  try {
-    const user = await getUser();
-
-    const userId = user?.id;
-
-    if (!userId) return [];
-
-    const response = await fetch(api + "/task", {
-      method: "GET",
-      headers: {
-        SessionId: user?.id ?? "",
-      },
-    });
-
-    const tasks = await response.json();
-
-    return tasks as Task[];
-  } catch (error) {
-    console.log("An error occured while fetching tasks", { error });
-    return [];
-  }
 };
 
 export const updateTask = async (formdata: FormData, id: number) => {

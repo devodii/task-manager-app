@@ -2,15 +2,21 @@
 
 import * as React from "react";
 
-import { signOut } from "@/actions/user";
+import { deleteFakeUser, signOut } from "@/actions/user";
+import { SubmitButton } from "@/components/submit-button";
+import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@ui/popover";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { SubmitButton } from "@/components/submit-button";
 
-export const ProfileDialog = ({
+interface Props {
+  isAnonymous: boolean;
+  children: React.ReactNode;
+}
+
+export const ProfileDialog = async ({
   children: trigger,
-}: React.PropsWithChildren) => {
+  isAnonymous,
+}: Props) => {
   return (
     <Popover>
       <PopoverTrigger asChild>{trigger}</PopoverTrigger>
@@ -19,7 +25,10 @@ export const ProfileDialog = ({
           <Link href={"/dashboard/profile"}>Profile</Link>
         </Button>
 
-        <form action={signOut} className="w-full">
+        <form
+          action={() => (isAnonymous ? deleteFakeUser() : signOut())}
+          className="w-full"
+        >
           <SubmitButton variant="outline" className="text-black">
             Logout
           </SubmitButton>

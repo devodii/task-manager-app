@@ -1,11 +1,9 @@
-import { User } from 'src/user/entities/user.entity';
 import { Workspace } from 'src/workspace/entities/workspace.entity';
 import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  JoinColumn,
   ManyToOne,
   OneToOne,
   PrimaryColumn,
@@ -37,9 +35,6 @@ export class Task {
   @DeleteDateColumn()
   deletedAt: Date | null;
 
-  @ManyToOne(() => User, (user) => user.tasks, { onDelete: 'CASCADE' })
-  user: User;
-
   @ManyToOne(() => Workspace, (workspace) => workspace.tasks, {
     nullable: true,
     onDelete: 'CASCADE',
@@ -47,9 +42,8 @@ export class Task {
   workspace: Workspace | null;
 
   @OneToOne(() => TaskAssignee, (assignee) => assignee.task, {
-    onDelete: 'SET NULL',
+    onDelete: 'CASCADE',
     nullable: true,
   })
-  @JoinColumn()
   assignee: TaskAssignee;
 }

@@ -10,6 +10,7 @@ import { User } from './entities/user.entity';
 
 import * as bcrypt from 'bcrypt';
 import { ApiResponse } from 'src/types';
+import { nanoid } from 'nanoid';
 
 @Injectable()
 export class UserService {
@@ -25,7 +26,7 @@ export class UserService {
     return user;
   }
   async create(email: string, password: string) {
-    const user = this.repo.create({ email, password });
+    const user = this.repo.create({ email, password, id: `user_${nanoid()}` });
 
     return await this.repo.save(user);
   }
@@ -36,7 +37,6 @@ export class UserService {
     return user;
   }
 
-  // auth related stuff.
   async signUp(email: string, password: string): Promise<ApiResponse> {
     const user = await this.find(email);
 
@@ -74,5 +74,33 @@ export class UserService {
       status: true,
       data: { id: user?.id, email: user.email },
     };
+  }
+
+  /**
+   * generates random email and password for a user.
+   */
+  async createFakeUser() {
+    const user = this.repo.create({
+      id: `user_${nanoid()}`,
+      isAnonymous: true,
+      email: `${nanoid()}@gmail.com`,
+      password: `pass_${nanoid()}`,
+    });
+
+    return await this.repo.save(user);
+  }
+
+  async removeFakeUser(id: string) {
+    const user = await this.repo.findOne({ where: { id } });
+
+    if (!user?.id) throw new NotFoundException('USER TO BE DELETED NOT FOUND');
+
+    if (!user?.isAnonymous)
+      throw new BadRequestException('CANNOT DELETE A REAL USER');
+
+    const del = await this.repo.delete({ id });
+
+    console.log({ del });
+    return del;
   }
 }

@@ -1,21 +1,19 @@
 import { Feedback } from 'src/feedback/entities/feedback.entity';
 import { Profile } from 'src/profile/entities/profile.entity';
-import { Task } from 'src/task/entities/task.entity';
 import { Workspace } from 'src/workspace/entities/workspace.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinColumn,
   OneToMany,
   OneToOne,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
 @Entity({ name: 'account' })
 export class User {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryColumn()
   id: string;
 
   @Column({ unique: true, nullable: false })
@@ -30,18 +28,17 @@ export class User {
   @UpdateDateColumn()
   updatedAt: Date | null;
 
-  @OneToOne(() => Profile)
+  @OneToOne(() => Profile, (profile) => profile.user, { onDelete: 'CASCADE' })
   profile: Profile;
 
-  @OneToMany(() => Task, (task) => task.user)
-  tasks: Task[];
-
-  @OneToMany(() => Task, (task) => task.user, { nullable: true })
+  @OneToMany(() => Feedback, (feedback) => feedback.user, { nullable: true })
   feedbacks: Feedback[];
 
   @OneToOne(() => Workspace, (workspace) => workspace.owner, {
     onDelete: 'SET NULL',
   })
-  @JoinColumn({ name: 'workspaceId' })
   ownedWorkspace: Workspace;
+
+  @Column({ type: 'boolean', default: false })
+  isAnonymous: boolean;
 }

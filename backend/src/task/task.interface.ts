@@ -3,7 +3,6 @@ import { Task } from './entities/task.entity';
 export type TaskStatus = 'todo' | 'in_progress' | 'done';
 
 export type CreateTaskParameters = {
-  userId: string;
   title: string;
   description: string;
   workspaceId: string;

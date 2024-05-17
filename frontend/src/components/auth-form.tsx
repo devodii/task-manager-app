@@ -6,10 +6,11 @@ import { Input } from "@ui/input";
 import { Label } from "@ui/label";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import { toast } from "sonner";
+import { AnonymousAuthButton } from "./anonymous-auth-button";
 import { Button } from "./ui/button";
 import { Separator } from "./ui/separator";
 import { Wrapper } from "./wrapper";
-import { toast } from "sonner";
 
 interface Props {
   variant: keyof typeof content;
@@ -50,6 +51,13 @@ export const AuthForm = ({
         <h2 className="text-center font-semibold text-3xl">
           {content[variant].header}
         </h2>
+
+        <div className="w-full flex flex-col gap-4 items-center max-w-3xl mx-auto my-4">
+          <AnonymousAuthButton />
+
+          <p className="text-center">OR</p>
+        </div>
+
         <form
           className="grid grid-cols-1 gap-4 w-full max-w-3xl mx-auto"
           onSubmit={async (e) => {
