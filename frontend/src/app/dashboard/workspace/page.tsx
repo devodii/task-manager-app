@@ -29,8 +29,7 @@ export default async function WorkspacePage({ searchParams }: Props) {
     return <div>Please create a profile in order to create workspace</div>;
   }
 
-  if (!workspace?.id)
-    return <GettingStarted username={profile.data.username} />;
+  if (!workspace?.id) return <GettingStarted />;
 
   return (
     <section className="container">

@@ -11,8 +11,7 @@ export default async function DashboardPage() {
 
   if (!profile?.data?.id) redirect("/onboarding");
 
-  if (!workspace?.id)
-    return <GettingStarted username={profile.data?.username} />;
+  if (!workspace?.id) return <GettingStarted />;
 
   return (
     <div>

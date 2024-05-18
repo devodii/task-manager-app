@@ -6,6 +6,7 @@ import * as React from "react";
 import { AccomplishedTasks } from "./accomplished-tasks";
 import { TasksInProgress } from "./tasks-in-progress";
 import { Todos } from "./todos";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface Props {
   [key: string]: Task[];
@@ -14,7 +15,7 @@ interface Props {
 export const ClientTaskBoard = (props: Props) => {
   const { tasksInTodo, tasksInProgress, accomplishedTasks } = props;
 
-  const { dispatch } = useTask();
+  const { dispatch, isLoading } = useTask();
 
   React.useEffect(() => {
     dispatch({
@@ -35,8 +36,18 @@ export const ClientTaskBoard = (props: Props) => {
   )
     return <div className="mt-4">This workspace does not have any task</div>;
 
+  if (isLoading) {
+    return (
+      <div className="grid grid-cols-3 w-full max-w-3xl gap-4">
+        {Array.from({ length: 3 }, (_el, i) => (
+          <Skeleton key={i} className="h-32 w-full" />
+        ))}
+      </div>
+    );
+  }
+
   return (
-    <div className="grid grid-cols-3 w-full max-w-3xl border gap-4">
+    <div className="grid grid-cols-3 w-full max-w-3xl gap-4">
       <Todos />
       <TasksInProgress />
       <AccomplishedTasks />

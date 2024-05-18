@@ -7,11 +7,7 @@ import { Check } from "@phosphor-icons/react";
 import { Progress } from "@ui/progress";
 import { CreateWorkspace } from "@workspace/create-workspace";
 
-interface Props {
-  username: string;
-}
-
-export const GettingStarted = ({ username }: Props) => {
+export const GettingStarted = () => {
   const [progress, setProgress] = React.useState(0);
 
   React.useEffect(() => {
@@ -37,7 +33,7 @@ export const GettingStarted = ({ username }: Props) => {
       <div className="w-full flex items-center justify-between">
         <p>Create your workspace</p>
 
-        <CreateWorkspace username={username}>
+        <CreateWorkspace>
           <Button className="w-full max-w-[100px]">create</Button>
         </CreateWorkspace>
       </div>

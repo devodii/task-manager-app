@@ -10,7 +10,8 @@ type ICases =
   | "task.updateAll"
   | "task.updateTodo"
   | "task.updateInProgress"
-  | "task.updateDone";
+  | "task.updateDone"
+  | "task.loading";
 
 // @ts-ignore
 const TaskContext = React.createContext<any>();
@@ -19,6 +20,8 @@ const initialState: any = {
   todo: [] as Task[],
   inProgress: [] as Task[],
   done: [] as Task[],
+
+  isLoading: true,
 };
 
 const reducer = (
@@ -31,13 +34,16 @@ const reducer = (
       return payload;
 
     case "task.updateTodo":
-      return { ...state, todo: payload };
+      return { ...state, todo: payload, isLoading: false };
 
     case "task.updateInProgress":
-      return { ...state, inProgress: payload };
+      return { ...state, inProgress: payload, isLoading: false };
 
     case "task.updateDone":
-      return { ...state, done: payload };
+      return { ...state, done: payload, isLoading: false };
+
+    case "task.loading":
+      return { ...state, isLoading: true };
 
     default:
       throw new Error("unknow action type!");
@@ -47,7 +53,7 @@ const reducer = (
 const TaskProvider = ({ children }: React.PropsWithChildren) => {
   const [state, dispatch] = React.useReducer(reducer, initialState);
 
-  const { todo, inProgress, done } = state as typeof initialState;
+  const { todo, inProgress, done, isLoading } = state as typeof initialState;
 
   const getBoard = (status: TaskStatus) => {
     switch (status) {
@@ -144,6 +150,7 @@ const TaskProvider = ({ children }: React.PropsWithChildren) => {
         todo,
         inProgress,
         done,
+        isLoading,
         dispatch,
         moveTaskToBoard,
         getStatus,

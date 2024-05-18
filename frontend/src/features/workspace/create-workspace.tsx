@@ -21,7 +21,6 @@ import { toast } from "sonner";
 
 interface Props {
   children?: React.ReactNode;
-  username?: string;
 
   action?: "create" | "update";
   metadata?: Workspace;
@@ -29,7 +28,6 @@ interface Props {
 
 export const CreateWorkspace = ({
   children: trigger,
-  username,
   action = "create",
   metadata,
 }: Props) => {
@@ -100,9 +98,7 @@ export const CreateWorkspace = ({
             <Input
               id="name"
               name="name"
-              placeholder={
-                username ? `${username}'s workspace` : "My workspace"
-              }
+              placeholder="Future Unicorn Inc. 🦄"
               required
             />
           </div>
