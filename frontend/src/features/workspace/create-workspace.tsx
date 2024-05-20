@@ -50,8 +50,6 @@ export const CreateWorkspace = ({
           ? await createWorkspace(formdata)
           : await updateWorkspace(metadata!.id, name);
 
-      console.log({ response });
-
       if (response == undefined) return;
 
       if (!response?.success) {

@@ -1,25 +1,25 @@
+"use client";
+
 import * as React from "react";
 
-import { getProfile } from "@/actions/profile";
-import { getUser } from "@/actions/user";
 import { DashboardHeader } from "@/components/dashboard-header";
-import { DashboardSidebar } from "./dashboard-sidebar";
-import { SendFeedback } from "./send-feedback";
+import { DashboardSidebar } from "@/components/dashboard-sidebar";
+import { SendFeedback } from "@/components/send-feedback";
+import { Profile, User } from "@/types";
 
-export const DashboardLayout = async ({
-  children,
-}: React.PropsWithChildren) => {
-  const [profile, user] = await Promise.all([getProfile(), getUser()]);
+interface Props {
+  user: User;
+  profile: Profile;
+  children: React.ReactNode;
+}
 
+export const DashboardLayout = ({ children, profile, user }: Props) => {
   return (
     <section className="py-6 md:px-6 px-4 max-w-[2000px] mx-auto">
-      <DashboardHeader
-        isAnonymous={user?.isAnonymous}
-        profile={profile?.data!}
-      />
+      <DashboardHeader isAnonymous={user?.isAnonymous} profile={profile} />
 
       <div className="w-full flex gap-12 px-24 md:mt-12">
-        <DashboardSidebar />
+        <DashboardSidebar user={user} />
         <>{children}</>
       </div>
 

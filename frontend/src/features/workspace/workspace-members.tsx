@@ -8,7 +8,6 @@ interface Props {
 export const WorkspaceMembers = async ({ workspaceId }: Props) => {
   const members = await getWorkspaceMembers(workspaceId);
 
-  console.log({ members})
   if (members?.length < 1) return <div>No members</div>;
 
   return (

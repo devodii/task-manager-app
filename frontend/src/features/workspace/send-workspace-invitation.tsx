@@ -13,6 +13,7 @@ import {
   DialogTrigger,
 } from "@ui/dialog";
 
+import { copy } from "@/hooks/use-copy";
 import { IoCopyOutline } from "react-icons/io5";
 import { toast } from "sonner";
 
@@ -25,14 +26,6 @@ export const SendWorkspaceInvitation = ({
   children: trigger,
   invitationLink,
 }: Props) => {
-  const onCopy = async () => {
-    try {
-      await navigator.clipboard.writeText(invitationLink);
-      toast("link copied to clipboard");
-    } catch (err) {
-      toast("failed to copy!");
-    }
-  };
   return (
     <Dialog>
       {trigger && <DialogTrigger asChild>{trigger}</DialogTrigger>}
@@ -55,7 +48,14 @@ export const SendWorkspaceInvitation = ({
               <Input id="link" defaultValue={invitationLink} readOnly />
             </div>
 
-            <Button type="submit" size="sm" className="px-3" onClick={onCopy}>
+            <Button
+              type="submit"
+              size="sm"
+              className="px-3"
+              onClick={() =>
+                copy(invitationLink, () => toast("link copied to clipboard"))
+              }
+            >
               <span className="sr-only">Copy</span>
               <IoCopyOutline className="h-4 w-4" />
             </Button>

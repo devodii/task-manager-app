@@ -1,10 +1,12 @@
-import { getUser } from "@/actions/user";
 import { LinkButton } from "@/components/link-button";
+import { User } from "@/types";
 import { Badge } from "@ui/badge";
 
-export const DashboardSidebar = async () => {
-  const user = await getUser();
+interface Props {
+  user: User;
+}
 
+export const DashboardSidebar = ({ user }: Props) => {
   return (
     <ul className="flex flex-col gap-3 h-[80vh]">
       <li>

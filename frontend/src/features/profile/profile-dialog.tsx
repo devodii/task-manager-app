@@ -13,10 +13,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-export const ProfileDialog = async ({
-  children: trigger,
-  isAnonymous,
-}: Props) => {
+export const ProfileDialog = ({ children: trigger, isAnonymous }: Props) => {
   return (
     <Popover>
       <PopoverTrigger asChild>{trigger}</PopoverTrigger>
