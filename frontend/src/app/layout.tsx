@@ -19,6 +19,11 @@ export default function RootLayout({ children }: React.PropsWithChildren) {
           name="viewport"
           content="width=device-width, initial-scale=1, maximum-scale=1"
         />
+        <script
+          defer
+          data-domain="task-manager-v1.vercel.app"
+          src="https://plausible.io/js/script.js"
+        />
       </head>
 
       <body>
