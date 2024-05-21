@@ -41,7 +41,7 @@ export const AssigneeCard = ({
     );
 
   return (
-    <div className="flex items-center gap-1">
+    <div className={`flex items-center ${variant == "sm" ? "gap-1" : "gap-2"}`}>
       <Image
         alt={`${name} on Task Manager App`}
         src={url!}

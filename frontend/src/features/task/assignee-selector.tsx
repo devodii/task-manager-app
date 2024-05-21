@@ -1,13 +1,15 @@
 "use client";
 
-import { X } from "lucide-react";
+import { Check, ChevronsUpDown } from "lucide-react";
 import * as React from "react";
 
+import { Button } from "@/components/ui/button";
 import { useWorkspaceMembers } from "@/hooks/use-workspace-member";
 import { parseElementsContext } from "@/lib/context";
-import { Badge } from "@ui/badge";
+import { cn } from "@/lib/utils";
 import { Command, CommandGroup, CommandItem } from "@ui/command";
-import { Command as CommandPrimitive } from "cmdk";
+import { Popover, PopoverContent, PopoverTrigger } from "@ui/popover";
+import { CommandEmpty, CommandInput } from "cmdk";
 import { AssigneeCard } from "./assignee-card";
 
 // @ts-ignore
@@ -33,12 +35,10 @@ const useAssignee = () => {
 };
 
 const AssigneeSelector = () => {
-  const inputRef = React.useRef<HTMLInputElement>(null);
+  const { setAssignees, assignees } = useAssignee();
 
+  const [value, setValue] = React.useState(assignees[0]?.value ?? "");
   const [open, setOpen] = React.useState(false);
-  const [inputValue, setInputValue] = React.useState("");
-
-  const { assignees: selected, setAssignees: setSelected } = useAssignee();
 
   const { members: workspaceMembers } = useWorkspaceMembers();
 
@@ -48,120 +48,70 @@ const AssigneeSelector = () => {
     img: member.imageUrl,
   }));
 
-  const handleUnselect = React.useCallback(
-    (member: (typeof members)[number]) => {
-      setSelected((prev: any) =>
-        prev.filter((s: any) => s.value !== member.value)
-      );
-    },
-    []
-  );
-
-  const handleKeyDown = React.useCallback(
-    (e: React.KeyboardEvent<HTMLDivElement>) => {
-      const input = inputRef.current;
-      if (input) {
-        if (e.key === "Delete" || e.key === "Backspace") {
-          if (input.value === "") {
-            setSelected((prev: any) => {
-              const newSelected = [...prev];
-              newSelected.pop();
-              return newSelected;
-            });
-          }
-        }
-        // This is not a default behaviour of the <input /> field
-        if (e.key === "Escape") {
-          input.blur();
-        }
-      }
-    },
-    []
-  );
-
-  const selectables = members.filter(
-    (member) => !selected.some((s) => s.value === member.value)
+  const currMember = members.find(
+    (member) => member.value.toLowerCase() == value.toLowerCase()
   );
 
   return (
-    <Command
-      onKeyDown={handleKeyDown}
-      className="overflow-visible bg-transparent"
-    >
-      <div className="group border border-input px-3 py-2 text-sm ring-offset-background rounded-md focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2">
-        <div className="flex gap-1 flex-wrap">
-          {selected.map((member) => {
-            return (
-              <Badge
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <Button
+          variant="outline"
+          role="combobox"
+          aria-expanded={open}
+          className="w-[300px] justify-between"
+        >
+          {value ? (
+            <AssigneeCard
+              name={currMember?.value!}
+              url={currMember?.img!}
+              variant="md"
+            />
+          ) : (
+            "Select member..."
+          )}
+          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-[300px] px-0 py-2.5">
+        <Command>
+          <CommandInput
+            placeholder="Search member..."
+            className="ml-2 w-full outline-none placeholder:text-muted-foreground placeholder:text-[12px] px-2.5 flex-1 overflow-y-hidden border-none ring-none focus-visible:ring-0 focus-visible:ring-offset-0"
+          />
+          <CommandEmpty className="text-[14px]">member not found</CommandEmpty>
+          <CommandGroup>
+            {members.map((member) => (
+              <CommandItem
                 key={member.value}
-                variant="secondary"
-                className="flex items-center gap-1 bg-white hover:bg-white"
+                value={member.value}
+                onSelect={(currentValue) => {
+                  setValue(currentValue === value ? "" : currentValue);
+                  setAssignees([member]);
+                  setOpen(false);
+                }}
+                className="cursor-pointer flex items-center justify-between w-full"
               >
                 <AssigneeCard
                   name={member.value}
                   url={member.img}
                   variant="md"
                 />
-                <button
-                  className="ml-1 ring-offset-background rounded-full outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      handleUnselect(member);
-                    }
-                  }}
-                  onMouseDown={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                  }}
-                  onClick={() => handleUnselect(member)}
-                >
-                  <X className="h-3 w-3 text-muted-foreground hover:text-foreground" />
-                </button>
-              </Badge>
-            );
-          })}
-          <CommandPrimitive.Input
-            ref={inputRef}
-            value={inputValue}
-            onValueChange={setInputValue}
-            onBlur={() => setOpen(false)}
-            onFocus={() => setOpen(true)}
-            placeholder="Select member..."
-            className="ml-2 w-full outline-none placeholder:text-muted-foreground flex-1 overflow-y-hidden border-none ring-none focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:font-semibold"
-          />
-        </div>
-      </div>
-      <div className="relative mt-2">
-        {open && selectables.length > 0 ? (
-          <div className="absolute w-full z-10 top-0 rounded-md border bg-popover text-popover-foreground shadow-md outline-none animate-in">
-            <CommandGroup className="h-full overflow-auto">
-              {selectables.map((member) => {
-                return (
-                  <CommandItem
-                    key={member.value}
-                    onMouseDown={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                    }}
-                    onSelect={() => {
-                      setInputValue("");
-                      setSelected((prev) => [...prev, member]);
-                    }}
-                    className="cursor-pointer flex items-center gap-2"
-                  >
-                    <AssigneeCard
-                      name={member.value}
-                      url={member.img}
-                      variant="md"
-                    />
-                  </CommandItem>
-                );
-              })}
-            </CommandGroup>
-          </div>
-        ) : null}
-      </div>
-    </Command>
+
+                <Check
+                  className={cn(
+                    "mr-2 h-4 w-4",
+                    value.toLowerCase() === member.value.toLowerCase()
+                      ? "opacity-100"
+                      : "opacity-0"
+                  )}
+                />
+              </CommandItem>
+            ))}
+          </CommandGroup>
+        </Command>
+      </PopoverContent>
+    </Popover>
   );
 };
 

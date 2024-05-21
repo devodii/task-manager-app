@@ -137,8 +137,8 @@ export const CreateTask = ({
             </div>
           </div>
 
-          <Input
-            className="min-h-max overflow-y-hidden text-xl border-none outline-none ring-none focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-xl placeholder:text-gray-500"
+          <Textarea
+            className="overflow-y-hidden h-full mt-6 w-full break-words min-h-max text-xl border-none outline-none ring-none focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-md placeholder:text-gray-500"
             placeholder="description"
             ref={descriptionRef as any}
             name="description"
