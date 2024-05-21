@@ -24,7 +24,11 @@ export const AssigneeCard = ({
   if (url?.length < 3 || error)
     return (
       <div className="flex items-center gap-1">
-        <div className="border size-6 bg-gray-300 text-black rounded-full text-center font-medium text-[14px] uppercase flex items-center justify-center">
+        <div
+          className={`border ${
+            variant == "sm" ? "size-5 text-[11px]" : "size-6 text-[14px]"
+          } bg-gray-300 text-black rounded-full text-center font-medium uppercase flex items-center justify-center`}
+        >
           {getInitials(name!)}
         </div>
         {!imgOnly && (

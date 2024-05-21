@@ -87,7 +87,7 @@ export const signOut = () => {
   redirect("/");
 };
 
-export const signInAsFakeUser = async () => {
+export const signInAsFakeUser = async (formdata: FormData) => {
   const response = await fetch(api + "/auth/create-fake-user", {
     method: "POST",
     headers: {
@@ -98,12 +98,12 @@ export const signInAsFakeUser = async () => {
 
   const user = (await response.json()) as User;
 
-  console.log({ user });
+  const next = formdata.get("next");
 
   cookies().set("merchant_id", user?.id, { maxAge: 1000 * 60 * 30 }); // 30 minutes
 
   if (user?.id) {
-    redirect("/onboarding");
+    redirect(`/onboarding?${next ? `next=${next}` : ""}`);
   }
 
   return user;
