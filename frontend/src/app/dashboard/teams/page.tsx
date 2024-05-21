@@ -18,13 +18,13 @@ export default async function TeamsPage() {
   }
 
   return (
-    <ul className="w-full grid grid-cols-1 gap-4">
+    <ul className="w-full grid grid-cols-1 gap-4 h-full">
       {teams.map(async (team: any) => {
         const members = await getWorkspaceMembers(team.workspace.id);
         return (
           <li key={team.id} className="flex-1">
             <Button
-              className="group w-full border rounded-md px-6 py-2 flex items-center justify-between group"
+              className="group w-full border rounded-md px-6 py-2 flex group"
               asChild
               variant="ghost"
             >

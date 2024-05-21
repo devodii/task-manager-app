@@ -1,5 +1,6 @@
 import { getUser } from "@/actions/user";
 import { AnonymousAuthButton } from "@/components/anonymous-auth-button";
+import { BlurImage } from "@/components/blur-image";
 import { HomeLayout } from "@/components/home-layout";
 import { Button } from "@ui/button";
 import Link from "next/link";
@@ -35,6 +36,32 @@ export default async function Index() {
           <AnonymousAuthButton />
         </div>
       )}
+
+      <h2 className="text-3xl md:text-4xl font-semibold mt-24 text-center">
+        It starts with creating a workspace
+      </h2>
+
+      <BlurImage
+        src={"/dashboard.png"}
+        alt="Dashboard view of the #1 Task Management platform"
+        width={800}
+        height={200}
+        quality={100}
+        className="border rounded-md"
+      />
+
+      <h2 className="text-3xl md:text-4xl font-semibold mt-24 text-center">
+        To joining other workspaces
+      </h2>
+
+      <BlurImage
+        src={"/teams.png"}
+        alt="Teams view of the #1 Task Management platform"
+        width={800}
+        height={400}
+        quality={100}
+        className="border rounded-md"
+      />
     </HomeLayout>
   );
 }

@@ -96,7 +96,7 @@ export const CreateWorkspace = ({
             <Input
               id="name"
               name="name"
-              placeholder="Future Unicorn Inc. 🦄"
+              placeholder={action === "create" ? "Future Unicorn Inc. 🦄" : ""}
               required
             />
           </div>
