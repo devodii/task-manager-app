@@ -22,6 +22,7 @@ export class TaskService {
     description,
     workspaceId,
     assignee,
+    tag,
   }: CreateTaskParameters) {
     try {
       const task = this.repo.create({
@@ -29,6 +30,9 @@ export class TaskService {
         title,
         description,
         workspace: { id: workspaceId },
+        metadata: {
+          tags: [tag],
+        },
       });
 
       const [savedTask] = await Promise.all([
@@ -64,6 +68,7 @@ export class TaskService {
       const task = await this.findOne(id);
 
       const assignee = attrs?.assignee as any;
+      const tag = attrs?.tag;
 
       Object.assign(task, {
         ...attrs,
@@ -72,6 +77,10 @@ export class TaskService {
           profileName: assignee?.profileName ?? '',
         },
         status: attrs.status,
+        metadata: {
+          ...task.metadata,
+          tags: [{ name: tag.name, color: tag.color }],
+        },
       });
 
       const [updateTask] = await Promise.all([

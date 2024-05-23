@@ -1,8 +1,10 @@
 "use client";
 
 import * as React from "react";
+
 import { useWorkspaceMembers } from "@/hooks/use-workspace-member";
-import { WorkspaceMember } from "@/types";
+
+import { Tag, WorkspaceMember } from "@/types";
 
 interface Props {
   members: WorkspaceMember[];

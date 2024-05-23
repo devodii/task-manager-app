@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { GettingStarted } from "@dashboard/getting-started";
 import { CreateTask } from "@task/create-task";
 import { TaskBoard } from "@task/task-board";
+import { ClientWorkspaceTags } from "@workspace/client-workspace.tags";
 import { EditWorkspace } from "@workspace/edit-workspace";
 import { SendWorkspaceInvitation } from "@workspace/send-workspace-invitation";
 import { WorkspaceMembers } from "@workspace/workspace-members";
@@ -67,6 +68,8 @@ export default async function WorkspacePage({ searchParams }: Props) {
           workspaceId={workspace.id}
         />
       )}
+
+      <ClientWorkspaceTags tags={workspace.metadata?.tags} />
     </section>
   );
 }

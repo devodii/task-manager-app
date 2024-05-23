@@ -9,7 +9,7 @@ import {
   PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { TaskStatus } from '../task.interface';
+import { TaskMetadata, TaskStatus } from '../task.interface';
 import { TaskAssignee } from './task-assignee.entity';
 
 @Entity()
@@ -46,4 +46,7 @@ export class Task {
     nullable: true,
   })
   assignee: TaskAssignee;
+
+  @Column({ type: 'jsonb', default: { tags: [] }, nullable: true })
+  metadata: TaskMetadata;
 }
