@@ -15,7 +15,7 @@ export const WorkspaceTags = () => {
   const { tags, setCurrentlySelectedTag, currentlySelectedTag } =
     useWorkspaceTags();
 
-  const [value, setValue] = React.useState(currentlySelectedTag.name);
+  const [value, setValue] = React.useState(currentlySelectedTag.name ?? "");
   const [open, setOpen] = React.useState(false);
 
   return (

@@ -70,8 +70,6 @@ export const CreateTask = ({
   React.useEffect(() => {
     const currentTag = metadata?.metadata?.tags?.[0];
 
-    console.log({ metadata: metadata?.metadata });
-
     if (metadata?.assignee?.id) {
       metadata?.assignee.profileName
         ? setAssignees([
