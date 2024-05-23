@@ -12,7 +12,8 @@ import { AssigneeSelector, useAssignee } from "@task/assignee-selector";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import { useTask } from "@/hooks/use-task";
-import { Users } from "@phosphor-icons/react";
+import { HiUsers } from "react-icons/hi2";
+import { PiTagSimpleFill } from "react-icons/pi";
 
 interface Props {
   children?: React.ReactNode;
@@ -126,14 +127,21 @@ export const CreateTask = ({
             required
           />
 
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-1">
-              <Users size={20} />
-              <span className="text-[14px]">Assignee</span>
+          <div className="space-y-1 text-gray-600">
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2">
+                <HiUsers className="text-md md:text-xl" />
+                <span className="text-[12px] md:text-[14px]">Assignee</span>
+              </div>
+
+              <div className="flex-1">
+                <AssigneeSelector />
+              </div>
             </div>
 
-            <div className="flex-1">
-              <AssigneeSelector />
+            <div className="flex items-center gap-2">
+              <PiTagSimpleFill className="rtext-md md:text-xl -rotate-[135deg]" />
+              <span className="text-[12px] md:text-[14px]">Tags</span>
             </div>
           </div>
 

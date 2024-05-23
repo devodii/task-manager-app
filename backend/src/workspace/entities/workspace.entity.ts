@@ -11,6 +11,7 @@ import {
   PrimaryColumn,
 } from 'typeorm';
 import { WorkspaceMember } from './workspace-member.entity';
+import { WorkspaceMetadata } from '../workspace.interface';
 
 @Entity()
 export class Workspace {
@@ -33,4 +34,7 @@ export class Workspace {
 
   @OneToMany(() => WorkspaceMember, (member) => member.workspace)
   members: WorkspaceMember[];
+
+  @Column({ type: 'jsonb', default: { tags: [] }, nullable: true })
+  metadata: WorkspaceMetadata;
 }
