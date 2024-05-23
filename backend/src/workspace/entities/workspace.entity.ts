@@ -10,8 +10,8 @@ import {
   OneToOne,
   PrimaryColumn,
 } from 'typeorm';
-import { WorkspaceMember } from './workspace-member.entity';
 import { WorkspaceMetadata } from '../workspace.interface';
+import { WorkspaceMember } from './workspace-member.entity';
 
 @Entity()
 export class Workspace {
@@ -35,6 +35,16 @@ export class Workspace {
   @OneToMany(() => WorkspaceMember, (member) => member.workspace)
   members: WorkspaceMember[];
 
-  @Column({ type: 'jsonb', default: { tags: [] }, nullable: true })
+  @Column({
+    type: 'jsonb',
+    default: {
+      tags: [
+        { name: 'Design', color: '#492F64' },
+        { name: 'Development', color: '#28316A' },
+        { name: 'Privacy', color: '#373737' },
+      ],
+    },
+    nullable: true,
+  })
   metadata: WorkspaceMetadata;
 }

@@ -5,6 +5,7 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { TaskAssigneeDTO } from './task-assignee.dto';
+import { TagDTO } from 'src/dtos/tag.dto';
 
 export class CreateTaskDTO {
   @IsString()
@@ -25,4 +26,8 @@ export class CreateTaskDTO {
   @IsString()
   @IsOptional()
   status: string;
+
+  @ValidateNested()
+  @IsOptional()
+  tag: TagDTO;
 }

@@ -25,6 +25,8 @@ export const TaskCard = ({ task }: Props) => {
     }),
   }));
 
+  const tag = task.metadata?.tags?.[0];
+
   return (
     <EditTask metadata={task} action="edit">
       <div
@@ -52,14 +54,24 @@ export const TaskCard = ({ task }: Props) => {
           </div>
           <span className="line-clamp-1 text-[13px]">{task?.description}</span>
         </div>
+        <div className="flex items-center w-full justify-between">
+          {task?.assignee?.id && (
+            <AssigneeCard
+              name={task.assignee.profileName}
+              url={task.assignee.profileImg}
+              variant="sm"
+            />
+          )}
 
-        {task?.assignee?.id && (
-          <AssigneeCard
-            name={task.assignee.profileName}
-            url={task.assignee.profileImg}
-            variant="sm"
-          />
-        )}
+          {tag?.name && (
+            <span
+              className="text-[10px] px-1 py-[1px] rounded-sm text-gray-300"
+              style={{ backgroundColor: tag?.color ?? "rgb(107 114 128)" }}
+            >
+              {tag?.name}
+            </span>
+          )}
+        </div>
       </div>
     </EditTask>
   );

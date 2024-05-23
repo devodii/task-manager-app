@@ -98,6 +98,7 @@ export const CreateWorkspace = ({
               name="name"
               placeholder={action === "create" ? "Future Unicorn Inc. 🦄" : ""}
               required
+              defaultValue={metadata?.name}
             />
           </div>
 

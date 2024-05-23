@@ -12,6 +12,9 @@ export const createTask = async (formdata: FormData) => {
   const assigneeName = formdata.get("assigneeName") as string;
   const assigneeImg = formdata.get("assigneeImg") as string;
 
+  const tagName = formdata.get("tagName") as string;
+  const tagColor = formdata.get("tagColor") as string;
+
   const workspaceId = formdata.get("workspaceId");
 
   const user = await getUser();
@@ -32,6 +35,10 @@ export const createTask = async (formdata: FormData) => {
         profileName: assigneeName ?? "",
         profileImg: assigneeImg ?? "",
       },
+      tag: {
+        name: tagName ?? "",
+        color: tagColor ?? "",
+      },
     }),
   });
 
@@ -48,6 +55,9 @@ export const updateTask = async (formdata: FormData, id: number) => {
     const assigneeName = formdata.get("assigneeName") as string;
     const assigneeImg = formdata.get("assigneeImg") as string;
     const status = formdata.get("status") as string;
+
+    const tagName = formdata.get("tagName") as string;
+    const tagColor = formdata.get("tagColor") as string;
 
     const user = await getUser();
 
@@ -71,6 +81,10 @@ export const updateTask = async (formdata: FormData, id: number) => {
           profileImg: assigneeImg ?? "",
         },
         status,
+        tag: {
+          name: tagName ?? "",
+          color: tagColor ?? "",
+        },
       }),
     });
 

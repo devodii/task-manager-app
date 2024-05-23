@@ -34,7 +34,7 @@ export const AssigneeCard = ({
         {!imgOnly && (
           <span
             className={cn(
-              "font-medium",
+              "font-medium text-ellipsis",
               variant == "sm" ? "text-[11px]" : "text-[14px]"
             )}
           >

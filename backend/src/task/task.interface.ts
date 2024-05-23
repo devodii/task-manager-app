@@ -1,3 +1,4 @@
+import { WorkspaceTag } from 'src/workspace/workspace.interface';
 import { Task } from './entities/task.entity';
 
 export type TaskStatus = 'todo' | 'in_progress' | 'done';
@@ -10,6 +11,10 @@ export type CreateTaskParameters = {
     name: string;
     img?: string;
   };
+  tag: {
+    name: string;
+    color?: string;
+  };
 };
 
 export type CreateAssigneeParameters = {
@@ -21,3 +26,7 @@ export type CreateAssigneeParameters = {
 export type UpdateAssigneeParameters = {
   id: string;
 } & CreateAssigneeParameters;
+
+export type TaskMetadata = {
+  tags: WorkspaceTag[];
+};

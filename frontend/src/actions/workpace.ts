@@ -27,8 +27,6 @@ export const createWorkspace = async (formdata: FormData) => {
 
   revalidatePath("/dashboard", "layout");
 
-  console.log({ workspace });
-
   if (workspace?.id) {
     redirect("/dashboard/workspace");
   }
@@ -44,7 +42,7 @@ export const updateWorkspace = async (id: string, name: string) => {
 
     if (!user?.id) return;
 
-    const response = await fetch(api + `/workspace/${id}`, {
+    await fetch(api + `/workspace/${id}`, {
       headers: {
         SessionId: user?.id ?? "",
         "Content-Type": "application/json",
@@ -52,8 +50,6 @@ export const updateWorkspace = async (id: string, name: string) => {
       method: "PATCH",
       body: JSON.stringify({ id, name }),
     });
-
-    const workspace: Workspace = await response.json();
 
     revalidatePath("/dashboard/workspace");
 

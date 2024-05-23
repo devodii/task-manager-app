@@ -39,6 +39,7 @@ export class TaskController {
         name: assignee?.profileName,
         img: assignee?.profileImg,
       },
+      tag: dto?.tag,
     });
   }
 

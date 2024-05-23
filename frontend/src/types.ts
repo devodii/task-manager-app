@@ -30,6 +30,10 @@ export type Task = {
     profileName: string;
     profileImg: string;
   };
+
+  metadata: {
+    tags?: Tag[];
+  };
 };
 
 export type Feedback = {
@@ -52,6 +56,9 @@ export type Workspace = {
   tasks: Task[];
   owner: User;
   members: WorkspaceMember;
+  metadata: {
+    tags: Tag[];
+  };
 };
 
 export type WorkspaceMember = {
@@ -62,4 +69,9 @@ export type WorkspaceMember = {
 export type Team = {
   id: string;
   workspace: Workspace;
+};
+
+export type Tag = {
+  name: string;
+  color?: string;
 };
