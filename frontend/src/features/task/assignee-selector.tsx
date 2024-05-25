@@ -11,7 +11,6 @@ import { Command, CommandGroup, CommandItem } from "@ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@ui/popover";
 import { CommandEmpty, CommandInput } from "cmdk";
 import { AssigneeCard } from "./assignee-card";
-import { Input } from "@/components/ui/input";
 
 // @ts-ignore
 const AssigneeContext = React.createContext<{
@@ -91,7 +90,9 @@ const AssigneeSelector = () => {
           <p className="border-t w-full text-muted-foreground text-[13px] py-1 px-5 mt-0.5">
             Select one of these persons
           </p>
-          <CommandEmpty className="text-[14px]">member not found</CommandEmpty>
+          <CommandEmpty className="mt-2 text-[13px] text-muted-foreground text-center">
+            member not found
+          </CommandEmpty>
           <CommandGroup>
             {members.map((member) => (
               <CommandItem

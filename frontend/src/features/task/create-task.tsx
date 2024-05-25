@@ -12,9 +12,9 @@ import { useRouter, useSearchParams } from "next/navigation";
 
 import { useTask } from "@/hooks/use-task";
 import { useWorkspaceTags } from "@/hooks/use-workspace-tags";
+import { WorkspaceTags } from "@workspace/workspace-tags";
 import { HiUsers } from "react-icons/hi2";
 import { PiTagSimpleFill } from "react-icons/pi";
-import { WorkspaceTags } from "../workspace/workspace-tags";
 
 interface Props {
   children?: React.ReactNode;
